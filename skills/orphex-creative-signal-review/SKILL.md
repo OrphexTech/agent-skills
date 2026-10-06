@@ -3,7 +3,7 @@ name: orphex-creative-signal-review
 description: "Review paid creative results against the campaign objective and delivery context, separating early signals from evidence strong enough to guide a next test."
 license: MIT
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Orphex Creative Signal Review

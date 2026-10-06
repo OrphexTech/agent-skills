@@ -165,7 +165,7 @@ function validateManifest(manifest, packageJson, changelog, errors) {
     if (!validDate(entry.updatedAt)) {
       errors.push(entry.slug + ' updatedAt must be a valid ISO calendar date');
     } else if (releaseDate && releaseDate !== entry.updatedAt) {
-      errors.push('all v1.0.0 skills must use the same lifecycle date');
+      errors.push('all skills in a release must use the same lifecycle date');
     } else {
       releaseDate = entry.updatedAt;
     }

@@ -1,0 +1,35 @@
+---
+name: orphex-impression-share-auction-insights-review
+description: "Review supplied Search or Performance Max impression-share and Auction Insights data to distinguish budget, rank, and competitor-overlap signals."
+license: MIT
+metadata:
+  version: "1.1.0"
+---
+
+# Orphex Impression Share & Auction Insights Review
+
+Use this skill when asked whether campaigns are missing eligible impressions, whether loss appears budget- or rank-related, or how visible competitors overlap in auctions. Analyze supplied Google Ads exports and documents; an already-authorized read-only source is optional. Treat these metrics as diagnostics of eligible auction participation, not a forecast of profitable demand or a reason to raise budget automatically.
+
+## Confirm the comparison frame
+
+Request campaign IDs/types, network, reporting dates/timezone, currency, campaign status and targeting, impressions, cost, clicks, conversions/value, impression share (IS), Search lost IS (budget), Search lost IS (rank), and Auction Insights rows. Preserve the report's entity level, device/time segments, and metric availability. Ask for campaign objective, conversion action/window, attribution lag, and any planned changes during the period. Compare only like campaign types and scopes; keep Search, Shopping, and PMax segments separate. The [Google IS guide](https://support.google.com/google-ads/answer/2497703?hl=en) and [Auction Insights definitions](https://support.google.com/google-ads/answer/2579754?hl=en) should be checked for current availability and denominator details.
+
+## Read share and loss metrics precisely
+
+IS is observed impressions divided by estimated eligible impressions. Eligibility depends on settings, approval, and quality, and the denominator is estimated. A share change can reflect changed eligibility as well as changed serving. Lost IS due to budget and due to rank are separate diagnostics; they are not interchangeable. Use only fields reported for the campaign type and grain. In particular, do not fill a missing “lost” percentage with zero, or calculate a residual from rounded shares when inputs have different availability or definitions. Google notes Auction Insights may be unavailable below its activity threshold, including Search impressions share below 10%; “unavailable” means censored or insufficient evidence, not no competitors. Preserve bounded values such as `<10%` as intervals, never as exact 10%. If a same-scope below-threshold share is paired with positive Auction Insights rows, reconcile entity, dates, filters, segment, and freshness before interpreting the overlap; withhold the contradictory value until resolved.
+
+Auction Insights has its own eligible-auction population. Overlap rate describes how often another advertiser showed when your ad showed; position-above applies when both ads showed; outranking share covers occasions your ad ranked higher or showed when theirs did not. Do not compare those rates as if they share a denominator, cover the whole market, or represent competitor budget, bids, or total impression share. Google also reports PMax auction insights in Search/Shopping segments; preserve that split.
+
+## Diagnose business implications
+
+Separate delivery constraints from economics. If lost IS budget is reported, check budget pacing, day/time, geography, campaign objective, and performance over the same period. If rank loss is reported, inspect quality, bids or bid strategy, eligibility, and approval evidence only when supplied. Then compare the observed economics of existing spend—such as cost per named conversion or value/cost—to the stated goal, with counts and lag status. Existing average performance does not establish the marginal result of buying missed impressions. Competitor overlap may explain a competitive context but does not reveal their spend or prove that they took profitable sales.
+
+Do not invent missing impression estimates, bid levels, spend, conversion rates, or forecasts. If goals, eligibility, or campaign changes are missing, give a descriptive reading and list the evidence needed before a budget or bid proposal. Distinguish observed changes from hypotheses; a rise in competitor overlap or rank loss is not causal proof of a competitor action.
+
+## Output and authorization
+
+Lead with scope, date, network, campaign type, data refresh/lag, and missing fields. Use a table with campaign/entity; eligible-scope IS and loss fields; reported Auction Insights metrics with their definitions; spend and business outcomes; source rows; interpretation; candidate checks; confidence; and what remains unavailable. Show denominators or the platform's documented denominator where provided. Do not combine across currencies, campaign types, or incompatible segments.
+
+Fictional example: a 30-day Search campaign report shows IS 42%, lost IS budget 18%, and lost IS rank 40%, with $8,000 spend and 80 mature leads in USD. The shares describe estimated eligible opportunity, not the number of profitable leads missed. Review pacing and marginal lead economics before proposing any budget test; Auction Insights rows, if censored, cannot fill the gap.
+
+Any account mutation requires explicit user authorization naming the account, campaigns, exact budget/bid/settings change, amount, and timing. This analysis and an installed skill authorize no changes.

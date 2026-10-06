@@ -2,15 +2,150 @@
   "schemaVersion": 1,
   "skills": [
     {
+      "slug": "orphex-account-structure-audit",
+      "title": "Orphex Account Structure Audit",
+      "description": "Audit supplied campaign and ad-group structure, naming, budget ownership, targeting overlap, and settings to rank verifiable risks and outline an approval-ready cleanup plan.",
+      "outcome": "A ranked account-structure audit with evidence-linked operational risks, bounded performance implications, a staged cleanup plan, approvals, and rollback mapping.",
+      "category": "performance",
+      "tags": [
+        "account-structure",
+        "budgets",
+        "campaigns",
+        "settings",
+        "targeting"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "Topology export with stable entity IDs, parent relationships, statuses, budget ownership, targeting, and relevant settings",
+        "Naming rules and campaign objectives; matched performance periods and change history for impact or timing claims"
+      ],
+      "relatedSkills": [
+        "orphex-budget-change-proposal",
+        "orphex-measurement-consistency-check",
+        "orphex-weekly-performance-review"
+      ]
+    },
+    {
+      "slug": "orphex-anomaly-investigation",
+      "title": "Orphex Anomaly Investigation",
+      "description": "Investigate sudden marketing spend, CPA, ROAS, or conversion shifts from supplied evidence, rank testable causes, and state uncertainty and next checks.",
+      "outcome": "A ranked anomaly assessment with comparable metric movement, falsifiable causes, confidence, evidence gaps, and next checks.",
+      "category": "performance",
+      "tags": [
+        "anomaly",
+        "attribution",
+        "measurement",
+        "performance",
+        "reporting"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "User-supplied metric numerator and denominator, comparison period, and source definition"
+      ],
+      "relatedSkills": [
+        "orphex-budget-change-proposal",
+        "orphex-campaign-budget-reallocator",
+        "orphex-conversion-tracking-health-check",
+        "orphex-measurement-consistency-check",
+        "orphex-weekly-performance-review",
+        "orphex-weekly-performance-summarizer"
+      ]
+    },
+    {
       "slug": "orphex-budget-change-proposal",
       "title": "Orphex Budget Change Proposal",
       "description": "Prepare a quantified marketing budget change proposal from supplied performance data, including portfolio arithmetic, forecast limits, and a clear approval boundary.",
       "outcome": "A reviewable budget proposal with per-campaign deltas, portfolio impact, assumptions, risks, and an explicit approval boundary.",
       "category": "performance",
-      "tags": ["budget", "forecasting", "marketing", "planning"],
-      "updatedAt": "2026-10-06",
-      "requirements": ["User-supplied budgets, performance exports, or planning documents"],
-      "relatedSkills": ["orphex-measurement-consistency-check", "orphex-weekly-performance-review"]
+      "tags": [
+        "budget",
+        "forecasting",
+        "marketing",
+        "planning"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "User-supplied budgets, performance exports, or planning documents"
+      ],
+      "relatedSkills": [
+        "orphex-measurement-consistency-check",
+        "orphex-weekly-performance-review"
+      ]
+    },
+    {
+      "slug": "orphex-campaign-budget-reallocator",
+      "title": "Orphex Campaign Budget Reallocator",
+      "description": "Propose a fixed-total budget reallocation across campaigns using efficiency evidence, volume, headroom, bounds, and explicit approval limits.",
+      "outcome": "A feasible fixed-total allocation with reconciled deltas, evidence, bounded impact estimates, and an approval boundary.",
+      "category": "performance",
+      "tags": [
+        "budget",
+        "forecasting",
+        "marketing",
+        "planning",
+        "reallocation"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "User-supplied fixed total, current campaign allocations, and applicable bounds or protected amounts"
+      ],
+      "relatedSkills": [
+        "orphex-anomaly-investigation",
+        "orphex-budget-change-proposal",
+        "orphex-measurement-consistency-check",
+        "orphex-weekly-performance-review",
+        "orphex-weekly-performance-summarizer"
+      ]
+    },
+    {
+      "slug": "orphex-conversion-tracking-health-check",
+      "title": "Orphex Conversion Tracking Health Check",
+      "description": "Audit supplied conversion-tracking configuration and event diagnostics for missing, duplicated, or malformed signals without assuming report totals should match.",
+      "outcome": "A privacy-safe event-path assessment with pass, fail, not-tested, or unknown findings and scoped verification steps.",
+      "category": "measurement",
+      "tags": [
+        "attribution",
+        "conversion-tracking",
+        "events",
+        "measurement",
+        "privacy"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "Expected event definition plus a safe configuration view, diagnostic, or reproducible test path"
+      ],
+      "relatedSkills": [
+        "orphex-anomaly-investigation",
+        "orphex-landing-conversion-review",
+        "orphex-measurement-consistency-check",
+        "orphex-weekly-performance-review",
+        "orphex-weekly-performance-summarizer"
+      ]
+    },
+    {
+      "slug": "orphex-creative-fatigue-detector",
+      "title": "Orphex Creative Fatigue Detector",
+      "description": "Assess creative fatigue from comparable delivery-age, reach, frequency, CTR, CPM, and objective-specific outcome trends, then rank refresh priorities with evidence, confidence limits, and caveats.",
+      "outcome": "A ranked creative fatigue assessment that distinguishes supported decline, watch signals, no observed signal, and unknowns, with a bounded refresh test.",
+      "category": "creative",
+      "tags": [
+        "creative",
+        "fatigue",
+        "frequency",
+        "reach",
+        "refresh"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "Stable creative or ad IDs, campaign objective, optimization event, and reporting dates",
+        "Creative-level delivery trends including impressions, clicks, spend, and objective outcomes; reach/frequency and first-delivery or change history when available"
+      ],
+      "relatedSkills": [
+        "orphex-creative-signal-review",
+        "orphex-landing-conversion-review",
+        "orphex-measurement-consistency-check",
+        "orphex-weekly-performance-review"
+      ]
     },
     {
       "slug": "orphex-creative-signal-review",
@@ -18,10 +153,95 @@
       "description": "Review paid creative results against the campaign objective and delivery context, separating early signals from evidence strong enough to guide a next test.",
       "outcome": "A creative comparison grounded in the stated objective, comparable delivery, observed metrics, and a concrete next test.",
       "category": "creative",
-      "tags": ["creative", "experimentation", "marketing", "performance"],
-      "updatedAt": "2026-10-06",
-      "requirements": ["User-supplied creative-level delivery or outcome data and the campaign objective"],
-      "relatedSkills": ["orphex-landing-conversion-review", "orphex-measurement-consistency-check", "orphex-weekly-performance-review"]
+      "tags": [
+        "creative",
+        "experimentation",
+        "marketing",
+        "performance"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "User-supplied creative-level delivery or outcome data and the campaign objective"
+      ],
+      "relatedSkills": [
+        "orphex-landing-conversion-review",
+        "orphex-measurement-consistency-check",
+        "orphex-weekly-performance-review"
+      ]
+    },
+    {
+      "slug": "orphex-geo-device-breakdown-analysis",
+      "title": "Orphex Geo & Device Breakdown Analysis",
+      "description": "Analyze supplied location and device breakdowns across aligned periods to identify durable differences, preserve overlapping dimensions, and propose evidence-bounded targeting or bid checks.",
+      "outcome": "An aligned location/device analysis with weighted aggregate metrics, overlap and lag caveats, confidence-bounded segment rankings, and supported next checks.",
+      "category": "performance",
+      "tags": [
+        "device",
+        "geography",
+        "measurement",
+        "operating-system",
+        "segmentation"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "Location and device/OS breakdowns with consistent reporting periods, account timezone, currency, campaign scope, and dimension definitions",
+        "Impressions, clicks, spend, and conversion/value fields when available, with event and attribution definitions; current targeting and bid strategy for change suggestions"
+      ],
+      "relatedSkills": [
+        "orphex-budget-change-proposal",
+        "orphex-measurement-consistency-check",
+        "orphex-weekly-performance-review"
+      ]
+    },
+    {
+      "slug": "orphex-impression-share-auction-insights-review",
+      "title": "Orphex Impression Share & Auction Insights Review",
+      "description": "Review supplied Search or Performance Max impression-share and Auction Insights data to distinguish budget, rank, and competitor-overlap signals.",
+      "outcome": "A scope-aware delivery review that preserves metric denominators and availability limits, separates budget from rank loss, and frames missed impressions without profit forecasts.",
+      "category": "performance",
+      "tags": [
+        "auction-insights",
+        "budget-review",
+        "google-ads",
+        "impression-share"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "Campaign-type and network-specific impression-share and loss metrics",
+        "Auction Insights rows where available, preserving entity and segment scope",
+        "Business outcome definition, currency, and conversion-lag context for economic interpretation"
+      ],
+      "relatedSkills": [
+        "orphex-anomaly-investigation",
+        "orphex-budget-change-proposal",
+        "orphex-campaign-budget-reallocator",
+        "orphex-weekly-performance-review"
+      ]
+    },
+    {
+      "slug": "orphex-keyword-mining-on-search-terms",
+      "title": "Orphex Keyword Mining on Search Terms",
+      "description": "Mine supplied Search terms for converting or high-intent demand that may merit keyword coverage, with evidence-ranked candidates and eligibility checks.",
+      "outcome": "A ranked, reviewable set of keyword test candidates with observed query evidence, current-coverage checks, suggested match types, ad-group fit, and explicit uncertainty.",
+      "category": "performance",
+      "tags": [
+        "coverage",
+        "google-ads",
+        "keyword-research",
+        "search-terms"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "Search terms export with dates, matched keyword, scope, and available outcome metrics",
+        "Current keyword inventory and match types for coverage assessment",
+        "Negative keywords and campaign eligibility details when available"
+      ],
+      "relatedSkills": [
+        "orphex-account-structure-audit",
+        "orphex-search-term-cleaning",
+        "orphex-weekly-performance-review",
+        "orphex-weekly-performance-summarizer"
+      ]
     },
     {
       "slug": "orphex-landing-conversion-review",
@@ -29,10 +249,21 @@
       "description": "Review supplied landing-page and funnel evidence to locate conversion friction, distinguish observed patterns from causes, and propose measurable next checks.",
       "outcome": "A funnel review that identifies observed drop-offs, relevant segment differences, evidence gaps, and testable page hypotheses.",
       "category": "conversion",
-      "tags": ["conversion", "funnel", "landing-page", "marketing"],
-      "updatedAt": "2026-10-06",
-      "requirements": ["User-supplied page evidence, funnel exports, or both"],
-      "relatedSkills": ["orphex-creative-signal-review", "orphex-measurement-consistency-check", "orphex-weekly-performance-review"]
+      "tags": [
+        "conversion",
+        "funnel",
+        "landing-page",
+        "marketing"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "User-supplied page evidence, funnel exports, or both"
+      ],
+      "relatedSkills": [
+        "orphex-creative-signal-review",
+        "orphex-measurement-consistency-check",
+        "orphex-weekly-performance-review"
+      ]
     },
     {
       "slug": "orphex-measurement-consistency-check",
@@ -40,10 +271,147 @@
       "description": "Reconcile marketing metric and event definitions across supplied reports so apparent differences are explained by scope before being treated as tracking failures.",
       "outcome": "A source-by-source reconciliation of event, denominator, attribution, time, currency, and identity rules with bounded findings.",
       "category": "measurement",
-      "tags": ["analytics", "attribution", "events", "measurement"],
-      "updatedAt": "2026-10-06",
-      "requirements": ["User-supplied reports, event definitions, or measurement documentation"],
-      "relatedSkills": ["orphex-budget-change-proposal", "orphex-creative-signal-review", "orphex-landing-conversion-review", "orphex-weekly-performance-review"]
+      "tags": [
+        "analytics",
+        "attribution",
+        "events",
+        "measurement"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "User-supplied reports, event definitions, or measurement documentation"
+      ],
+      "relatedSkills": [
+        "orphex-budget-change-proposal",
+        "orphex-creative-signal-review",
+        "orphex-landing-conversion-review",
+        "orphex-weekly-performance-review"
+      ]
+    },
+    {
+      "slug": "orphex-placement-cleaning",
+      "title": "Orphex Placement Cleaning",
+      "description": "Review supplied ad placement and inventory reports to separate brand suitability from efficiency, quantify observable spend at stake, and propose verified, scoped exclusions for display, video, and Performance Max inventory.",
+      "outcome": "A scoped placement review that separates suitability from efficiency, quantifies only observed spend, and presents verified exclusions with coverage and confidence limits.",
+      "category": "performance",
+      "tags": [
+        "brand-suitability",
+        "display",
+        "performance-max",
+        "placements",
+        "video"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "Placement or where-shown export with identity, type, impressions, reporting period, and campaign context",
+        "Cost and outcome fields when available; advertiser suitability rules and supported exclusion scopes for an exclusion proposal"
+      ],
+      "relatedSkills": [
+        "orphex-budget-change-proposal",
+        "orphex-creative-signal-review",
+        "orphex-measurement-consistency-check",
+        "orphex-weekly-performance-review"
+      ]
+    },
+    {
+      "slug": "orphex-pmax-asset-group-search-themes-audit",
+      "title": "Orphex PMax Asset Group & Search Themes Audit",
+      "description": "Audit supplied Performance Max asset groups, search themes, audience signals, and Search overlap for evidence-backed coverage and structure recommendations.",
+      "outcome": "A campaign-aware audit of PMax group, asset, URL, theme, and Search-overlap evidence that separates platform signals from targeting controls and causal conclusions.",
+      "category": "performance",
+      "tags": [
+        "asset-groups",
+        "google-ads",
+        "performance-max",
+        "search-themes"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "PMax campaign and asset-group inventory with URLs, assets, themes, and signals",
+        "Campaign-level outcomes with conversion definitions and date range",
+        "Search insights and Search campaign controls when overlap is assessed"
+      ],
+      "relatedSkills": [
+        "orphex-account-structure-audit",
+        "orphex-campaign-budget-reallocator",
+        "orphex-keyword-mining-on-search-terms",
+        "orphex-search-term-cleaning"
+      ]
+    },
+    {
+      "slug": "orphex-quality-score-reviewer",
+      "title": "Orphex Quality Score Reviewer",
+      "description": "Review supplied Search keyword Quality Score components and group actionable patterns by business exposure rather than score averages.",
+      "outcome": "A diagnostic review of keyword-level expected CTR, ad relevance, and landing-page experience patterns, tied to business exposure and testable follow-up hypotheses.",
+      "category": "performance",
+      "tags": [
+        "diagnostics",
+        "google-ads",
+        "quality-score",
+        "search"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "Keyword-level current or historical Quality Score and component statuses",
+        "Aligned keyword, campaign, ad-group, and performance rows",
+        "Conversion definition and window for business-exposure prioritization"
+      ],
+      "relatedSkills": [
+        "orphex-account-structure-audit",
+        "orphex-anomaly-investigation",
+        "orphex-landing-conversion-review",
+        "orphex-weekly-performance-review"
+      ]
+    },
+    {
+      "slug": "orphex-rsa-ad-copy-asset-review",
+      "title": "Orphex RSA Ad Copy & Asset Review",
+      "description": "Review supplied responsive Search ad assets for keep, replace, pin, and copy-test proposals grounded in query, offer, and asset evidence.",
+      "outcome": "An asset-by-asset RSA review with directional performance evidence, approved-claim sourcing, pinning risk, and clearly labeled copy-test proposals.",
+      "category": "creative",
+      "tags": [
+        "ad-copy",
+        "creative-review",
+        "google-ads",
+        "responsive-search-ads"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "RSA asset export with asset IDs, text, type, pin/status, and date range",
+        "Ad-level totals and named conversion definition",
+        "Approved product claims, offers, brand voice, and legal wording for copy drafts"
+      ],
+      "relatedSkills": [
+        "orphex-creative-fatigue-detector",
+        "orphex-creative-signal-review",
+        "orphex-landing-conversion-review",
+        "orphex-weekly-performance-review"
+      ]
+    },
+    {
+      "slug": "orphex-search-term-cleaning",
+      "title": "Orphex Search Term Cleaning",
+      "description": "Review supplied Search terms to separate irrelevant spend from relevant demand and prepare scoped, risk-aware negative keyword proposals.",
+      "outcome": "An evidence-linked negative keyword proposal that protects converting and relevant queries, states historical spend exposure, and makes match-type and scope risks reviewable.",
+      "category": "performance",
+      "tags": [
+        "google-ads",
+        "negative-keywords",
+        "search-terms",
+        "waste-review"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "Search terms export with dates, scope, cost, and available conversion metrics",
+        "Brand/protected-query definitions",
+        "Negative keyword inventory and scope when exclusion proposals are needed"
+      ],
+      "relatedSkills": [
+        "orphex-anomaly-investigation",
+        "orphex-measurement-consistency-check",
+        "orphex-placement-cleaning",
+        "orphex-weekly-performance-review"
+      ]
     },
     {
       "slug": "orphex-weekly-performance-review",
@@ -51,10 +419,48 @@
       "description": "Review weekly or monthly marketing performance from supplied exports and documents, aligning comparison periods, metric definitions, currency, and attribution limits.",
       "outcome": "A concise period-over-period review with comparable metrics, evidence-linked explanations, uncertainty, and prioritized next actions.",
       "category": "performance",
-      "tags": ["attribution", "marketing", "performance", "reporting"],
-      "updatedAt": "2026-10-06",
-      "requirements": ["User-supplied marketing performance exports or documents with a reporting period"],
-      "relatedSkills": ["orphex-budget-change-proposal", "orphex-creative-signal-review", "orphex-landing-conversion-review", "orphex-measurement-consistency-check"]
+      "tags": [
+        "attribution",
+        "marketing",
+        "performance",
+        "reporting"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "User-supplied marketing performance exports or documents with a reporting period"
+      ],
+      "relatedSkills": [
+        "orphex-budget-change-proposal",
+        "orphex-creative-signal-review",
+        "orphex-landing-conversion-review",
+        "orphex-measurement-consistency-check"
+      ]
+    },
+    {
+      "slug": "orphex-weekly-performance-summarizer",
+      "title": "Orphex Weekly Performance Summarizer",
+      "description": "Summarize supplied weekly marketing results into a concise stakeholder update with comparable metrics, evidence-backed movement, caveats, and the next useful action.",
+      "outcome": "A concise, evidence-linked weekly update with correctly aggregated metrics, confidence, caveats, and prioritized next actions.",
+      "category": "performance",
+      "tags": [
+        "attribution",
+        "marketing",
+        "performance",
+        "reporting",
+        "summary"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "User-supplied reporting period, source, and an objective-linked metric with its numerator and denominator"
+      ],
+      "relatedSkills": [
+        "orphex-anomaly-investigation",
+        "orphex-budget-change-proposal",
+        "orphex-campaign-budget-reallocator",
+        "orphex-conversion-tracking-health-check",
+        "orphex-measurement-consistency-check",
+        "orphex-weekly-performance-review"
+      ]
     }
   ]
 }

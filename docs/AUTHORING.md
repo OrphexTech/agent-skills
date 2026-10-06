@@ -10,7 +10,7 @@ name: orphex-example-skill
 description: "A specific sentence describing the task and when the skill applies."
 license: MIT
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 ~~~
 

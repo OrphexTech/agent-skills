@@ -39,7 +39,8 @@ test('manifest source directories build schema-valid catalog data in stable orde
   assert.deepEqual(errors, []);
   assert.deepEqual(catalog.skills.map((skill) => skill.slug), [...slugs].sort());
   assert.equal(new Set(catalog.skills.map((skill) => skill.slug)).size, slugs.length);
-  assert.equal(catalog.releaseVersion, 'v1.0.0');
+  const packageJson = JSON.parse(await readFile(path.join(repositoryRoot, 'package.json'), 'utf8'));
+  assert.equal(catalog.releaseVersion, 'v' + packageJson.version);
   assert.equal(catalog.installerVersion, '1.7.0');
   assert.equal(catalog.skills[0].sourcePath, 'skills/' + slugs[0] + '/SKILL.md');
   assert.equal(catalog.skills[0].instructions.startsWith('# '), true);
@@ -80,6 +81,8 @@ test('manifest allowlist supports a new installable directory', async () => {
   try {
     const manifestPath = path.join(root, 'skills/manifest.json');
     const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+    const originalCount = manifest.skills.length;
+    const packageJson = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
     const entry = {
       slug: 'orphex-search-query-review',
       title: 'Orphex Search Query Review',
@@ -87,7 +90,7 @@ test('manifest allowlist supports a new installable directory', async () => {
       outcome: 'A query-level review with observed intent patterns, supporting volumes, and a prioritized follow-up.',
       category: 'performance',
       tags: ['marketing', 'performance', 'queries'],
-      updatedAt: '2026-10-06',
+      updatedAt: manifest.skills[0].updatedAt,
       requirements: ['User-supplied search query export with dates, spend, and outcomes'],
       relatedSkills: ['orphex-weekly-performance-review']
     };
@@ -102,7 +105,7 @@ test('manifest allowlist supports a new installable directory', async () => {
       'description: ' + JSON.stringify(entry.description),
       'license: MIT',
       'metadata:',
-      '  version: "1.0.0"',
+      '  version: ' + JSON.stringify(packageJson.version),
       '---',
       '',
       '# Orphex Search Query Review',
@@ -112,7 +115,7 @@ test('manifest allowlist supports a new installable directory', async () => {
     ].join('\n'), 'utf8');
     const { errors, catalog } = await validateSource(root);
     assert.deepEqual(errors, []);
-    assert.equal(catalog.skills.length, 6);
+    assert.equal(catalog.skills.length, originalCount + 1);
     assert.ok(catalog.skills.some((skill) => skill.slug === entry.slug));
   } finally {
     await rm(parent, { recursive: true, force: true });
@@ -124,24 +127,27 @@ test('package version and manifest lifecycle date can advance together', async (
   try {
     const packagePath = path.join(root, 'package.json');
     const packageJson = JSON.parse(await readFile(packagePath, 'utf8'));
-    packageJson.version = '1.1.0';
+    const oldVersion = packageJson.version;
+    const [major, minor] = oldVersion.split('.').map(Number);
+    const nextVersion = major + '.' + (minor + 1) + '.0';
+    packageJson.version = nextVersion;
     await writeFile(packagePath, JSON.stringify(packageJson, null, 2) + '\n', 'utf8');
     const changelogPath = path.join(root, 'CHANGELOG.md');
     const changelog = await readFile(changelogPath, 'utf8');
-    await writeFile(changelogPath, changelog.replace('## 1.0.0 - 2026-10-06', '## 1.1.0 - 2026-11-06'), 'utf8');
+    await writeFile(changelogPath, changelog.replace('# Changelog\n', '# Changelog\n\n## ' + nextVersion + ' - 2030-01-01\n'), 'utf8');
     const manifestPath = path.join(root, 'skills/manifest.json');
     const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
-    for (const entry of manifest.skills) entry.updatedAt = '2026-11-06';
+    for (const entry of manifest.skills) entry.updatedAt = '2030-01-01';
     await writeFile(manifestPath, JSON.stringify(manifest, null, 2) + '\n', 'utf8');
     for (const slug of await readSlugs(root)) {
       const skillPath = path.join(root, 'skills', slug, 'SKILL.md');
       const content = await readFile(skillPath, 'utf8');
-      await writeFile(skillPath, content.replace('version: "1.0.0"', 'version: "1.1.0"'), 'utf8');
+      await writeFile(skillPath, content.replace('version: ' + JSON.stringify(oldVersion), 'version: ' + JSON.stringify(nextVersion)), 'utf8');
     }
     const { errors, catalog } = await validateSource(root);
     assert.deepEqual(errors, []);
-    assert.equal(catalog.releaseVersion, 'v1.1.0');
-    assert.ok(catalog.skills.every((skill) => skill.updatedAt === '2026-11-06'));
+    assert.equal(catalog.releaseVersion, 'v' + nextVersion);
+    assert.ok(catalog.skills.every((skill) => skill.updatedAt === '2030-01-01'));
   } finally {
     await rm(parent, { recursive: true, force: true });
   }

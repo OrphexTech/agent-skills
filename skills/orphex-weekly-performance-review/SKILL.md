@@ -3,7 +3,7 @@ name: orphex-weekly-performance-review
 description: "Review weekly or monthly marketing performance from supplied exports and documents, aligning comparison periods, metric definitions, currency, and attribution limits."
 license: MIT
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Orphex Weekly Performance Review
