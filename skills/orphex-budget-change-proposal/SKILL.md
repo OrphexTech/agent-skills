@@ -3,7 +3,7 @@ name: orphex-budget-change-proposal
 description: "Prepare a quantified marketing budget change proposal from supplied performance data, including portfolio arithmetic, forecast limits, and a clear approval boundary."
 license: MIT
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Orphex Budget Change Proposal

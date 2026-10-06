@@ -7,7 +7,7 @@ Contributions should make a specific marketing-analysis task more accurate or ea
 - Read [AGENTS.md](AGENTS.md) and [authoring guidance](docs/AUTHORING.md).
 - Keep tracked content in English and do not include private customer data, credentials, internal runbooks, or infrastructure details.
 - Label invented figures, brands, and scenarios as fictional. Never imply a fictional result was measured or independently verified.
-- Preserve user authorization boundaries. In particular, the budget proposal skill must not mutate advertising accounts without clear authorization for the specific changes.
+- Preserve user authorization boundaries. No skill may mutate advertising accounts without clear authorization for the specific changes, scope, and execution window.
 - Update the manifest when adding or changing skill metadata, categories, tags, lifecycle dates, or relationships.
 
 ## Validation

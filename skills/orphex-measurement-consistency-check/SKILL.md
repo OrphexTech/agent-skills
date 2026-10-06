@@ -3,7 +3,7 @@ name: orphex-measurement-consistency-check
 description: "Reconcile marketing metric and event definitions across supplied reports so apparent differences are explained by scope before being treated as tracking failures."
 license: MIT
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Orphex Measurement Consistency Check

@@ -7,23 +7,23 @@ The repository follows the skills directory convention: every skill is a directo
 Project installation is useful when the skill should be shared with a repository. Run the command from that repository and choose the target agent:
 
 ~~~sh
-npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v1.0.0/skills/orphex-weekly-performance-review --agent codex
+npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v1.1.0/skills/orphex-weekly-performance-review --agent codex
 ~~~
 
 ~~~sh
-npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v1.0.0/skills/orphex-weekly-performance-review --agent claude-code
+npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v1.1.0/skills/orphex-weekly-performance-review --agent claude-code
 ~~~
 
 Use the installer's global option when the skill should be available across projects:
 
 ~~~sh
-npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v1.0.0/skills/orphex-weekly-performance-review --agent codex --global
+npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v1.1.0/skills/orphex-weekly-performance-review --agent codex --global
 ~~~
 
 The installer may ask whether to copy or link files and where to place a project-level skill. Review its displayed target before accepting. List the installable skills in the pinned release without installing:
 
 ~~~sh
-npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v1.0.0/skills --list
+npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v1.1.0/skills --list
 ~~~
 
 Expected agent skill directories are:
@@ -31,7 +31,7 @@ Expected agent skill directories are:
 | Agent | Project scope | User scope |
 | --- | --- | --- |
 | Codex | .agents/skills/<slug>/SKILL.md | ~/.agents/skills/<slug>/SKILL.md |
-| Claude Code | .claude/skills/<slug>/SKILL.md | ~/.claude/skills/<slug>/SKILL.md |
+| Claude | .claude/skills/<slug>/SKILL.md | ~/.claude/skills/<slug>/SKILL.md |
 
 Skills CLI 1.7.0 treats Codex as a universal agent and uses its shared `.agents/skills` directory for both project and user scope. This is the pinned installer's target; it does not use `$CODEX_HOME/skills` for these commands. The installer can use shared source directories and links internally. The selected agent's discovery path and the final target displayed by the installer are the source of truth for a particular installation.
 
@@ -44,7 +44,7 @@ npx skills@1.7.0 list --agent codex --json
 cmp -s skills/orphex-weekly-performance-review/SKILL.md .agents/skills/orphex-weekly-performance-review/SKILL.md
 ~~~
 
-For Claude Code, compare with .claude/skills/<slug>/SKILL.md. For a user-scope install, use the corresponding global path from the table above. The CLI list command can filter by agent and global scope:
+For Claude, compare with .claude/skills/<slug>/SKILL.md. For a user-scope install, use the corresponding global path from the table above. The CLI list command can filter by agent and global scope:
 
 ~~~text
 npx skills@1.7.0 list --agent claude-code --json
@@ -56,7 +56,7 @@ See the pinned [Skills CLI v1.7.0 command help](https://github.com/vercel-labs/s
 
 ## Update to a reviewed release
 
-The v1.0.0 folder URL remains pinned to v1.0.0. Re-running it or using the CLI update command does not select a newer Orphex release. When maintainers publish and you have reviewed a newer tag, install that tag's skill folder explicitly; the installer will ask before replacing an existing copy:
+A folder URL remains pinned to its selected tag. An existing v1.0.0 installation does not become v1.1.0 by re-running its old command or using the CLI update command. To move to the reviewed v1.1.0 release, install that tag's skill folder explicitly; the installer will ask before replacing an existing copy:
 
 ~~~sh
 npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v1.1.0/skills/orphex-weekly-performance-review --agent codex
@@ -73,7 +73,7 @@ npx skills@1.7.0 remove orphex-weekly-performance-review --agent codex
 npx skills@1.7.0 remove --global orphex-weekly-performance-review --agent codex
 ~~~
 
-Use claude-code to target Claude Code. The CLI prompts before removal unless --yes is supplied.
+Use claude-code to target Claude. The CLI prompts before removal unless --yes is supplied.
 
 The Skills CLI can preserve a canonical skill directory when another detected universal agent shares that location. For Codex, the canonical directory is `.agents/skills/<slug>` in a project and `~/.agents/skills/<slug>` for user scope. The file may therefore remain after `remove --agent codex` even when that command exits successfully. If you intend to remove the skill for every universal agent sharing that location, first compare the retained file to the reviewed source, then remove only that skill directory. For example, from a checkout of the reviewed release:
 

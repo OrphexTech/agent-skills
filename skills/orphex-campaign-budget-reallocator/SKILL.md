@@ -1,0 +1,41 @@
+---
+name: orphex-campaign-budget-reallocator
+description: "Propose a fixed-total budget reallocation across campaigns using efficiency evidence, volume, headroom, bounds, and explicit approval limits."
+license: MIT
+metadata:
+  version: "1.1.0"
+---
+
+# Orphex Campaign Budget Reallocator
+
+Use this skill to reallocate a fixed marketing budget across campaigns while keeping the total unchanged. Every valid result must reconcile to the stated total and respect floors, ceilings, and protected allocations. Unlike a general budget-change proposal, this workflow explicitly balances transfers across the included campaigns.
+
+## Confirm the budget and constraints
+
+Record account/campaign scope, total, currency, budget unit and horizon, timezone, effective dates, and whether rows repeat a shared budget. Count each budget entity once; do not add a portfolio cap to the campaigns it governs. Keep currencies separate without a supplied exchange rate and date.
+
+Minimum input is the fixed total, current allocation, and floors, ceilings, frozen amounts, or protected outcomes. Ranking also needs comparable spend, defined outcomes, attribution window, conversion lag, delivery status, and objective. Without marginal evidence, label a transfer a hypothesis and omit an impact forecast.
+
+Use a common unit throughout. Check that the current allocations sum to the fixed total. If not, show the discrepancy and ask whether the total or source rows are authoritative. Compute movable capacity as current allocation minus floor; compute headroom as ceiling minus current allocation. A plan is infeasible if the floors sum above the total, the ceilings sum below it, any floor exceeds its ceiling, or frozen allocations leave insufficient movable capacity. Do not relax constraints silently.
+
+## Build a balanced proposal
+
+Use the allocation unit for every delta. Show current, delta, proposed value, bounds, and evidence per unique budget-owning entity, listing its affected campaigns. Never allocate independently to campaigns whose cap is the same shared budget. Require `proposed = current + delta`, `sum(deltas) = 0`, and proposed total equal to fixed total. Keep protected campaigns unchanged. Prefer observed marginal efficiency or a supplied response curve; average CPA/ROAS describes past spend, not the next dollar.
+
+For currency budgets, calculate in minor units and show rounding reconciliation. Assign any remainder only within an eligible campaign’s bounds and name the rule. A cap is not a spend forecast. Check the platform’s budget type, pacing, and campaign eligibility; these rules differ by platform. Google Ads average daily budgets may pace unevenly, and shared budgets have campaign-type constraints.
+
+Estimate outcomes only from explicit marginal data or a user scenario. If using `incremental spend / marginal CPA`, label it an estimate and include event, lag, and range when assumptions vary. Do not infer incremental conversions from average CPA. Include a review point after lag, a stop condition, and the prior allocation for rollback when supplied.
+
+## Approval boundary and output
+
+Do not mutate budgets as an unrequested extension of analysis. Apply a reallocation only if a current or prior instruction authorizes the resulting changes for the specified account and campaigns, and the write path permits them. Confirm that values, unit, currency, effective time, and scope are unambiguous; ask only about missing details that affect the action. Without an authorized write path, deliver the proposal and state it was not applied.
+
+Start with feasibility and the reconciled total. Then show the allocation table, evidence and uncertainty, expected-impact limits, review condition, and whether the output is proposal-only. Confidence reflects the quality of the marginal evidence, not a promise of delivery.
+
+Fictional example: fixed daily cap is $1,000. Campaign A has a $650 floor, B a $250 floor, and C a $200 floor. Floors total $1,100, so no valid reallocation exists; stop and ask which constraint may change. In a separate feasible case, current caps of $600/$300/$100 become $650/$250/$100. Deltas are +$50/−$50/$0, the total remains $1,000, and all stated bounds hold. This arithmetic does not claim that actual spend or results will follow the caps; the plan remains a proposal.
+
+## Official references
+
+- [Google Ads average daily budgets](https://support.google.com/google-ads/answer/6385083)
+- [Google Ads shared budgets](https://support.google.com/google-ads/answer/10487241?hl=en)
+- [Google Ads campaign total budgets](https://support.google.com/google-ads/answer/15137812?hl=en)

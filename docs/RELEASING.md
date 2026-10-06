@@ -1,6 +1,6 @@
 # Release process
 
-This private-first repository is prepared for a v1.0.0 public source release. Repository visibility and release tagging are separate maintainer actions.
+This repository publishes portable skill sources through immutable, versioned tags. Repository visibility and release tagging are separate maintainer actions.
 
 Before a release:
 
@@ -12,7 +12,7 @@ Before a release:
 6. Review the generated catalog, schema validation result, skill examples, and exact source paths.
 7. Tag the reviewed source commit with the matching v-prefixed package version only after the owner authorizes release publication.
 
-Pushing a matching v-prefixed tag runs the source validation and catalog-artifact workflow. The automatic installer smoke uses checked-out local skill directories. After the tag is publicly reachable, run the `Validate skills` workflow manually on that exact tag with the `published-release` smoke source. That run installs the five tag-pinned public skill folders, checks each installed file hash and list entry, and removes the skills afterward. Both Codex and Claude Code project and global scopes run on the disposable GitHub-hosted runner; global checks skip with an explicit message outside that verified runner.
+Pushing a matching v-prefixed tag runs the source validation and catalog-artifact workflow. The automatic installer smoke uses checked-out local skill directories. After the tag is publicly reachable, run the `Validate skills` workflow manually on that exact tag with the `published-release` smoke source. That run installs every manifest-listed, tag-pinned public skill folder, checks each installed file hash and list entry, and removes the skills afterward. Both Codex and Claude project and global scopes run on the disposable GitHub-hosted runner; global checks skip with an explicit message outside that verified runner.
 
 The catalog-artifact job builds with the tag commit as sourceSha and skills CLI 1.7.0 as installerVersion, then uploads dist/catalog.json as a workflow artifact. Inspect that artifact against the tag before distributing it.
 

@@ -1,0 +1,44 @@
+---
+name: orphex-conversion-tracking-health-check
+description: "Audit supplied conversion-tracking configuration and event diagnostics for missing, duplicated, or malformed signals without assuming report totals should match."
+license: MIT
+metadata:
+  version: "1.1.0"
+---
+
+# Orphex Conversion Tracking Health Check
+
+Use this skill to check whether business events are configured, fired, transported, and counted as intended across tags, pixels, server APIs, imports, and analytics. It assesses tracking health; it does not expect attribution reports to match. Optional Orphex MCP reads may be used within the user's authorized scope.
+
+## Define the expected event path
+
+Define the event's business meaning, exact name, primary/secondary role, bidding inclusion, source, value/currency rules, and expected user path. Record platform, account/property, site/app, dates, timezone, refresh time, attribution basis, and recent changes. Minimum evidence is the event definition plus a safe diagnostic, configuration view, or reproducible test. Redacted traces, retry behavior, counts, consent, and redirects help. Without a diagnostic or sample, report `unknown` or `not tested`; a report total alone cannot prove health.
+
+Use these finding statuses consistently:
+
+- **Pass:** direct evidence confirms the expected event fired through the tested path with the required fields.
+- **Fail:** a diagnostic or repeatable test shows a material setup defect, missing signal, duplicate, wrong value, or broken path.
+- **Not tested:** a test has not yet been run, although the required source and method are available.
+- **Unknown:** evidence, access, or definitions are missing or inconclusive.
+
+An unavailable tag view is not a pass. Platform labels are not interchangeable: preserve the exact status and diagnostic text, then explain what it establishes and what it does not.
+
+## Check implementation and integrity
+
+Test the user path in a debug context. Check event name, page/app state, event time, currency, value, and source. Verify redirects preserve documented click IDs and UTMs where needed; the landing URL cannot prove later events retained them. Check consent behavior. Never bypass consent or call an intentionally suppressed event a defect.
+
+For browser/server setups, compare documented deduplication fields and event names without exposing identifiers. Test retries for duplicate events; a repeated request is not automatically idempotent. Use a test purchase or redacted synthetic trace and verify the unique order reference is handled consistently. Keep customer data, click IDs, tokenized URLs, and order identifiers out of reports; state what was redacted and how to repeat the test safely.
+
+Distinguish primary bidding events from secondary observation. Check value and currency consistency. Compare counts only when event, event-time basis, denominator, deduplication, timezone, and window align. Platforms may differ in attribution, interaction dates, modeling, consent, or processing delays; unequal totals alone do not prove a broken tag. Fractional attributed conversion credits do not establish duplicated business events. Use platform diagnostics and latency guidance before classifying a discrepancy.
+
+## Findings and boundaries
+
+For each finding, report status, severity, event/scope, evidence path and time, expected versus observed behavior, privacy-safe proof, confidence, next test, and owner. Base severity on impact to primary outcomes and path breadth, not a universal count threshold. Separate configuration evidence from report symptoms. Apply a correction only when a current or prior instruction authorizes the exact property/event change and the write path allows it. A test request does not authorize a production purchase or customer-data replay.
+
+Fictional failure case: a synthetic checkout test shows one browser `Purchase` event and two server sends after a retry, with no shared deduplication reference in the redacted trace. Mark the tested path `fail`, confidence high for a duplicate-risk finding, and request the implementation owner to inspect retry and dedup logic. Do not change the server integration or replay a real order. If the only evidence were different Analytics and Ads totals, the result would be `unknown` pending aligned event definitions and platform diagnostics.
+
+## Official references
+
+- [Google Tag Assistant troubleshooting](https://support.google.com/tagassistant/answer/10039345?hl=en)
+- [Google Ads conversion tracking status](https://support.google.com/google-ads/answer/12674892?hl=en)
+- [Meta Conversions API: deduplicate Pixel and server events](https://developers.facebook.com/docs/marketing-api/conversions-api/deduplicate-pixel-and-server-events/)
