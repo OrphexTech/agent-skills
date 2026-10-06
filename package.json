@@ -1,0 +1,16 @@
+{
+  "name": "@orphex/agent-skills",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portable Orphex marketing analysis skills and catalog tooling",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test",
+    "validate": "node scripts/validate.mjs",
+    "build:catalog": "node scripts/build_catalog.mjs",
+    "smoke:install": "node scripts/smoke_install.mjs"
+  }
+}

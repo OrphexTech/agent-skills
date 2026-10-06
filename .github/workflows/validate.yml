@@ -1,0 +1,60 @@
+name: Validate skills
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      smoke_source:
+        description: Installer smoke source
+        required: true
+        default: local
+        type: choice
+        options:
+          - local
+          - published-release
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm test
+      - run: npm run validate
+      - name: Smoke test the pinned installer
+        env:
+          SMOKE_SOURCE: ${{ github.event_name == 'workflow_dispatch' && inputs.smoke_source || 'local' }}
+        run: npm run smoke:install -- --source "$SMOKE_SOURCE"
+
+  catalog-artifact:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Match the tag to the source release version
+        run: |
+          package_version=$(node -p "require('./package.json').version")
+          test "$GITHUB_REF_NAME" = "v$package_version"
+      - name: Build catalog for the tag commit
+        run: npm run build:catalog
+        env:
+          ORPHEX_SKILLS_SOURCE_SHA: ${{ github.sha }}
+          ORPHEX_SKILLS_INSTALLER_VERSION: 1.7.0
+      - uses: actions/upload-artifact@v4
+        with:
+          name: catalog-${{ github.ref_name }}
+          path: dist/catalog.json
+          if-no-files-found: error
+          retention-days: 90

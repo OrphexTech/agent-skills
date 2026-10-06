@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "skills": [
+    {
+      "slug": "orphex-budget-change-proposal",
+      "title": "Orphex Budget Change Proposal",
+      "description": "Prepare a quantified marketing budget change proposal from supplied performance data, including portfolio arithmetic, forecast limits, and a clear approval boundary.",
+      "outcome": "A reviewable budget proposal with per-campaign deltas, portfolio impact, assumptions, risks, and an explicit approval boundary.",
+      "category": "performance",
+      "tags": ["budget", "forecasting", "marketing", "planning"],
+      "updatedAt": "2026-10-06",
+      "requirements": ["User-supplied budgets, performance exports, or planning documents"],
+      "relatedSkills": ["orphex-measurement-consistency-check", "orphex-weekly-performance-review"]
+    },
+    {
+      "slug": "orphex-creative-signal-review",
+      "title": "Orphex Creative Signal Review",
+      "description": "Review paid creative results against the campaign objective and delivery context, separating early signals from evidence strong enough to guide a next test.",
+      "outcome": "A creative comparison grounded in the stated objective, comparable delivery, observed metrics, and a concrete next test.",
+      "category": "creative",
+      "tags": ["creative", "experimentation", "marketing", "performance"],
+      "updatedAt": "2026-10-06",
+      "requirements": ["User-supplied creative-level delivery or outcome data and the campaign objective"],
+      "relatedSkills": ["orphex-landing-conversion-review", "orphex-measurement-consistency-check", "orphex-weekly-performance-review"]
+    },
+    {
+      "slug": "orphex-landing-conversion-review",
+      "title": "Orphex Landing Conversion Review",
+      "description": "Review supplied landing-page and funnel evidence to locate conversion friction, distinguish observed patterns from causes, and propose measurable next checks.",
+      "outcome": "A funnel review that identifies observed drop-offs, relevant segment differences, evidence gaps, and testable page hypotheses.",
+      "category": "conversion",
+      "tags": ["conversion", "funnel", "landing-page", "marketing"],
+      "updatedAt": "2026-10-06",
+      "requirements": ["User-supplied page evidence, funnel exports, or both"],
+      "relatedSkills": ["orphex-creative-signal-review", "orphex-measurement-consistency-check", "orphex-weekly-performance-review"]
+    },
+    {
+      "slug": "orphex-measurement-consistency-check",
+      "title": "Orphex Measurement Consistency Check",
+      "description": "Reconcile marketing metric and event definitions across supplied reports so apparent differences are explained by scope before being treated as tracking failures.",
+      "outcome": "A source-by-source reconciliation of event, denominator, attribution, time, currency, and identity rules with bounded findings.",
+      "category": "measurement",
+      "tags": ["analytics", "attribution", "events", "measurement"],
+      "updatedAt": "2026-10-06",
+      "requirements": ["User-supplied reports, event definitions, or measurement documentation"],
+      "relatedSkills": ["orphex-budget-change-proposal", "orphex-creative-signal-review", "orphex-landing-conversion-review", "orphex-weekly-performance-review"]
+    },
+    {
+      "slug": "orphex-weekly-performance-review",
+      "title": "Orphex Weekly Performance Review",
+      "description": "Review weekly or monthly marketing performance from supplied exports and documents, aligning comparison periods, metric definitions, currency, and attribution limits.",
+      "outcome": "A concise period-over-period review with comparable metrics, evidence-linked explanations, uncertainty, and prioritized next actions.",
+      "category": "performance",
+      "tags": ["attribution", "marketing", "performance", "reporting"],
+      "updatedAt": "2026-10-06",
+      "requirements": ["User-supplied marketing performance exports or documents with a reporting period"],
+      "relatedSkills": ["orphex-budget-change-proposal", "orphex-creative-signal-review", "orphex-landing-conversion-review", "orphex-measurement-consistency-check"]
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/OrphexTech/agent-skills/blob/main/schemas/catalog.schema.json",
+  "title": "Orphex Agent Skills catalog v1",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "releaseVersion",
+    "repository",
+    "sourceSha",
+    "installerVersion",
+    "skills"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "releaseVersion": {
+      "type": "string",
+      "pattern": "^v(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z.-]+)?$"
+    },
+    "repository": { "const": "https://github.com/OrphexTech/agent-skills" },
+    "sourceSha": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{7,64}$"
+    },
+    "installerVersion": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z.-]+)?$"
+    },
+    "skills": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "slug",
+          "title",
+          "description",
+          "outcome",
+          "category",
+          "tags",
+          "agents",
+          "updatedAt",
+          "version",
+          "license",
+          "requirements",
+          "relatedSkills",
+          "sourcePath",
+          "contentHash",
+          "instructions"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "slug": {
+            "type": "string",
+            "pattern": "^orphex-[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "maxLength": 63
+          },
+          "title": { "type": "string", "minLength": 1 },
+          "description": { "type": "string", "minLength": 1, "maxLength": 300 },
+          "outcome": { "type": "string", "minLength": 1 },
+          "category": {
+            "type": "string",
+            "enum": ["performance", "creative", "conversion", "measurement"]
+          },
+          "tags": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+            }
+          },
+          "agents": {
+            "const": ["codex", "claude-code"]
+          },
+          "updatedAt": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z.-]+)?$"
+          },
+          "license": { "const": "MIT" },
+          "requirements": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "relatedSkills": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^orphex-[a-z0-9]+(?:-[a-z0-9]+)*$",
+              "maxLength": 63
+            }
+          },
+          "sourcePath": {
+            "type": "string",
+            "pattern": "^skills/orphex-[a-z0-9]+(?:-[a-z0-9]+)*/SKILL\\.md$"
+          },
+          "contentHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "instructions": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}
