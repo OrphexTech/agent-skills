@@ -1,9 +1,9 @@
 ---
 name: orphex-placement-cleaning
-description: "Review supplied ad placement and inventory reports to separate brand suitability from efficiency, quantify observable spend at stake, and propose verified, scoped exclusions for display, video, and Performance Max inventory."
+description: "Review placement suitability and observable efficiency, then propose narrow supported exclusions without inventing spend from impressions."
 license: MIT
 metadata:
-  version: "1.1.0"
+  version: "2.0.0"
 ---
 
 # Orphex Placement Cleaning
@@ -29,3 +29,13 @@ For every proposal, include the exact observed identity, its type, affected camp
 Return a ranked proposal, coverage gaps, and a validation step that checks delivery and suitability after approval. Never apply an exclusion, edit targeting, or change a campaign based on this analysis alone. An actual mutation needs explicit current or prior user authorization covering the exact account, identities, action, and scope. If authorized and a write-capable tool is available, confirm the target set and report the read-back; otherwise provide the proposal only.
 
 Useful platform references: [PMax placement reporting](https://support.google.com/google-ads/answer/11465047?hl=en), [PMax channel performance reporting](https://support.google.com/google-ads/answer/16260130?hl=en), and [Google Ads placement exclusions](https://support.google.com/google-ads/answer/2454012?hl=en).
+
+## Portable inputs and examples
+
+- Read [the input contract](references/input-contract.md) when mapping a new export or checking the example's scope and definitions. Copy [the header-only CSV template](assets/input-template.csv) when preparing data; equivalent supplied exports remain acceptable.
+- Read [the reusable business context](references/business-context.md) only for business facts or constraints this task needs. Reuse user-supplied facts with their source/date; the template contains no default targets.
+- Inspect [the complete fictional input](assets/example-input.csv) with [its example output](references/example-output.md) when learning the output and calculation boundaries. Never use fictional values for a real account.
+
+State whether the result is complete, partial, or blocked for the requested decision. Link material findings to actual supplied rows/sources and separate observed metrics, hypotheses, and estimates. Lead with a short business conclusion, then evidence, uncertainty, and the next measurable check. A data export or installed skill does not authorize account changes.
+
+For the supported arithmetic only, optionally run [the bundled calculator](scripts/marketing_math.py) with Python 3: `python3 scripts/marketing_math.py weighted-ratio < calculation.json`. Read its input mapping in the input contract before preparing JSON. It reads JSON, not CSV directly. If Python or the requested method is unavailable, show a reproducible alternative calculation or mark it unsupported; do not report an uncomputed result as verified.

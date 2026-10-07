@@ -1,0 +1,4 @@
+budget_id,campaign_ids,currency,current,floor,ceiling,frozen,spend,conversions
+b1,c1,USD,600,500,700,false,6000,300
+b2,c2,USD,300,200,400,false,3000,100
+b3,brand,USD,100,100,100,true,1000,100

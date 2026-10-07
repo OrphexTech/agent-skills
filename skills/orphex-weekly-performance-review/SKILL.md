@@ -1,9 +1,9 @@
 ---
 name: orphex-weekly-performance-review
-description: "Review weekly or monthly marketing performance from supplied exports and documents, aligning comparison periods, metric definitions, currency, and attribution limits."
+description: "Review marketing period changes and diagnose evidence-backed drivers from supplied comparable exports; use the summarizer for a short stakeholder update."
 license: MIT
 metadata:
-  version: "1.1.0"
+  version: "2.0.0"
 ---
 
 # Orphex Weekly Performance Review
@@ -37,15 +37,12 @@ End with a small set of prioritized actions. Each action should name an owner or
 ## Recommended output
 
 Start with the decision or headline. State the scope and comparability limits, then use a table for period values, absolute and relative movement, and source. Follow with evidence-backed drivers, uncertainties, and prioritized next actions.
+## Portable inputs and examples
 
-## Example with fictional data
+- Read [the input contract](references/input-contract.md) when mapping a new export or checking the example's scope and definitions. Copy [the header-only CSV template](assets/input-template.csv) when preparing data; equivalent supplied exports remain acceptable.
+- Read [the reusable business context](references/business-context.md) only for business facts or constraints this task needs. Reuse user-supplied facts with their source/date; the template contains no default targets.
+- Inspect [the complete fictional input](assets/example-input.csv) with [its example output](references/example-output.md) when learning the output and calculation boundaries. Never use fictional values for a real account.
 
-Fictional paid search account, same campaigns, USD, account timezone America/Los_Angeles, Monday-Sunday weeks, same lead event and 7-day click window:
+State whether the result is complete, partial, or blocked for the requested decision. Link material findings to actual supplied rows/sources and separate observed metrics, hypotheses, and estimates. Lead with a short business conclusion, then evidence, uncertainty, and the next measurable check. A data export or installed skill does not authorize account changes.
 
-| Metric | Sep 7-13 | Sep 14-20 | Change |
-| --- | ---: | ---: | ---: |
-| Spend | $12,000 | $13,800 | +$1,800 (+15.0%) |
-| Leads | 360 | 380 | +20 (+5.6%) |
-| Cost per lead | $33.33 | $36.32 | +$2.99 (+9.0%) |
-
-Fictional read: spend rose faster than leads, so average cost per lead increased about 9.0%. This comparison does not identify the cause; no campaign-level changes, mix, or lag breakdown was supplied. Check campaign and query mix after the 7-day lead window settles before deciding whether to trim or reallocate budget.
+For the supported arithmetic only, optionally run [the bundled calculator](scripts/marketing_math.py) with Python 3: `python3 scripts/marketing_math.py weighted-ratio < calculation.json`. Read its input mapping in the input contract before preparing JSON. It reads JSON, not CSV directly. If Python or the requested method is unavailable, show a reproducible alternative calculation or mark it unsupported; do not report an uncomputed result as verified.

@@ -1,9 +1,9 @@
 ---
 name: orphex-campaign-budget-reallocator
-description: "Propose a fixed-total budget reallocation across campaigns using efficiency evidence, volume, headroom, bounds, and explicit approval limits."
+description: "Prepare a balanced transfer between supplied campaign budgets while preserving a fixed total and all protected bounds; use budget pacing to forecast period spend."
 license: MIT
 metadata:
-  version: "1.1.0"
+  version: "2.0.0"
 ---
 
 # Orphex Campaign Budget Reallocator
@@ -39,3 +39,13 @@ Fictional example: fixed daily cap is $1,000. Campaign A has a $650 floor, B a $
 - [Google Ads average daily budgets](https://support.google.com/google-ads/answer/6385083)
 - [Google Ads shared budgets](https://support.google.com/google-ads/answer/10487241?hl=en)
 - [Google Ads campaign total budgets](https://support.google.com/google-ads/answer/15137812?hl=en)
+
+## Portable inputs and examples
+
+- Read [the input contract](references/input-contract.md) when mapping a new export or checking the example's scope and definitions. Copy [the header-only CSV template](assets/input-template.csv) when preparing data; equivalent supplied exports remain acceptable.
+- Read [the reusable business context](references/business-context.md) only for business facts or constraints this task needs. Reuse user-supplied facts with their source/date; the template contains no default targets.
+- Inspect [the complete fictional input](assets/example-input.csv) with [its example output](references/example-output.md) when learning the output and calculation boundaries. Never use fictional values for a real account.
+
+State whether the result is complete, partial, or blocked for the requested decision. Link material findings to actual supplied rows/sources and separate observed metrics, hypotheses, and estimates. Lead with a short business conclusion, then evidence, uncertainty, and the next measurable check. A data export or installed skill does not authorize account changes.
+
+For the supported arithmetic only, optionally run [the bundled calculator](scripts/marketing_math.py) with Python 3: `python3 scripts/marketing_math.py reallocate < calculation.json`. Read its input mapping in the input contract before preparing JSON. It reads JSON, not CSV directly. If Python or the requested method is unavailable, show a reproducible alternative calculation or mark it unsupported; do not report an uncomputed result as verified.

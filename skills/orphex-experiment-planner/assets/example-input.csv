@@ -1,0 +1,2 @@
+experiment_id,baseline_trials,baseline_successes,weekly_eligible_trials,target_rate,alpha,power,outcome_delay_days
+form-test,1000,100,1000,0.12,0.05,0.8,7

@@ -1,0 +1,4 @@
+test_id,channel,event_name,event_id,value,currency,delivery_status
+t1,browser,Purchase,test-order-1,100,USD,accepted
+t1,server,Purchase,test-order-1,100,USD,accepted
+t2,server,Purchase,test-order-2,50,,rejected_missing_currency

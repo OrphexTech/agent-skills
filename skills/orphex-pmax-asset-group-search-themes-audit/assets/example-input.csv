@@ -1,0 +1,3 @@
+campaign_id,asset_group_id,asset_group_name,final_url,search_themes,audience_signals,asset_types,status
+p1,g1,Budget software,https://example.com/team,team budget software;finance collaboration,website visitors,text;image;video,ELIGIBLE
+p1,g2,General,https://example.com/,budget software,all visitors,text;image,ELIGIBLE

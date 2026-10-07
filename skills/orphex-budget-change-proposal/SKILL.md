@@ -1,9 +1,9 @@
 ---
 name: orphex-budget-change-proposal
-description: "Prepare a quantified marketing budget change proposal from supplied performance data, including portfolio arithmetic, forecast limits, and a clear approval boundary."
+description: "Quantify a proposed change to campaign or portfolio budget totals, with assumptions and approval scope; use the reallocator when the total must remain fixed."
 license: MIT
 metadata:
-  version: "1.1.0"
+  version: "2.0.0"
 ---
 
 # Orphex Budget Change Proposal
@@ -31,14 +31,12 @@ If the user separately asks to apply a change, confirm that their instruction cl
 ## Recommended output
 
 Start with the decision requested and the total portfolio impact. Follow with a table of each change, its evidence, and its key uncertainty. Then state the assumptions, risks, monitoring condition, rollback value, and whether the result is proposal-only or was applied under explicit authorization.
+## Portable inputs and examples
 
-## Example with fictional data
+- Read [the input contract](references/input-contract.md) when mapping a new export or checking the example's scope and definitions. Copy [the header-only CSV template](assets/input-template.csv) when preparing data; equivalent supplied exports remain acceptable.
+- Read [the reusable business context](references/business-context.md) only for business facts or constraints this task needs. Reuse user-supplied facts with their source/date; the template contains no default targets.
+- Inspect [the complete fictional input](assets/example-input.csv) with [its example output](references/example-output.md) when learning the output and calculation boundaries. Never use fictional values for a real account.
 
-Fictional 14-day data, account timezone America/Los_Angeles, same purchase event and 7-day click window:
+State whether the result is complete, partial, or blocked for the requested decision. Link material findings to actual supplied rows/sources and separate observed metrics, hypotheses, and estimates. Lead with a short business conclusion, then evidence, uncertainty, and the next measurable check. A data export or installed skill does not authorize account changes.
 
-| Campaign | Daily cap | Spend | Purchases | Average CPA |
-| --- | ---: | ---: | ---: | ---: |
-| Search - Brand | $400 | $5,320 | 140 | $38.00 |
-| Social - Prospecting | $300 | $3,900 | 78 | $50.00 |
-
-Fictional proposal: move $40/day from Social - Prospecting to Search - Brand, giving daily caps of $440 and $260 and leaving the portfolio cap at $700/day. This is a reallocation hypothesis based on the supplied average CPAs, not a forecast that Search's next purchases will cost $38. Review after the stated purchase lag and restore the prior caps if the agreed efficiency guardrail is breached. Status: proposal only; no account change was made.
+For the supported arithmetic only, optionally run [the bundled calculator](scripts/marketing_math.py) with Python 3: `python3 scripts/marketing_math.py weighted-ratio < calculation.json`. Read its input mapping in the input contract before preparing JSON. It reads JSON, not CSV directly. If Python or the requested method is unavailable, show a reproducible alternative calculation or mark it unsupported; do not report an uncomputed result as verified.

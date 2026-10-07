@@ -1,39 +1,54 @@
 # Authoring and catalog contract
 
-## Skill source
+## Portable source
 
-An installable skill is a directory under skills/ with a matching directory name and SKILL.md frontmatter:
+Each manifest-listed folder under `skills/` is installable. The slug equals the frontmatter name and stays at most63 characters. Description is identical in frontmatter and manifest. License is MIT; quoted `metadata.version` matches package.json. Tracked source uses English, UTF-8, LF and a final newline.
 
 ~~~yaml
 ---
 name: orphex-example-skill
-description: "A specific sentence describing the task and when the skill applies."
+description: "Perform a specific marketing task when a concrete user need applies."
 license: MIT
 metadata:
-  version: "1.1.0"
+  version: "2.0.0"
 ---
 ~~~
 
-Keep name equal to the directory slug. Keep description identical in the manifest and frontmatter so discovery and the installed instructions agree. The metadata version is a quoted string and matches the catalog version. Put actionable task-specific guidance in the Markdown body. Add references only when substantial material is useful in a narrower context.
+Every folder contains exactly these required files:
 
-Do not include executable SKILL.md examples in production skill directories. Use short, fictional data examples where they materially clarify calculations or output. Include enough context to show the period, definitions, and limitations behind a conclusion.
+- `SKILL.md`: concise task instructions, trigger distinctions, evidence/decision method, output and when to load resources.
+- `assets/input-template.csv`: one header row matching manifest `inputs` names in the same order.
+- `assets/example-input.csv`: complete fictional rows with that exact header.
+- `references/input-contract.md`: column semantics, units, freshness, attribution and non-CSV configuration.
+- `references/business-context.md`: a reusable profile containing supplied facts and explicit unknowns, never invented defaults or secrets.
+- `references/example-output.md`: useful bounded output for the fictional input, byte-matching manifest `example.outputMarkdown`.
 
-## Manifest lifecycle
+Relevant quantitative folders may also contain `scripts/marketing_math.py`, byte-identical to `resources/marketing_math.py`. This optional Python 3 helper is offline and does not fetch data or mutate accounts. It returns explicit unsupported-input errors, including currencies outside its reviewed minor-unit allocation range. `SKILL.md` links every supplementary file and explains when it is useful. No other installable files, subdirectories, symlinks, binary blobs, hidden fixtures or evaluation results are allowed.
 
-The source manifest at skills/manifest.json defines each directory's title, matching description, outcome, category, tags, update date, requirements, and related skills. Categories are performance, creative, conversion, and measurement. Keep all listed relationships pointed at existing installable slugs; no skill may relate to itself.
+Use task-specific progressive disclosure. Avoid duplicating large references in the main instructions. Keep baseline and skill-assisted evaluation inputs outside skill folders and different from worked package examples so correctness cannot be inferred by replaying an answer.
 
-The package version, changelog heading, manifest skill versions, and skill frontmatter versions move together. The public release version is v-prefixed in the generated catalog. Source dates use ISO calendar dates.
+## Manifest and discovery
 
-## Generated catalog
+The strict schema is `schemas/manifest.schema.json` with `schemaVersion: 2`. Every skill declares the existing title/description/outcome/tags/lifecycle/requirements/related fields plus `platforms`, `businessTypes`, `useWhen`, `inputs` and `example`. Unknown fields, wrong types, duplicate input names and unsupported enum values fail validation.
 
-The frozen catalog schema is schemas/catalog.schema.json. The ignored output path is dist/catalog.json. Its keys and per-skill fields are part of the distribution contract; change them only with an intentional schema version change.
+Primary categories are reporting-diagnostics, campaign-optimization, creative-messaging, budget-growth, measurement-data-quality and conversion-experiments. Platforms and business types are separate facets, not additional counted categories. Facet arrays, tags, related slugs and manifest skills are lexically sorted and unique. Relationships target existing slugs and cannot point to the same skill.
 
-Catalog output is built from SKILL.md and the manifest. Each skill's contentHash is SHA-256 of its complete UTF-8 SKILL.md source. instructions contains only the Markdown body after the closing frontmatter delimiter. Catalog skills are sorted by slug, object keys follow the schema declaration order, and JSON output ends with one newline.
+Top-level `bundles` contain exactly weekly-account-review, search-optimization and experiment-cycle, sorted by ID. Their ordered skill arrays describe an intended conditional workflow; validate no duplicates or unknown slugs. Bundles are bounded instructions and installation sets, not extra installable skills. No bundle grants permission to write campaign settings.
 
-Build requires provenance from the caller:
+All twenty-nine skill metadata versions and lifecycle dates advance together with package.json and the CHANGELOG release heading. Source dates are valid ISO calendar dates. A future independent per-skill lifecycle needs an intentional contract change.
+
+## Catalog and exact provenance
+
+The frozen strict generated schema is `schemas/catalog.schema.json`, version2. Output stays ignored under `dist/catalog.json`. Every manifest field is copied; generated fields add agent compatibility labels, version/license, Markdown instruction body, canonical source path, complete SKILL.md SHA-256 and supplementary `resources` path/kind/UTF-8 SHA-256. Supplementary paths are lexically sorted; output is stable JSON with a final newline. Examples must byte-match the corresponding resource files.
+
+Build only after committing final inputs:
 
 ~~~sh
 ORPHEX_SKILLS_SOURCE_SHA=$(git rev-parse HEAD) ORPHEX_SKILLS_INSTALLER_VERSION=1.7.0 npm run build:catalog
 ~~~
 
-The source SHA must identify the exact committed input tree. Installer version is the version of the skills CLI used by the public install flow. Do not substitute an estimate, working-tree hash, or current latest version for the pinned inputs.
+The builder requires a full exact checked-out HEAD commit, rejects modified or untracked catalog inputs and enforces installer1.7.0. Never substitute a working-tree digest, estimated commit, branch name or latest installer. Source validation may use an explicit zero provenance sentinel internally; no distribution build accepts it.
+
+## Quality changes
+
+Read `docs/QUALITY_PLAN.md`, `docs/BUSINESS_CONTEXT.md` and `evaluations/README.md`. Add/adjust complete cases and human criteria when changing a decision method. Source validation and installer hashes prove packaging; actual reviewed native runs prove behavior only within their tested data/runtime scope. Preserve failing run evidence and record fixes/reruns rather than relabeling a failure.

@@ -1,0 +1,4 @@
+keyword_id,keyword,quality_score,expected_ctr,ad_relevance,landing_page_experience,currency,spend,conversions
+k1,team budget software,5,Average,Below average,Average,USD,900,30
+k2,free budget tool,3,Below average,Below average,Below average,USD,50,0
+k3,acme budget software,--,--,--,--,USD,150,10

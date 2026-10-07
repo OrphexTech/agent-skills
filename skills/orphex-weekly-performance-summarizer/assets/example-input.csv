@@ -1,0 +1,5 @@
+period,campaign_id,currency,spend,impressions,clicks,conversions,conversion_value
+2026-09-07/2026-09-13,brand,USD,400,20000,1000,40,2000
+2026-09-07/2026-09-13,generic,USD,1600,80000,2000,40,2000
+2026-09-14/2026-09-20,brand,USD,500,25000,1250,50,2500
+2026-09-14/2026-09-20,generic,USD,1700,85000,2125,34,1700

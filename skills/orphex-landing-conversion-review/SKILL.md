@@ -1,9 +1,9 @@
 ---
 name: orphex-landing-conversion-review
-description: "Review supplied landing-page and funnel evidence to locate conversion friction, distinguish observed patterns from causes, and propose measurable next checks."
+description: "Locate observed landing and funnel friction, then propose diagnostic checks or experiments without asserting untested causes."
 license: MIT
 metadata:
-  version: "1.1.0"
+  version: "2.0.0"
 ---
 
 # Orphex Landing Conversion Review
@@ -29,14 +29,12 @@ Prioritize hypotheses by likely user impact, evidence strength, and ease of chec
 ## Recommended output
 
 State the conversion definition and period first. Show a funnel table with counts and rates, then a short list of observed friction signals and testable hypotheses. Close with missing evidence and the next check that would most reduce uncertainty.
+## Portable inputs and examples
 
-## Example with fictional data
+- Read [the input contract](references/input-contract.md) when mapping a new export or checking the example's scope and definitions. Copy [the header-only CSV template](assets/input-template.csv) when preparing data; equivalent supplied exports remain acceptable.
+- Read [the reusable business context](references/business-context.md) only for business facts or constraints this task needs. Reuse user-supplied facts with their source/date; the template contains no default targets.
+- Inspect [the complete fictional input](assets/example-input.csv) with [its example output](references/example-output.md) when learning the output and calculation boundaries. Never use fictional values for a real account.
 
-Fictional 14-day lead form results for one landing page and offer:
+State whether the result is complete, partial, or blocked for the requested decision. Link material findings to actual supplied rows/sources and separate observed metrics, hypotheses, and estimates. Lead with a short business conclusion, then evidence, uncertainty, and the next measurable check. A data export or installed skill does not authorize account changes.
 
-| Device | Sessions | Form starts | Submitted leads | Session-to-submit rate |
-| --- | ---: | ---: | ---: | ---: |
-| Desktop | 20,000 | 1,300 | 900 | 4.50% |
-| Mobile | 30,000 | 1,500 | 900 | 3.00% |
-
-Fictional read: mobile has the lower session-to-submit rate and the same submission count on more sessions. This is an observed device gap; it does not show that the mobile form caused it because source mix, intent, and form completion quality were not supplied. Compare source and campaign within each device, inspect a supplied mobile form recording or screenshot, and test a specific form change with submitted-lead quality as a guardrail.
+For the supported arithmetic only, optionally run [the bundled calculator](scripts/marketing_math.py) with Python 3: `python3 scripts/marketing_math.py weighted-ratio < calculation.json`. Read its input mapping in the input contract before preparing JSON. It reads JSON, not CSV directly. If Python or the requested method is unavailable, show a reproducible alternative calculation or mark it unsupported; do not report an uncomputed result as verified.

@@ -1,9 +1,9 @@
 ---
 name: orphex-measurement-consistency-check
-description: "Reconcile marketing metric and event definitions across supplied reports so apparent differences are explained by scope before being treated as tracking failures."
+description: "Reconcile event, attribution, date, identity, and revenue definitions across reports before treating differing totals as tracking failure."
 license: MIT
 metadata:
-  version: "1.1.0"
+  version: "2.0.0"
 ---
 
 # Orphex Measurement Consistency Check
@@ -33,15 +33,10 @@ A difference can be expected when systems answer different questions, such as ad
 ## Recommended output
 
 Use a source-definition matrix followed by a reconciliation table. Label each row as comparable, comparable with caveat, or not directly comparable, and explain why. Prioritize unresolved discrepancies by impact and testability. State exactly which document, export, sample record, or owner input is needed next.
+## Portable inputs and examples
 
-## Example with fictional data
+- Read [the input contract](references/input-contract.md) when mapping a new export or checking the example's scope and definitions. Copy [the header-only CSV template](assets/input-template.csv) when preparing data; equivalent supplied exports remain acceptable.
+- Read [the reusable business context](references/business-context.md) only for business facts or constraints this task needs. Reuse user-supplied facts with their source/date; the template contains no default targets.
+- Inspect [the complete fictional input](assets/example-input.csv) with [its example output](references/example-output.md) when learning the output and calculation boundaries. Never use fictional values for a real account.
 
-Fictional exports for the same seven calendar days and UTC dates:
-
-| Source | Reported total | Event meaning | Attribution or identity rule |
-| --- | ---: | --- | --- |
-| Ad platform | 102 | Attributed lead conversion | 7-day click, 1-day view |
-| Web analytics | 91 | Form submit event | Session last non-direct |
-| CRM | 84 | Unique accepted leads | Deduplicated by CRM lead ID |
-
-Fictional read: the totals differ, but their definitions also differ. The 102 attributed conversions are not directly comparable to 84 unique accepted leads, and the 91 form events may include repeat submissions. The reports alone do not establish data loss. Request a shared event-date export with documented deduplication and, if permitted, a privacy-safe sample of event-to-CRM join outcomes before classifying a tracking defect.
+State whether the result is complete, partial, or blocked for the requested decision. Link material findings to actual supplied rows/sources and separate observed metrics, hypotheses, and estimates. Lead with a short business conclusion, then evidence, uncertainty, and the next measurable check. A data export or installed skill does not authorize account changes.

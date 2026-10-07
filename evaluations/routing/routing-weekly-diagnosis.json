@@ -1,0 +1,20 @@
+{
+  "id": "routing-weekly-diagnosis",
+  "suite": "routing",
+  "request": "Investigate why weekly CPA worsened; compare mature periods and rank falsifiable causes.",
+  "assertions": [
+    {
+      "kind": "selection",
+      "expected": [
+        "orphex-weekly-performance-review"
+      ],
+      "required": [
+        "orphex-weekly-performance-review"
+      ],
+      "critical": true
+    }
+  ],
+  "humanReview": [
+    "Check actual description reads and explanation; an asserted skill name alone does not prove automatic activation."
+  ]
+}

@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.0 - 2026-10-07
+
+- Expand the collection to twenty-nine portable skills with ten growth, experiment, commerce, CRM, and Meta workflows.
+- Migrate the manifest and catalog to schema 2 with six job categories, platform and business-type facets, complete fictional examples, explicit CSV inputs, supplementary resource hashes, and three starter bundles.
+- Add supplied reusable business context, input templates, optional offline deterministic calculators, and task-specific evidence and approval guidance to every skill.
+- Add reproducible native-agent baseline and skill-assisted evaluation fixtures, routing cases, raw-run provenance, strict numerical/decision grading, and independent review requirements. Synthetic runtime tests and distribution checks remain separate from real-account business results.
+- Extend installation verification to all portable resource files and bundle commands; reject uncommitted catalog inputs and preserve immutable exact-source provenance.
+
 ## 1.1.0 - 2026-10-07
 
 - Add fourteen portable skills for search terms, placements, creative fatigue, quality score, anomaly investigation, account structure, geo and device breakdowns, fixed-total budget reallocation, conversion tracking, weekly summaries, RSA assets, PMax assets and search themes, and auction insights.

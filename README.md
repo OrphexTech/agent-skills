@@ -1,92 +1,81 @@
 # Orphex Agent Skills
 
-Nineteen portable skills for reviewing marketing performance, paid-search demand, creative, budget allocation, tracking, and measurement from exports and documents supplied by the user.
+Twenty-nine portable skills for reporting and diagnostics, campaign optimization, creative and messaging, budget and growth, measurement quality, and conversion experiments. The collection supports supplied marketing exports and business context; Orphex MCP is optional when an actual connector is available and authorized.
 
-Each skill is a self-contained directory under [skills](skills/). Orphex MCP can provide data when it is available and authorized, but none of these skills requires it. Examples use fictional data and do not represent verified customer results.
+Browse the [public directory](https://mcp.orphex.co/skills). Each installed folder includes a CSV template, complete fictional input, input and business-context references, and a worked output. Relevant quantitative skills also include an optional offline Python 3 calculator. Examples are illustrative; they do not represent customer results.
 
-## Browse the skills
+## Start with a task
 
-The source directories are also the installable directories:
-
-| Skill | Use it for |
+| Skill | Use it when |
 | --- | --- |
-| [Account Structure Audit](skills/orphex-account-structure-audit/SKILL.md) | A ranked account-structure audit with evidence-linked operational risks, bounded performance implications, a staged cleanup plan, approvals, and rollback mapping. |
-| [Anomaly Investigation](skills/orphex-anomaly-investigation/SKILL.md) | A ranked anomaly assessment with comparable metric movement, falsifiable causes, confidence, evidence gaps, and next checks. |
-| [Budget Change Proposal](skills/orphex-budget-change-proposal/SKILL.md) | A reviewable budget proposal with per-campaign deltas, portfolio impact, assumptions, risks, and an explicit approval boundary. |
-| [Campaign Budget Reallocator](skills/orphex-campaign-budget-reallocator/SKILL.md) | A feasible fixed-total allocation with reconciled deltas, evidence, bounded impact estimates, and an approval boundary. |
-| [Conversion Tracking Health Check](skills/orphex-conversion-tracking-health-check/SKILL.md) | A privacy-safe event-path assessment with pass, fail, not-tested, or unknown findings and scoped verification steps. |
-| [Creative Fatigue Detector](skills/orphex-creative-fatigue-detector/SKILL.md) | A ranked creative fatigue assessment that distinguishes supported decline, watch signals, no observed signal, and unknowns, with a bounded refresh test. |
-| [Creative Signal Review](skills/orphex-creative-signal-review/SKILL.md) | A creative comparison grounded in the stated objective, comparable delivery, observed metrics, and a concrete next test. |
-| [Geo & Device Breakdown Analysis](skills/orphex-geo-device-breakdown-analysis/SKILL.md) | An aligned location/device analysis with weighted aggregate metrics, overlap and lag caveats, confidence-bounded segment rankings, and supported next checks. |
-| [Impression Share & Auction Insights Review](skills/orphex-impression-share-auction-insights-review/SKILL.md) | A scope-aware delivery review that preserves metric denominators and availability limits, separates budget from rank loss, and frames missed impressions without profit forecasts. |
-| [Keyword Mining on Search Terms](skills/orphex-keyword-mining-on-search-terms/SKILL.md) | A ranked, reviewable set of keyword test candidates with observed query evidence, current-coverage checks, suggested match types, ad-group fit, and explicit uncertainty. |
-| [Landing Conversion Review](skills/orphex-landing-conversion-review/SKILL.md) | A funnel review that identifies observed drop-offs, relevant segment differences, evidence gaps, and testable page hypotheses. |
-| [Measurement Consistency Check](skills/orphex-measurement-consistency-check/SKILL.md) | A source-by-source reconciliation of event, denominator, attribution, time, currency, and identity rules with bounded findings. |
-| [Placement Cleaning](skills/orphex-placement-cleaning/SKILL.md) | A scoped placement review that separates suitability from efficiency, quantifies only observed spend, and presents verified exclusions with coverage and confidence limits. |
-| [PMax Asset Group & Search Themes Audit](skills/orphex-pmax-asset-group-search-themes-audit/SKILL.md) | A campaign-aware audit of PMax group, asset, URL, theme, and Search-overlap evidence that separates platform signals from targeting controls and causal conclusions. |
-| [Quality Score Reviewer](skills/orphex-quality-score-reviewer/SKILL.md) | A diagnostic review of keyword-level expected CTR, ad relevance, and landing-page experience patterns, tied to business exposure and testable follow-up hypotheses. |
-| [RSA Ad Copy & Asset Review](skills/orphex-rsa-ad-copy-asset-review/SKILL.md) | An asset-by-asset RSA review with directional performance evidence, approved-claim sourcing, pinning risk, and clearly labeled copy-test proposals. |
-| [Search Term Cleaning](skills/orphex-search-term-cleaning/SKILL.md) | An evidence-linked negative keyword proposal that protects converting and relevant queries, states historical spend exposure, and makes match-type and scope risks reviewable. |
-| [Weekly Performance Review](skills/orphex-weekly-performance-review/SKILL.md) | A concise period-over-period review with comparable metrics, evidence-linked explanations, uncertainty, and prioritized next actions. |
-| [Weekly Performance Summarizer](skills/orphex-weekly-performance-summarizer/SKILL.md) | A concise, evidence-linked weekly update with correctly aggregated metrics, confidence, caveats, and prioritized next actions. |
+| [Account Structure Audit](skills/orphex-account-structure-audit/SKILL.md) | When campaign organization, naming, settings, or shared budget ownership needs a review. |
+| [Anomaly Investigation](skills/orphex-anomaly-investigation/SKILL.md) | When an unexpected performance movement needs a ranked investigation. |
+| [Bid Strategy & Learning Review](skills/orphex-bid-strategy-learning-review/SKILL.md) | Before changing a Google Ads bid strategy, target, or optimization goal. |
+| [Budget Change Proposal](skills/orphex-budget-change-proposal/SKILL.md) | When deciding whether to change the total campaign or portfolio budget. |
+| [Budget Pacing & Forecast](skills/orphex-budget-pacing-forecast/SKILL.md) | When checking whether spend will fit a supplied period budget. |
+| [Campaign Budget Reallocator](skills/orphex-campaign-budget-reallocator/SKILL.md) | When moving campaign allocations while preserving a fixed total. |
+| [Conversion Tracking Health Check](skills/orphex-conversion-tracking-health-check/SKILL.md) | When event configuration or safe diagnostics suggest missing, rejected, or duplicated signals. |
+| [Creative Fatigue Detector](skills/orphex-creative-fatigue-detector/SKILL.md) | When a creative trend suggests declining effectiveness and a refresh may be needed. |
+| [Creative Signal Review](skills/orphex-creative-signal-review/SKILL.md) | When choosing the next creative test from supplied delivery and outcome evidence. |
+| [Creative Test Brief Builder](skills/orphex-creative-test-brief-builder/SKILL.md) | When turning approved product facts and audience evidence into an executable creative brief. |
+| [Customer Cohort & LTV Review](skills/orphex-customer-cohort-ltv-review/SKILL.md) | When comparing acquired customer value and repeat behavior at the same observed age. |
+| [Experiment Planner](skills/orphex-experiment-planner/SKILL.md) | Before launching a test whose business effect, traffic, guardrails, and decision rule need definition. |
+| [Experiment Result Reviewer](skills/orphex-experiment-result-reviewer/SKILL.md) | After a supplied experiment has run and mature arm outcomes are available. |
+| [Geo & Device Breakdown Analysis](skills/orphex-geo-device-breakdown-analysis/SKILL.md) | When location or device differences need review without conflating separate breakdowns. |
+| [Impression Share & Auction Insights Review](skills/orphex-impression-share-auction-insights-review/SKILL.md) | When distinguishing Search delivery loss from budget, rank, and competitor-overlap signals. |
+| [Keyword Mining on Search Terms](skills/orphex-keyword-mining-on-search-terms/SKILL.md) | When observed search queries may merit deliberate keyword coverage or a bounded test. |
+| [Landing Conversion Review](skills/orphex-landing-conversion-review/SKILL.md) | When a landing page or funnel has observed drop-offs that need diagnostic checks. |
+| [Lead Quality & CRM Feedback Review](skills/orphex-lead-quality-crm-feedback-review/SKILL.md) | When low-cost leads need comparison with qualification and closed-won CRM outcomes. |
+| [Measurement Consistency Check](skills/orphex-measurement-consistency-check/SKILL.md) | When reports disagree and their event, attribution, date, or identity definitions need reconciliation. |
+| [Merchant Feed Health Check](skills/orphex-merchant-feed-health-check/SKILL.md) | When Merchant Center eligibility or feed-versus-site consistency needs a scoped repair queue. |
+| [Meta Delivery & Audience Review](skills/orphex-meta-delivery-audience-review/SKILL.md) | When Meta ad-set delivery or audience context needs investigation before account changes. |
+| [Placement Cleaning](skills/orphex-placement-cleaning/SKILL.md) | When deciding whether a supplied placement conflicts with suitability rules or warrants an efficiency check. |
+| [PMax Asset Group & Search Themes Audit](skills/orphex-pmax-asset-group-search-themes-audit/SKILL.md) | When reviewing PMax group organization, destinations, themes, signals, and Search coverage. |
+| [Product Profitability Review](skills/orphex-product-profitability-review/SKILL.md) | When product revenue and advertising returns need reconciliation with returns and variable costs. |
+| [Quality Score Reviewer](skills/orphex-quality-score-reviewer/SKILL.md) | When Search keyword diagnostics need prioritized relevance and landing-page checks. |
+| [RSA Ad Copy & Asset Review](skills/orphex-rsa-ad-copy-asset-review/SKILL.md) | When RSA claims, asset combinations, or copy proposals need evidence-based review. |
+| [Search Term Cleaning](skills/orphex-search-term-cleaning/SKILL.md) | When preparing narrow negative keyword proposals from irrelevant observed queries. |
+| [Weekly Performance Review](skills/orphex-weekly-performance-review/SKILL.md) | When a weekly or monthly performance change needs a deeper evidence-backed review. |
+| [Weekly Performance Summarizer](skills/orphex-weekly-performance-summarizer/SKILL.md) | When the team needs a brief update from supplied comparable weekly results. |
 
-Weekly Summarizer produces a short stakeholder update; Weekly Performance Review provides a deeper investigation. Campaign Budget Reallocator balances transfers under a fixed total; Budget Change Proposal evaluates a broader budget change. Conversion Tracking Health Check tests instrumentation and configuration; Measurement Consistency Check reconciles reporting definitions.
+Weekly Summarizer gives a concise stakeholder update; Weekly Performance Review investigates movement. Budget Pacing projects the current period, Campaign Budget Reallocator preserves an approved total, and Budget Change Proposal reviews a change in that total. Tracking Health checks instrumentation; Measurement Consistency reconciles report definitions. Discovery is also tested with natural-language overlapping requests and unrelated requests.
 
 ## Install one skill
 
-Install a skill for Codex:
+Choose Claude or Codex and run from the target project:
 
 ~~~sh
-npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v1.1.0/skills/orphex-weekly-performance-review --agent codex
+npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v2.0.0/skills/orphex-weekly-performance-review --agent claude-code
+npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v2.0.0/skills/orphex-weekly-performance-review --agent codex
 ~~~
 
-Install it for Claude:
+Add `--global` for user scope across projects. Use the selected reviewed tag to update an older installation. Keep all linked resources with SKILL.md and compare the entire installed folder to that tag. Read [installation guidance](docs/INSTALL.md) for paths, listing, bundle commands, direct installation and carefully scoped removal.
+
+## Starter bundles
+
+Three bounded workflow bundles are defined in the source manifest: Weekly Account Review, Search Optimization and Experiment Cycle. They include conditional steps and natural-language starter prompts. They install existing skills rather than a new all-purpose skill, and they do not authorize advertising-account writes.
 
 ~~~sh
-npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v1.1.0/skills/orphex-weekly-performance-review --agent claude-code
+npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v2.0.0/skills --skill orphex-experiment-planner orphex-experiment-result-reviewer --agent claude-code
 ~~~
 
-Replace the final path segment to install another v1.1.0 skill. To browse that release's installable skills first, run:
+Use the [reusable supplied business context](docs/BUSINESS_CONTEXT.md) across related workflows; unknown goals, unit economics, conversion definitions and brand claims stay unknown.
 
-~~~sh
-npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v1.1.0/skills --list
-~~~
+## Quality and reproducibility
 
-To verify an installed skill, list the selected agent's skills and compare the installed SKILL.md with the corresponding file from the checked-out source tag. The pinned CLI has no dedicated verify or check command:
+Read the versioned [behavioral evaluation report](evaluations/README.md), [release scope and acceptance stories](docs/QUALITY_PLAN.md), and [authoring contract](docs/AUTHORING.md). Source-format checks, deterministic calculations, full-file installation hashes, native synthetic task behavior and independent review are separate evidence. No real-account business uplift or campaign execution is inferred from a synthetic pass count.
 
-~~~sh
-npx skills@1.7.0 list --agent codex --json
-cmp -s skills/orphex-weekly-performance-review/SKILL.md .agents/skills/orphex-weekly-performance-review/SKILL.md
-~~~
-
-Remove one skill from a specific agent and scope with:
-
-~~~sh
-npx skills@1.7.0 remove orphex-weekly-performance-review --agent codex
-npx skills@1.7.0 remove --global orphex-weekly-performance-review --agent codex
-~~~
-
-The Skills CLI may retain a copied Codex skill in its shared canonical directory when another detected universal agent uses that path. See [installation guidance](docs/INSTALL.md) for the correct Codex global path and a hash-checked manual cleanup for that case.
-
-See [installation guidance](docs/INSTALL.md) for project and user scope, reviewed-tag updates, and direct file installation.
-
-## Build and validate
-
-Requires Node.js 22 or newer. The repository uses Node standard libraries and has no package dependencies.
+The source uses Node.js 22+ standard libraries without package dependencies. Optional calculator tests require Python 3.
 
 ~~~sh
 npm test
 npm run validate
 ~~~
 
-To generate the ignored catalog, provide the exact source commit and the pinned installer version:
+Commit final source before building the ignored exact-source catalog:
 
 ~~~sh
 ORPHEX_SKILLS_SOURCE_SHA=$(git rev-parse HEAD) ORPHEX_SKILLS_INSTALLER_VERSION=1.7.0 npm run build:catalog
 ~~~
 
-Runtime compatibility inside Codex and Claude has not yet been verified. Automated checks validate the source format, skill metadata, relationships, and generated catalog contract.
-
-## Project status
-
-The source repository is public. Versioned tags pin the installable skill bytes, and [the directory](https://mcp.orphex.co/skills) publishes a reviewed catalog snapshot. Installer checks verify file hashes and registration in Codex and Claude project/global scopes on disposable runners; agent reasoning and real-account operation remain separate checks.
+The builder rejects uncommitted catalog input files and preserves exact committed provenance. Public installation remains pinned to skills CLI1.7.0 and immutable release tags; v1.1.0 stays available.

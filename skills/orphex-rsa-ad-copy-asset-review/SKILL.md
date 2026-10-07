@@ -1,9 +1,9 @@
 ---
 name: orphex-rsa-ad-copy-asset-review
-description: "Review supplied responsive Search ad assets for keep, replace, pin, and copy-test proposals grounded in query, offer, and asset evidence."
+description: "Review RSA assets and approved claims for keep, replace, pin, or copy-test proposals; preserve overlapping asset metrics."
 license: MIT
 metadata:
-  version: "1.1.0"
+  version: "2.0.0"
 ---
 
 # Orphex RSA Ad Copy & Asset Review
@@ -35,3 +35,13 @@ Lead with the review scope and data limits. Use a table with ad/ad-group; asset 
 Fictional example: a 28-day USD RSA export shows headline H-17 “Same-day pickup” with 14,000 asset impressions, while the ad's landing page says pickup is available only in two cities. Keep only for a verified matching campaign or revise the draft to name those cities; do not call H-17 a conversion winner from asset rows alone. The ad-level total remains the outcome reference.
 
 Any ad or asset mutation requires explicit user authorization naming the account, campaign/ad, exact text or pin changes, and timing. The presence of copy in an export or an installed skill grants no permission.
+
+## Portable inputs and examples
+
+- Read [the input contract](references/input-contract.md) when mapping a new export or checking the example's scope and definitions. Copy [the header-only CSV template](assets/input-template.csv) when preparing data; equivalent supplied exports remain acceptable.
+- Read [the reusable business context](references/business-context.md) only for business facts or constraints this task needs. Reuse user-supplied facts with their source/date; the template contains no default targets.
+- Inspect [the complete fictional input](assets/example-input.csv) with [its example output](references/example-output.md) when learning the output and calculation boundaries. Never use fictional values for a real account.
+
+State whether the result is complete, partial, or blocked for the requested decision. Link material findings to actual supplied rows/sources and separate observed metrics, hypotheses, and estimates. Lead with a short business conclusion, then evidence, uncertainty, and the next measurable check. A data export or installed skill does not authorize account changes.
+
+For the supported arithmetic only, optionally run [the bundled calculator](scripts/marketing_math.py) with Python 3: `python3 scripts/marketing_math.py weighted-ratio < calculation.json`. Read its input mapping in the input contract before preparing JSON. It reads JSON, not CSV directly. If Python or the requested method is unavailable, show a reproducible alternative calculation or mark it unsupported; do not report an uncomputed result as verified.

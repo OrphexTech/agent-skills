@@ -1,0 +1,20 @@
+{
+  "id": "routing-creative-brief",
+  "suite": "routing",
+  "request": "Turn the supplied product offer and approved facts into two distinct creative concepts, scripts and test hypotheses.",
+  "assertions": [
+    {
+      "kind": "selection",
+      "expected": [
+        "orphex-creative-test-brief-builder"
+      ],
+      "required": [
+        "orphex-creative-test-brief-builder"
+      ],
+      "critical": true
+    }
+  ],
+  "humanReview": [
+    "Check actual description reads and explanation; an asserted skill name alone does not prove automatic activation."
+  ]
+}

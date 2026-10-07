@@ -1,9 +1,9 @@
 ---
 name: orphex-impression-share-auction-insights-review
-description: "Review supplied Search or Performance Max impression-share and Auction Insights data to distinguish budget, rank, and competitor-overlap signals."
+description: "Review Google Ads impression-share losses and Auction Insights overlap without conflating denominators or forecasting competitor spend and profit."
 license: MIT
 metadata:
-  version: "1.1.0"
+  version: "2.0.0"
 ---
 
 # Orphex Impression Share & Auction Insights Review
@@ -33,3 +33,11 @@ Lead with scope, date, network, campaign type, data refresh/lag, and missing fie
 Fictional example: a 30-day Search campaign report shows IS 42%, lost IS budget 18%, and lost IS rank 40%, with $8,000 spend and 80 mature leads in USD. The shares describe estimated eligible opportunity, not the number of profitable leads missed. Review pacing and marginal lead economics before proposing any budget test; Auction Insights rows, if censored, cannot fill the gap.
 
 Any account mutation requires explicit user authorization naming the account, campaigns, exact budget/bid/settings change, amount, and timing. This analysis and an installed skill authorize no changes.
+
+## Portable inputs and examples
+
+- Read [the input contract](references/input-contract.md) when mapping a new export or checking the example's scope and definitions. Copy [the header-only CSV template](assets/input-template.csv) when preparing data; equivalent supplied exports remain acceptable.
+- Read [the reusable business context](references/business-context.md) only for business facts or constraints this task needs. Reuse user-supplied facts with their source/date; the template contains no default targets.
+- Inspect [the complete fictional input](assets/example-input.csv) with [its example output](references/example-output.md) when learning the output and calculation boundaries. Never use fictional values for a real account.
+
+State whether the result is complete, partial, or blocked for the requested decision. Link material findings to actual supplied rows/sources and separate observed metrics, hypotheses, and estimates. Lead with a short business conclusion, then evidence, uncertainty, and the next measurable check. A data export or installed skill does not authorize account changes.

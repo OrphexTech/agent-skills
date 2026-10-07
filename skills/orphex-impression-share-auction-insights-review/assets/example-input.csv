@@ -1,0 +1,2 @@
+campaign_id,period,search_impression_share,search_lost_is_budget,search_lost_is_rank,competitor,overlap_rate
+c1,2026-09-01/2026-09-07,40%,10%,50%,rival.example,25%

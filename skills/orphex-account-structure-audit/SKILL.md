@@ -1,9 +1,9 @@
 ---
 name: orphex-account-structure-audit
-description: "Audit supplied campaign and ad-group structure, naming, budget ownership, targeting overlap, and settings to rank verifiable risks and outline an approval-ready cleanup plan."
+description: "Audit supplied campaign structure, naming, budget ownership, and settings; distinguish operational risks from unproven performance effects."
 license: MIT
 metadata:
-  version: "1.1.0"
+  version: "2.0.0"
 ---
 
 # Orphex Account Structure Audit
@@ -29,3 +29,11 @@ Provide a ranked issue table with entity IDs and paths, observed condition, supp
 Do not rename, move, pause, merge, split, or reconfigure campaigns from an audit alone. Any actual mutation requires explicit current or prior user authorization identifying account, entities, exact changes, timing, and approval. If authorized and supported, make changes in the agreed stages, record before/after values, verify the result, and retain a rollback path. If permission or a stable target is ambiguous, return the plan and ask before acting.
 
 Useful platform references: [Google Ads account organization](https://support.google.com/google-ads/answer/1704396), [shared budgets](https://support.google.com/google-ads/answer/10487241?hl=en), [Smart Bidding across queries](https://support.google.com/google-ads/answer/10964872?hl=en), and [learning-period factors](https://support.google.com/google-ads/answer/13020501?hl=en).
+
+## Portable inputs and examples
+
+- Read [the input contract](references/input-contract.md) when mapping a new export or checking the example's scope and definitions. Copy [the header-only CSV template](assets/input-template.csv) when preparing data; equivalent supplied exports remain acceptable.
+- Read [the reusable business context](references/business-context.md) only for business facts or constraints this task needs. Reuse user-supplied facts with their source/date; the template contains no default targets.
+- Inspect [the complete fictional input](assets/example-input.csv) with [its example output](references/example-output.md) when learning the output and calculation boundaries. Never use fictional values for a real account.
+
+State whether the result is complete, partial, or blocked for the requested decision. Link material findings to actual supplied rows/sources and separate observed metrics, hypotheses, and estimates. Lead with a short business conclusion, then evidence, uncertainty, and the next measurable check. A data export or installed skill does not authorize account changes.

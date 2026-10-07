@@ -1,0 +1,4 @@
+query,campaign_id,ad_group_id,matched_keyword,match_type,currency,spend,clicks,conversions
+free spreadsheet template,c1,ag1,budget software,BROAD,USD,90,60,0
+acme budget software,c1,ag1,budget software,PHRASE,USD,200,100,10
+team budget software,c1,ag1,budget software,PHRASE,USD,150,75,6

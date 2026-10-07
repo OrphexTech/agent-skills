@@ -3,7 +3,7 @@ name: orphex-search-term-cleaning
 description: "Review supplied Search terms to separate irrelevant spend from relevant demand and prepare scoped, risk-aware negative keyword proposals."
 license: MIT
 metadata:
-  version: "1.1.0"
+  version: "2.0.0"
 ---
 
 # Orphex Search Term Cleaning
@@ -24,7 +24,7 @@ Calculate historical exposure from the selected rows only: sum cost, clicks, and
 
 ## Choose match type and scope cautiously
 
-Propose the narrowest negative that addresses the evidence. For Search negatives, broad excludes when all terms appear in any order, phrase excludes the same ordered phrase with possible surrounding words, and exact excludes only the same query without extra words. These behave differently from positive keyword matching. Negatives do not expand to close variants; singular/plural, synonyms, or other variants need separate review if they should also be blocked. See [Google's negative keyword guide](https://support.google.com/google-ads/answer/2453972?hl=en).
+Propose the narrowest negative that addresses the evidence. For Search negatives, broad excludes when all terms appear in any order, phrase excludes the same ordered phrase with possible surrounding words, and negative exact requires the same ordered terms with no added words, under Google's documented case/misspelling handling. These behave differently from positive keyword matching. Negatives do not use positive-keyword close-variant expansion. Google documents automatic casing and misspelling handling; separately review singular/plural, synonym, and other intended exclusions if needed. See [Google's negative keyword guide](https://support.google.com/google-ads/answer/2453972?hl=en).
 
 Name a campaign or ad group only when the export proves that scope. Before suggesting a shared list or account-level exclusion, inspect every supplied campaign and protected/converting query it could affect. Check existing negatives, overlapping campaigns, brand/nonbrand intent, and product names that also appear in the proposed phrase. If those checks are unavailable, label the scope “unverified” and ask for review rather than recommending a wider block.
 
@@ -35,3 +35,13 @@ Lead with the period, currency, campaign scope, data completeness, and any brand
 Fictional example: a 30-day USD export shows “free repair manual” with $42 cost and no conversions, while “repair manual subscription” has two conversions. Propose reviewing the exact negative `[free repair manual]` at the demonstrated campaign scope; preserve the converting query. The $42 is past exposure, not a savings forecast, and unreported low-volume queries remain unknown.
 
 Any later account mutation requires explicit user authorization naming the account, campaign/list scope, exact terms and match types, and action. This skill and an installed copy do not authorize changes.
+
+## Portable inputs and examples
+
+- Read [the input contract](references/input-contract.md) when mapping a new export or checking the example's scope and definitions. Copy [the header-only CSV template](assets/input-template.csv) when preparing data; equivalent supplied exports remain acceptable.
+- Read [the reusable business context](references/business-context.md) only for business facts or constraints this task needs. Reuse user-supplied facts with their source/date; the template contains no default targets.
+- Inspect [the complete fictional input](assets/example-input.csv) with [its example output](references/example-output.md) when learning the output and calculation boundaries. Never use fictional values for a real account.
+
+State whether the result is complete, partial, or blocked for the requested decision. Link material findings to actual supplied rows/sources and separate observed metrics, hypotheses, and estimates. Lead with a short business conclusion, then evidence, uncertainty, and the next measurable check. A data export or installed skill does not authorize account changes.
+
+For the supported arithmetic only, optionally run [the bundled calculator](scripts/marketing_math.py) with Python 3: `python3 scripts/marketing_math.py weighted-ratio < calculation.json`. Read its input mapping in the input contract before preparing JSON. It reads JSON, not CSV directly. If Python or the requested method is unavailable, show a reproducible alternative calculation or mark it unsupported; do not report an uncomputed result as verified.
