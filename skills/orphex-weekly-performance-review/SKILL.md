@@ -28,6 +28,10 @@ Show counts with rates and specify the denominator. Mark a ratio unavailable whe
 
 ## Separate evidence from explanation
 
+Explain the aggregate ratio using actual rows from the same named period. An unweighted row mean can coincide numerically with a total ratio in some data; that coincidence does not validate it for another period. Do not invent a zero-conversion-row example when none is needed to answer the supplied comparison. If zero rows are present, their CPA is undefined; retain their spend in total spend / total conversions instead of claiming that every row mean inherently drops it.
+
+Describe campaign metric movements without claiming additive contributions to a portfolio CPA or ROAS change. Do not introduce an unrequested counterfactual or say that one campaign accounts for the entire ratio change while other rates or conversion/spend shares also move. If a decomposition is explicitly requested, label its constructed reference and assumptions, show every rate and mix component, and reconcile them to the actual prior-to-current change. A comparison against a synthetic reference is not the observed total change or a causal effect.
+
 Describe the largest movements first, ranked by business impact and confidence. Tie each observation to its period, scope, and source. A change in CPA or ROAS is not proof that a campaign edit caused the change. Separate observed movement, plausible drivers, and tested causal evidence. Use experiments or documented holdouts for causal claims; if none are supplied, say what the data cannot establish.
 
 Consider delivery, budget pacing, audience or channel mix, creative rotation, landing-page changes, offer, seasonality, attribution lag, and measurement changes only when the supplied evidence supports them. Treat unexplained movement as a question to investigate, not a finding. Distinguish the average performance of existing spend from the likely marginal result of additional spend.
@@ -36,8 +40,18 @@ End with a small set of prioritized actions. Each action should name an owner or
 
 ## Recommended output
 
-Start with the decision or headline. State the scope and comparability limits, then use a table for period values, absolute and relative movement, and source. Follow with evidence-backed drivers, uncertainties, and prioritized next actions.
+Start with the decision or headline. State the scope and comparability limits, then use a table for period values, absolute and relative movement, and source. Follow with observed campaign movements, uncertainties, and prioritized next actions. Use a causal explanation only when supported by the supplied evidence.
+
+Before emitting any answer, audit the headline, every explanatory paragraph and the structured output together. Remove phrases such as "the whole deterioration", "the entire ratio change" or "would have produced" when no explicit, fully reconciled decomposition was requested. Report the actual campaign spend, conversion and CPA movements instead. A correct aggregate calculation or a caveat elsewhere does not repair a contradictory attribution in the headline or body.
 ## Portable inputs and examples
+
+Describe portfolio CPA as total spend divided by total matching conversions, not as a spend-weighted mean of campaign CPAs. When every individual CPA is defined, a CPA mean weighted by matching conversion counts can be equivalent; spending weights are not that method. Use the direct summed ratio so spend from zero-conversion rows is retained rather than silently dropped. Name the numerator and denominator in the output instead of prescribing an ambiguous weighting label.
+
+When explaining a weighting error with source figures, use counts from the same named period; do not pair a current-period count with a prior-period count as though they described one comparison. A row with no defined CPA makes a row-CPA mean undefined unless a handling rule is specified. Dropping that row is one invalid workaround, not an inherent property of every mean; retain its spend in the direct aggregate ratio.
+
+Use observed spend terminology for spend rows. Neither unchanged spend nor a spend increase establishes a flat configured budget or a budget increase; do not promote an observed metric into a setting or change-history fact. A budget log can establish whether an edit occurred and its scope and timestamp, but it does not by itself establish its causal contribution to the performance movement. Keep that effect unresolved without justified causal evidence.
+
+A reporting date, previous/current labels, equal-duration periods, or asserted maturity do not establish exact period endpoints. Do not turn the report date into a week-ending date or reconstruct an interval unless the source explicitly supplies it. Before presenting the review, check every date, budget-setting statement, and causal assertion against an actual supplied field or diagnostic; remove unsupported details or leave them unknown while preserving the available arithmetic.
 
 - Read [the input contract](references/input-contract.md) when mapping a new export or checking the example's scope and definitions. Copy [the header-only CSV template](assets/input-template.csv) when preparing data; equivalent supplied exports remain acceptable.
 - Read [the reusable business context](references/business-context.md) only for business facts or constraints this task needs. Reuse user-supplied facts with their source/date; the template contains no default targets.

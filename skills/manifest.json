@@ -2353,7 +2353,7 @@
     {
       "id": "experiment-cycle",
       "title": "Experiment Cycle",
-      "description": "Plan one feasible experiment and review results only after real execution and mature outcomes are supplied. Do not manufacture a result or auto-apply a trial.",
+      "description": "Plan a feasible test with clear success criteria, then assess completed results when outcomes are ready. Get a decision grounded in the evidence and a clear next step.",
       "skills": [
         "orphex-experiment-planner",
         "orphex-experiment-result-reviewer"
@@ -2363,7 +2363,7 @@
     {
       "id": "search-optimization",
       "title": "Search Optimization",
-      "description": "Review irrelevant queries and valuable coverage, then prioritize Quality Score and RSA evidence. Keep converting demand protected and proposals scoped.",
+      "description": "Find irrelevant search terms and promising queries, then review Quality Score and RSA evidence. Build a scoped optimization plan while protecting converting demand.",
       "skills": [
         "orphex-search-term-cleaning",
         "orphex-keyword-mining-on-search-terms",
@@ -2375,7 +2375,7 @@
     {
       "id": "weekly-account-review",
       "title": "Weekly Account Review",
-      "description": "Start with tracking evidence, review mature performance, investigate anomalies only when observed, assess pacing only with a period plan, then summarize. Analysis and proposals do not authorize changes.",
+      "description": "Combine tracking checks, mature performance, anomaly analysis, and budget pacing in one weekly review. Finish with a focused summary and prioritized next actions.",
       "skills": [
         "orphex-conversion-tracking-health-check",
         "orphex-weekly-performance-review",

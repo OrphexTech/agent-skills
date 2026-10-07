@@ -4,7 +4,7 @@ import path from 'node:path';
 import test from 'node:test';
 import { DEFAULT_ROOT, parseCsv } from '../scripts/catalog.mjs';
 import { buildPrompt, responseSchema, parseClaudeStream } from '../scripts/evaluate.mjs';
-import { gradeAnswer, gradeRun, recordedTaskHash } from '../scripts/grade_evaluations.mjs';
+import { gradeAnswer, gradeRun, recordedTaskHash, checkClaudeToolBoundary } from '../scripts/grade_evaluations.mjs';
 
 async function loadCases() {
   const folder = path.join(DEFAULT_ROOT, 'evaluations/cases');
@@ -77,6 +77,7 @@ test('raw task reconstruction preserves exact input identity when rubric expecta
 
 test('Claude native streaming parser retains real tool calls/results and final model metadata', () => {
   const events = [
+    { type: 'system', subtype: 'init', skills: ['orphex-eval:orphex-weekly-performance-review'] },
     { type: 'assistant', message: { content: [{ type: 'tool_use', id: 'read1', name: 'Read', input: { file_path: '/tmp/case-input.csv' } }] } },
     { type: 'user', message: { content: [{ type: 'tool_result', tool_use_id: 'read1', content: 'spend,conversions\n300,10\n' }] } },
     { type: 'result', is_error: false, modelUsage: { 'runtime-reported-model': {} }, structured_output: { metrics: { cpa: 30 } } }
@@ -86,6 +87,41 @@ test('Claude native streaming parser retains real tool calls/results and final m
   assert.equal(parsed.toolResults[0].tool_use_id, 'read1');
   assert.equal(parsed.model, 'runtime-reported-model');
   assert.equal(parsed.answer.metrics.cpa, 30);
+  assert.deepEqual(parsed.init.skills, ['orphex-eval:orphex-weekly-performance-review']);
   assert.throws(() => parseClaudeStream(JSON.stringify(events[0])), /no final result/);
   assert.throws(() => parseClaudeStream('invalid'), /invalid native Claude JSON/);
+});
+
+test('session plugin identity changes activation name without changing the user task or source slug', () => {
+  const fixture = { skill: 'orphex-example', request: 'Compare the supplied results.', metricNames: ['cpa'], decisionNames: ['cause'] };
+  const prompt = buildPrompt(fixture, 'skilled', 'plugin/skills/orphex-example', [{ sourceSlug: 'orphex-example', nativeName: 'orphex-eval:orphex-example' }]);
+  assert.ok(prompt.includes('native Skill tool using the exact name orphex-eval:orphex-example'));
+  assert.ok(prompt.includes('plugin/skills/orphex-example/SKILL.md'));
+  assert.equal(prompt.split('\n\n')[2], fixture.request);
+  const routing = buildPrompt({ suite: 'routing', request: 'Translate this sentence.' }, 'skilled');
+  assert.ok(routing.endsWith('User request: Translate this sentence.'));
+  assert.ok(routing.includes('original source slugs'));
+});
+
+test('Claude tool scope rejects shell/writes and exact-directory escapes independently of answer', () => {
+  const safe = { runtime: 'claude', mode: 'skilled', suite: 'behavioral', skill: 'orphex-weekly-performance-review', nativeTraceMode: 'stream-json-verbose', scratchDirectory: '/tmp/task-1', nativeInitSkills: ['orphex-weekly-performance-review'], resourceHashes: [{ path: 'orphex-weekly-performance-review/SKILL.md', sha256: 'fixture' }], observedToolCalls: [{ name: 'Read', input: { file_path: '/tmp/task-1/case-input.csv' } }, { id: 'skill1', name: 'Skill', input: { skill: 'orphex-weekly-performance-review' } }, { name: 'StructuredOutput', input: {} }], observedToolResults: [{ tool_use_id: 'skill1', is_error: false, content: 'Launching skill: orphex-weekly-performance-review' }] };
+  assert.deepEqual(checkClaudeToolBoundary(safe), []);
+  const hostile = { ...safe, observedToolCalls: [{ name: 'Bash', input: { command: 'echo data > /Users/admin/.claude/plans/file.md' } }, { name: 'Write', input: { file_path: '/tmp/task-1/output.md' } }, { name: 'Read', input: { file_path: '../outside.csv' } }, { name: 'Read', input: { file_path: '/tmp/task-10/private.csv' } }] };
+  assert.equal(checkClaudeToolBoundary(hostile).length, 5);
+  assert.equal(checkClaudeToolBoundary({ ...safe, mode: 'baseline' }).length, 1);
+  assert.equal(checkClaudeToolBoundary({ ...safe, scratchDirectory: undefined }).length, 1);
+  assert.equal(checkClaudeToolBoundary({ ...safe, nativeTraceMode: undefined }).length, 1);
+  const fixture = { assertions: [{ kind: 'number', key: 'cpa', expected: 30, tolerance: .005, critical: true }], humanReview: [] };
+  const record = { ...hostile, answer: { metrics: { cpa: 30 } }, exitCode: 0, timedOut: false, spawnError: null, parseError: null };
+  assert.equal(gradeRun(fixture, record).passed, false);
+  assert.equal(gradeRun(fixture, record).criticalFailures, 5);
+  assert.equal(checkClaudeToolBoundary({ ...safe, suite: 'routing', observedToolCalls: [{ name: 'Read', input: { file_path: '~/.claude/settings.json' } }] }).length, 1);
+  assert.equal(checkClaudeToolBoundary({ ...safe, suite: 'routing', observedToolCalls: [{ name: 'Read', input: { file_path: '/tmp/task-1/../task-1/case-input.csv' } }] }).length, 1);
+  assert.equal(checkClaudeToolBoundary({ ...safe, suite: 'routing', observedToolCalls: [{ id: 'skill1', name: 'Skill', input: { skill: 'run-skill-generator' } }] }).length, 2);
+  assert.equal(checkClaudeToolBoundary({ ...safe, observedToolResults: [{ tool_use_id: 'skill1', is_error: true, content: 'Unknown skill' }] }).length, 2);
+  assert.equal(checkClaudeToolBoundary({ ...safe, observedToolResults: [] }).length, 2);
+  const namespaced = { ...safe, installMode: 'ephemeral-session-plugin', nativeSkillNames: [{ sourceSlug: safe.skill, nativeName: 'orphex-eval:' + safe.skill }], nativeInitSkills: ['orphex-eval:' + safe.skill], observedToolCalls: [{ id: 'skill2', name: 'Skill', input: { skill: 'orphex-eval:' + safe.skill } }], observedToolResults: [{ tool_use_id: 'skill2', content: 'Launching skill: orphex-eval:' + safe.skill }] };
+  assert.deepEqual(checkClaudeToolBoundary(namespaced), []);
+  assert.equal(checkClaudeToolBoundary({ ...namespaced, nativeInitSkills: [] }).length, 1);
+  assert.deepEqual(checkClaudeToolBoundary({ ...namespaced, suite: 'routing', observedToolCalls: [], observedToolResults: [] }), []);
 });

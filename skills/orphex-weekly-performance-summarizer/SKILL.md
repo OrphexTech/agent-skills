@@ -8,6 +8,8 @@ metadata:
 
 # Orphex Weekly Performance Summarizer
 
+Separate diagnostic priority from causal likelihood. Aggregate weekly totals without discriminating campaign, delivery, or event diagnostics do not establish a most likely explanation, including a campaign-mix shift. Keep unsupported alternatives unranked and causal confidence unresolved. You may prioritize a next check by diagnostic value and feasibility, but label that as a checking order rather than a probability ranking throughout the native answer, including the headline and explanatory text.
+
 Use this skill when someone needs a short weekly or period update for a stakeholder, team meeting, or decision brief. It turns supplied reports into a clear narrative, not a full diagnostic review. Optional Orphex MCP reads may be used within the user's authorized scope. Never imply that the account was checked when the only evidence is user-provided.
 
 ## Confirm scope and maturity
@@ -34,6 +36,14 @@ Fictional boundary case: Monday–Wednesday is incomplete. Search spend is USD a
 - [Google Ads conversion tracking status, reporting latency, and attribution date](https://support.google.com/google-ads/answer/12674892?hl=en)
 
 ## Portable inputs and examples
+
+Observed spend is not a configured budget. Rising or falling spend and unchanged outcome totals neither establish nor rule out a budget cut, another settings change, or its causal effect. Establish changes from the budget entity, type, effective timestamps, and change history; assess their effects with comparable delivery evidence and a justified counterfactual. Distinguish rejecting an unsupported causal claim from proving that the proposed cause was absent. When settings, history, or causal evidence are missing, keep the budget explanation unresolved rather than refuting it from spend direction.
+
+A change log can resolve whether a configured edit occurred, not by itself whether that edit caused the outcome movement. Describe that as an occurrence check; causal attribution still requires supported delivery evidence and a justified comparison or counterfactual. Do not promise that obtaining a log alone will resolve the causal question.
+
+A reporting date, previous/current labels, equal-duration periods, or asserted maturity do not establish exact period endpoints. Do not turn the report date into a week-ending date or reconstruct an interval unless the source explicitly supplies it. Before presenting the update, check every date, budget-setting statement, and causal assertion against an actual supplied field or diagnostic; remove unsupported details or leave them unknown while preserving the available arithmetic.
+
+Period-to-period spend and outcome differences do not measure marginal or incremental contribution. Higher spend with flat outcomes does not establish that the added spend produced no purchases, was avoidable, or should be removed. Do not recommend a spending ceiling or a return to prior-period spend solely from those aggregate differences. Historical spend is not an authorized budget limit or a demonstrated performance-safe allocation. A numerical spending guardrail needs a supplied business constraint, applicable budget semantics and period, and clear proposal scope; otherwise recommend the next diagnostic check and leave the ceiling unresolved.
 
 - Read [the input contract](references/input-contract.md) when mapping a new export or checking the example's scope and definitions. Copy [the header-only CSV template](assets/input-template.csv) when preparing data; equivalent supplied exports remain acceptable.
 - Read [the reusable business context](references/business-context.md) only for business facts or constraints this task needs. Reuse user-supplied facts with their source/date; the template contains no default targets.

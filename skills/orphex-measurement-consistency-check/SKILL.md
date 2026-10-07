@@ -10,6 +10,8 @@ metadata:
 
 Compare reports, exports, event dictionaries, and measurement notes supplied by the user. Orphex MCP is optional when it is already available and authorized. The task is to explain what can and cannot be compared from the evidence; do not assume a tracking defect because two systems show different totals.
 
+Treat definition differences as untested explanations until supplied aligned records establish their actual sign and magnitude. Neither a timezone offset nor an attribution-model label predicts which source should be higher. Do not say that documented mismatches predict the observed direction, or that data-driven credit routinely exceeds last-click credit, without the actual compatible source populations, settings, and contributions. Report the observed ordering separately and keep its cause unresolved. A later caveat does not repair an unsupported expectation in the headline or evidence; check the entire final response for consistent uncertainty before presenting it.
+
 ## Build a definition map
 
 For each source, record:
@@ -29,6 +31,12 @@ Preserve the source's exact labels, then add a plain-language interpretation. Do
 First align dates, timezone, currency, and filters. Then compare the same event and denominator. Next account for attribution, identity, deduplication, and processing delay. Calculate absolute and percentage gaps only when both values are numeric and the comparison basis is clear. Define the direction of the gap, and use an unavailable result when the reference value is zero or missing.
 
 A difference can be expected when systems answer different questions, such as ad-platform attributed conversions versus analytics form events versus CRM accepted leads. Do not describe such a difference as lost conversions or a broken pixel without evidence that the definitions should agree. If definitions align but values still differ, identify a specific test: inspect event IDs across systems, replay a supplied sample, compare timestamps, or check a documented filter. Do not invent identifiers, logs, or backend access.
+
+Aggregate differences are net observations, not causal bounds. A lower total does not disconfirm duplication: duplicate records can coexist with missing records, filters, different definitions, or incomplete identity coverage. Attribution-model labels alone establish neither an expected ordering between source totals nor their reporting date basis. Read the actual report settings rather than deriving click/event dates from data-driven or last-click attribution.
+
+Aligning one dimension removes only that documented mismatch; a residual gap does not isolate attribution or any other cause while other definitions, populations, identities, or processing states remain unresolved. Mature business outcomes do not by themselves prove that every source import or refresh is complete. State what each diagnostic tests and what it cannot establish; keep checks without actual results unresolved rather than marking causes ruled out.
+
+Equal raw-event and distinct-ID counts establish only identifier uniqueness within the verified observed scope. They do not rule out duplicated business events with different IDs, missing records, inconsistent ID semantics, or duplicates outside that scope. Require the business-event grain, identifier meaning, completeness, and deduplication rules before interpreting count differences or claiming duplicate tracking is absent.
 
 ## Recommended output
 

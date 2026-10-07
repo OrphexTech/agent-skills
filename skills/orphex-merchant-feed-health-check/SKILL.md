@@ -18,6 +18,10 @@ Check mismatches in price/currency/tax convention, availability, variant, link, 
 
 A site observation and an eligible status can conflict because timestamps or definitions differ. Verify the exact variant, checkout and data source before calling a live regression or failed correction. Actual source errors, unsupported observations, and pending verification should be distinct. Do not fetch or modify private merchant data without the requested access scope.
 
+Approval is a recorded destination-specific status, not evidence of actual impressions, clicks, or active delivery. Do not describe an approved item as serving unavailable inventory without matched delivery evidence. Preserve a supplied stock or price mismatch as a repair finding while keeping exposure and business impact unknown when delivery rows are absent.
+
+A common snapshot capture time does not establish when the feed was updated, the site was crawled, or eligibility diagnostics were processed. Do not exclude update, crawl, or processing lag merely because observations were captured together. Request the relevant state timestamps and item/destination identity, and distinguish the confirmed value mismatch from its unresolved synchronization mechanism. Recheck the processed source and diagnostics after repair before claiming closure.
+
 ## Prioritize a repair queue
 
 Rank actual disapprovals/limited eligibility, scope, business-provided importance, freshness and repair dependencies. Historical spend/revenue may describe exposure when correctly joined; it does not predict lost or recoverable sales. Feed coverage alone cannot explain a ROAS decline or prove incremental demand.
