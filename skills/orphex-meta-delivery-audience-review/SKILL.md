@@ -10,6 +10,12 @@ metadata:
 
 Review the actual Meta campaign/ad-set delivery context and business outcome. Interpret platform status as a diagnostic signal, not a causal explanation or a reason to change the optimization goal automatically.
 
+## With an Orphex connection
+
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `controller.catalog` then `controller.fetch` at levels `adgroup` and `audience` for dated delivery and outcomes, and `insights.read` for Meta; delivery status and learning phase are live platform reads. If `playbook.catalog` lists the frequency-capping or placement efficiency playbook, run it with `playbook.run`.
+
+If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
+
 ## Align evidence
 
 Record account timezone, currency, objective, performance goal, optimization event, attribution setting/date basis, conversion maturity, entity scope, budget owner, actual status/reason, schedule, audience controls/exclusions, placement settings, and material edits. Keep lead, landing-view, link-click, and purchase outcomes distinct. Verify current account/API field definitions and availability before comparing exports; names and supported controls can differ by campaign type.

@@ -10,6 +10,12 @@ metadata:
 
 Use this skill to reallocate a fixed marketing budget across campaigns while keeping the total unchanged. Every valid result must reconcile to the stated total and respect floors, ceilings, and protected allocations. Unlike a general budget-change proposal, this workflow explicitly balances transfers across the included campaigns.
 
+## With an Orphex connection
+
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `controller.catalog` then `controller.fetch` at level `campaign` for spend, budget and outcomes, `scorecards.read`, and `causal.latest_summary` for any measured lift. If `playbook.catalog` lists the budget reallocation efficiency playbook, run it with `playbook.run`. Then list guides with `skill_catalog` (kind `guide`, topic `budget`) and follow a matching one through `skill_read`; choose by title, never by a stored id.
+
+If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
+
 ## Confirm the budget and constraints
 
 Record account/campaign scope, total, currency, budget unit and horizon, timezone, effective dates, and whether rows repeat a shared budget. Count each budget entity once; do not add a portfolio cap to the campaigns it governs. Keep currencies separate without a supplied exchange rate and date.

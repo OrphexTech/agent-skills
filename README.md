@@ -1,6 +1,6 @@
 # Orphex Agent Skills
 
-Twenty-nine portable skills for reporting and diagnostics, campaign optimization, creative and messaging, budget and growth, measurement quality, and conversion experiments. The collection supports supplied marketing exports and business context; Orphex MCP is optional when an actual connector is available and authorized.
+Twenty-nine portable skills for reporting and diagnostics, campaign optimization, creative and messaging, budget and growth, measurement quality, and conversion experiments. The collection supports supplied marketing exports and business context; Orphex MCP is optional: when a connected Orphex connector reaches the workspace's Orphex data, skills with a matching read or guide use it before asking for exports, and fall back to supplied exports when it does not.
 
 Browse the [public directory](https://mcp.orphex.co/skills). Each installed folder includes a CSV template, complete fictional input, input and business-context references, and a worked output. Relevant quantitative skills also include an optional offline Python 3 calculator. Examples are illustrative; they do not represent customer results.
 

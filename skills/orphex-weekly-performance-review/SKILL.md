@@ -10,6 +10,12 @@ metadata:
 
 Turn marketing exports and documents supplied by the user into a concise, decision-ready period review. Orphex MCP may be used when available and authorized, but is optional. Never imply that data was fetched or verified when the user supplied no source for it.
 
+## With an Orphex connection
+
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `workflow.weekly_digest_read`, `scorecards.read`, `insights.read`, `anomaly.read`, and `controller.catalog` then `controller.fetch` with a comparison window for each numerator and denominator. Then list guides with `skill_catalog` (kind `guide`, topic `account_health`, then `cross_platform`) and follow a matching one through `skill_read`; choose by title, never by a stored id.
+
+If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
+
 ## Make the comparison valid
 
 Confirm the business question, reporting timezone, exact current and comparison dates, campaign scope, currency, conversion event, attribution model and window, and data refresh time. Prefer equal-length periods with the same weekday mix. For a week-over-week comparison, check for incomplete current days, holidays, promotion changes, and conversion lag. If the periods or definitions differ, explain the mismatch and qualify or withhold the comparison.

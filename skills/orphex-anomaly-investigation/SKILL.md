@@ -8,13 +8,19 @@ metadata:
 
 # Orphex Anomaly Investigation
 
-Use this skill when someone asks why a marketing metric changed suddenly, whether it is an incident, or what to check first. Work from supplied exports, diagnostics, change records, and documents. Optional Orphex MCP reads may be used within the user's authorized scope. A change log shows timing, not causation or authority to change settings.
+Use this skill when someone asks why a marketing metric changed suddenly, whether it is an incident, or what to check first. Work from Orphex data when the connection below reaches it, and from supplied exports, diagnostics, change records, and documents. A change log shows timing, not causation or authority to change settings.
+
+## With an Orphex connection
+
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `anomaly.read` (about one week retained; segment names carry the channel), `insights.read`, `alerts.read`, `workspace.brief` for data freshness, and `controller.catalog` then `controller.fetch` for the metric's numerator and denominator over the shift and a comparable prior window. Then list guides with `skill_catalog` (kind `guide`, topic `anomaly`) and follow a matching one through `skill_read`; choose by title, never by a stored id.
+
+If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
 
 ## Establish whether the shift is comparable
 
 Record metric and scope, timezone, dates, refresh time, currency, event and denominator, attribution model/window, and whether dates refer to interaction or conversion. Prefer equal-length periods with the same weekdays. Mark partial periods, unsettled conversions, holidays, promotions, or scope changes. Call immature results provisional and name a recheck point. Without a defensible baseline, describe the value without labeling it an anomaly.
 
-Minimum evidence is the metric numerator and denominator, a named comparison period, and the source definition. Daily or campaign rows, delivery status, creative changes, and timestamped changes improve diagnosis. If evidence is missing, ask or leave the question unresolved; do not invent account facts.
+Minimum evidence is the metric numerator and denominator, a named comparison period, and the source definition. Daily or campaign rows, delivery status, creative changes, and timestamped changes improve diagnosis. If evidence is still missing after the Orphex check, ask or leave the question unresolved; do not invent account facts.
 
 A reporting date, previous/current labels, equal-length periods, or asserted maturity do not specify exact interval endpoints. Do not reconstruct dates or days exposed to a change from those facts. Without supplied dated rows, do not distribute aggregate outcomes uniformly across days, project a prior daily average onto pre-change days, or use such hypothetical counts to bound a change's possible effect. Keep timing unresolved and request actual period boundaries, the change timestamp, date basis, and daily rows.
 

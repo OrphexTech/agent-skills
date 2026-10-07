@@ -10,6 +10,12 @@ metadata:
 
 Use this skill when asked whether campaigns are missing eligible impressions, whether loss appears budget- or rank-related, or how visible competitors overlap in auctions. Analyze supplied Google Ads exports and documents; an already-authorized read-only source is optional. Treat these metrics as diagnostics of eligible auction participation, not a forecast of profitable demand or a reason to raise budget automatically.
 
+## With an Orphex connection
+
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `controller.catalog` then `controller.fetch` at level `campaign` for search impression share and budget- and rank-lost share; Auction Insights is a live platform read. If `playbook.catalog` lists the lost-impression-share budget playbook, run it with `playbook.run`.
+
+If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
+
 ## Confirm the comparison frame
 
 Request campaign IDs/types, network, reporting dates/timezone, currency, campaign status and targeting, impressions, cost, clicks, conversions/value, impression share (IS), Search lost IS (budget), Search lost IS (rank), and Auction Insights rows. Preserve the report's entity level, device/time segments, and metric availability. Ask for campaign objective, conversion action/window, attribution lag, and any planned changes during the period. Compare only like campaign types and scopes; keep Search, Shopping, and PMax segments separate. The [Google IS guide](https://support.google.com/google-ads/answer/2497703?hl=en) and [Auction Insights definitions](https://support.google.com/google-ads/answer/2579754?hl=en) should be checked for current availability and denominator details.

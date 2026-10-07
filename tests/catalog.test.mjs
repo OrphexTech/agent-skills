@@ -287,3 +287,20 @@ test('catalog schema rejects a malformed download entry', async () => {
   assert.ok(errors.some((error) => error.includes('download.size is below 1')));
   assert.ok(errors.some((error) => error.includes('is missing download')));
 });
+
+test('skills with a matching Orphex data read share one connection-first section before their method', async () => {
+  const open = 'If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. ';
+  const close = 'If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number\'s source, workspace and window. This skill\'s evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.';
+  const unmapped = ['orphex-account-structure-audit', 'orphex-bid-strategy-learning-review', 'orphex-landing-conversion-review', 'orphex-lead-quality-crm-feedback-review', 'orphex-merchant-feed-health-check', 'orphex-placement-cleaning'];
+  for (const slug of await readSlugs(repositoryRoot)) {
+    const text = await readFile(path.join(repositoryRoot, 'skills', slug, 'SKILL.md'), 'utf8');
+    const sections = text.split('\n## ');
+    const index = sections.findIndex((section) => section.startsWith('With an Orphex connection\n'));
+    if (unmapped.includes(slug)) { assert.equal(index, -1, slug); continue; }
+    assert.equal(index, 1, slug + ' must check the connection before its first method section');
+    const paragraphs = sections[index].trim().split('\n\n');
+    assert.equal(paragraphs.length, 3, slug);
+    assert.ok(paragraphs[1].startsWith(open) && paragraphs[1].length > open.length, slug);
+    assert.equal(paragraphs[2], close, slug);
+  }
+});

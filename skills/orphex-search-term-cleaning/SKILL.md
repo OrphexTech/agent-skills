@@ -10,6 +10,12 @@ metadata:
 
 Use this skill when someone asks which Search queries should be excluded, whether paid-search spend is being wasted on irrelevant demand, or how to draft a negative-keyword review. Work from user-supplied exports and documents; an already-authorized read-only data source is optional. Return a proposal, never an account edit.
 
+## With an Orphex connection
+
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `controller.catalog` then `controller.fetch` at level `search_term` for queries, cost and outcomes. If `playbook.catalog` lists the negative keyword hygiene or brand search playbook, run it with `playbook.run`. Then list guides with `skill_catalog` (kind `guide`, topic `search_terms`, then `brand`) and follow a matching one through `skill_read`; choose by title, never by a stored id.
+
+If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
+
 ## Establish what the rows mean
 
 Ask for or extract the reporting window, account timezone, currency, campaign and ad-group IDs or names, search term, matched keyword, reported match type, impressions, clicks, cost, conversions, and conversion value if available. Also request the business definition of brand terms, protected products or services, target customer, conversion action, attribution window, current negative keywords and their scopes. Preserve the export's date and segment grain. If scope, currency, or brand rules are missing, label those fields unknown and do not widen a proposal to account level.

@@ -25,6 +25,8 @@ Every folder contains exactly these required files:
 
 Relevant quantitative folders may also contain `scripts/marketing_math.py`, byte-identical to `resources/marketing_math.py`. This optional Python 3 helper is offline and does not fetch data or mutate accounts. It returns explicit unsupported-input errors, including currencies outside its reviewed minor-unit allocation range. `SKILL.md` links every supplementary file and explains when it is useful. No other installable files, subdirectories, symlinks, binary blobs, hidden fixtures or evaluation results are allowed.
 
+A skill whose task matches an Orphex warehouse read or Knowledge Library guide carries a `## With an Orphex connection` section before its first method section. Its first sentences and closing paragraph are shared verbatim (enforced by `tests/catalog.test.mjs`); only the named reads, playbooks and guide topics differ. The section gates every read on `capability_search` returning its id, names guides by topic rather than by stored id, and falls back to live platform reads or supplied exports. Skills whose evidence is only live platform settings or user files (account structure, bid strategy, landing pages, CRM leads, Merchant Center feeds, Google placements) have no such section. The native evaluation harness runs with an empty MCP configuration, so its matrix covers the no-connector path only.
+
 Use task-specific progressive disclosure. Avoid duplicating large references in the main instructions. Keep baseline and skill-assisted evaluation inputs outside skill folders and different from worked package examples so correctness cannot be inferred by replaying an answer.
 
 ## Manifest and discovery

@@ -10,6 +10,12 @@ metadata:
 
 Use this skill to review responsive search ad (RSA) headlines, descriptions, pins, and reported asset performance, or to draft new copy from approved evidence. Work from supplied exports, ads, landing pages, and brand or legal guidance. An authorized read-only source is optional. Produce reviewable recommendations, never publish or edit an ad.
 
+## With an Orphex connection
+
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `controller.catalog` then `controller.fetch` at levels `asset` and `adtext` for headline and description performance. If `playbook.catalog` lists the ad-text variant pruning playbook, run it with `playbook.run`.
+
+If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
+
 ## Collect the ad and business context
 
 Request campaign/ad-group/ad identifiers, final URL, date range and timezone, currency, conversion action/window, business objective, and approved claims, offers, legal wording, voice, and prohibited language. For each asset, capture ID/text/type, enabled state, pin position, source/“added by” if present, impressions, clicks, cost, conversions/value, and the ad-level totals for the same scope. Include query themes or search terms and landing-page content where available. If only an asset report is supplied, do not infer unprovided campaign goals, approvals, or legal claims.
