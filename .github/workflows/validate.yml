@@ -41,6 +41,8 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     needs: validate
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -58,6 +60,20 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: catalog-${{ github.ref_name }}
-          path: dist/catalog.json
+          path: |
+            dist/catalog.json
+            dist/*.zip
           if-no-files-found: error
           retention-days: 90
+      # Immutable releases accept assets only before publication, so the tag gets a draft
+      # carrying the catalog and one upload archive per skill; the owner publishes it.
+      - name: Attach catalog and skill archives to the draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if is_draft=$(gh release view "$GITHUB_REF_NAME" --json isDraft --jq .isDraft 2>/dev/null); then
+            test "$is_draft" = true || { echo "::error::$GITHUB_REF_NAME is already published; immutable releases cannot take new assets"; exit 1; }
+          else
+            gh release create "$GITHUB_REF_NAME" --draft --verify-tag --title "$GITHUB_REF_NAME" --notes ""
+          fi
+          gh release upload "$GITHUB_REF_NAME" dist/catalog.json dist/*.zip --clobber

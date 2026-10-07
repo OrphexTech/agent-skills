@@ -1,7 +1,9 @@
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { DEFAULT_ROOT, validateSource } from './catalog.mjs';
+import { DEFAULT_ROOT, readPortableFiles, validateSource } from './catalog.mjs';
+import { buildSkillZip } from './skill_zip.mjs';
 
 function readArguments(argv) {
   const options = {};
@@ -28,7 +30,7 @@ function usage() {
   return [
     'Usage: node scripts/build_catalog.mjs --source-sha <git-commit> --installer-version <semver>',
     'Or set ORPHEX_SKILLS_SOURCE_SHA and ORPHEX_SKILLS_INSTALLER_VERSION.',
-    'The output is dist/catalog.json and is ignored by Git.'
+    'The output is dist/catalog.json plus one dist/<slug>.zip per skill and is ignored by Git.'
   ].join('\n');
 }
 
@@ -54,8 +56,13 @@ try {
 
   const outputPath = path.join(DEFAULT_ROOT, 'dist/catalog.json');
   await mkdir(path.dirname(outputPath), { recursive: true });
+  for (const skill of catalog.skills) {
+    const archive = buildSkillZip(skill.slug, await readPortableFiles(path.join(DEFAULT_ROOT, 'skills', skill.slug)));
+    if (createHash('sha256').update(archive).digest('hex') !== skill.download.sha256) throw new Error(skill.slug + ' archive does not match its catalog sha256');
+    await writeFile(path.join(DEFAULT_ROOT, 'dist', skill.slug + '.zip'), archive);
+  }
   await writeFile(outputPath, JSON.stringify(catalog, null, 2) + '\n', 'utf8');
-  console.log('Wrote ' + path.relative(DEFAULT_ROOT, outputPath) + ' for ' + catalog.sourceSha + ' with installer ' + catalog.installerVersion + '.');
+  console.log('Wrote ' + path.relative(DEFAULT_ROOT, outputPath) + ' and ' + catalog.skills.length + ' skill upload archives for ' + catalog.sourceSha + ' with installer ' + catalog.installerVersion + '.');
 } catch (error) {
   console.error('Catalog build failed: ' + error.message);
   process.exitCode = 1;
