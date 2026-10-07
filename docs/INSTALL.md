@@ -2,6 +2,8 @@
 
 The repository follows the skills directory convention: every skill is a directory containing SKILL.md. Install one selected directory with the pinned skills CLI version 1.7.0.
 
+Run these commands in your terminal with Node.js and npm available. The agent label "Claude" refers to the terminal agent targeted by `--agent claude-code`; the installer places files in its project or user skill directory. These commands do not upload skills to a Claude web chat.
+
 ## Choose an agent and scope
 
 Project installation is useful when the skill should be shared with a repository. Run the command from that repository and choose the target agent:
