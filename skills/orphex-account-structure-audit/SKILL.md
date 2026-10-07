@@ -3,7 +3,7 @@ name: orphex-account-structure-audit
 description: "Audit supplied campaign structure, naming, budget ownership, and settings; distinguish operational risks from unproven performance effects."
 license: MIT
 metadata:
-  version: "2.0.0"
+  version: "2.0.1"
 ---
 
 # Orphex Account Structure Audit

@@ -3,7 +3,7 @@ name: orphex-measurement-consistency-check
 description: "Reconcile event, attribution, date, identity, and revenue definitions across reports before treating differing totals as tracking failure."
 license: MIT
 metadata:
-  version: "2.0.0"
+  version: "2.0.1"
 ---
 
 # Orphex Measurement Consistency Check

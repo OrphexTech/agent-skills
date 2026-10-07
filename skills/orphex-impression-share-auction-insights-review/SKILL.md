@@ -3,7 +3,7 @@ name: orphex-impression-share-auction-insights-review
 description: "Review Google Ads impression-share losses and Auction Insights overlap without conflating denominators or forecasting competitor spend and profit."
 license: MIT
 metadata:
-  version: "2.0.0"
+  version: "2.0.1"
 ---
 
 # Orphex Impression Share & Auction Insights Review

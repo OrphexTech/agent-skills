@@ -3,7 +3,7 @@ name: orphex-search-term-cleaning
 description: "Review supplied Search terms to separate irrelevant spend from relevant demand and prepare scoped, risk-aware negative keyword proposals."
 license: MIT
 metadata:
-  version: "2.0.0"
+  version: "2.0.1"
 ---
 
 # Orphex Search Term Cleaning

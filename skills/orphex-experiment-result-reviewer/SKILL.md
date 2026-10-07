@@ -3,7 +3,7 @@ name: orphex-experiment-result-reviewer
 description: "Review a supplied experiment against its declared design, mature outcomes, uncertainty, and guardrails; allow inconclusive or invalid results without forcing a winner."
 license: MIT
 metadata:
-  version: "2.0.0"
+  version: "2.0.1"
 ---
 
 # Orphex Experiment Result Reviewer

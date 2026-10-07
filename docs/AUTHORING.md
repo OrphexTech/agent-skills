@@ -10,7 +10,7 @@ name: orphex-example-skill
 description: "Perform a specific marketing task when a concrete user need applies."
 license: MIT
 metadata:
-  version: "2.0.0"
+  version: "2.0.1"
 ---
 ~~~
 

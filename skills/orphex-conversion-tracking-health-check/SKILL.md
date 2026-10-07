@@ -3,7 +3,7 @@ name: orphex-conversion-tracking-health-check
 description: "Audit supplied conversion configuration and safe diagnostics; separate transport acceptance, deduplication, and actual counted outcomes."
 license: MIT
 metadata:
-  version: "2.0.0"
+  version: "2.0.1"
 ---
 
 # Orphex Conversion Tracking Health Check

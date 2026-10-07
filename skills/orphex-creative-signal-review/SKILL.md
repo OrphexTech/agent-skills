@@ -3,7 +3,7 @@ name: orphex-creative-signal-review
 description: "Compare creative results for the business objective and plan the next test; optimized delivery does not establish an A/B winner."
 license: MIT
 metadata:
-  version: "2.0.0"
+  version: "2.0.1"
 ---
 
 # Orphex Creative Signal Review

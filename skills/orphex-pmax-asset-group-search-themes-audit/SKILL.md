@@ -3,7 +3,7 @@ name: orphex-pmax-asset-group-search-themes-audit
 description: "Review PMax asset groups, destinations, themes, and Search overlap; distinguish optimization signals from targeting and causal evidence."
 license: MIT
 metadata:
-  version: "2.0.0"
+  version: "2.0.1"
 ---
 
 # Orphex PMax Asset Group & Search Themes Audit

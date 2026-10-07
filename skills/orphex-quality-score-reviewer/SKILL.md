@@ -3,7 +3,7 @@ name: orphex-quality-score-reviewer
 description: "Prioritize Search Quality Score component checks by business exposure; treat the score as a keyword diagnostic."
 license: MIT
 metadata:
-  version: "2.0.0"
+  version: "2.0.1"
 ---
 
 # Orphex Quality Score Reviewer
