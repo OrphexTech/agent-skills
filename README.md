@@ -42,7 +42,7 @@ Weekly Summarizer gives a concise stakeholder update; Weekly Performance Review 
 
 ## Install one skill
 
-Choose Claude or Codex and run from the target project:
+Choose Claude or Codex and run these commands in your terminal from the target project. Claude uses the installer identifier `claude-code` for its terminal agent; these commands install local skill files rather than uploading them to a Claude web chat:
 
 ~~~sh
 npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v2.0.0/skills/orphex-weekly-performance-review --agent claude-code
