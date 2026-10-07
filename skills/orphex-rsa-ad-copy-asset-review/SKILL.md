@@ -3,7 +3,7 @@ name: orphex-rsa-ad-copy-asset-review
 description: "Review RSA assets and approved claims for keep, replace, pin, or copy-test proposals; preserve overlapping asset metrics."
 license: MIT
 metadata:
-  version: "2.0.0"
+  version: "2.0.1"
 ---
 
 # Orphex RSA Ad Copy & Asset Review

@@ -9,23 +9,23 @@ Run these commands in your terminal with Node.js and npm available. The agent la
 Project installation is useful when the skill should be shared with a repository. Run the command from that repository and choose the target agent:
 
 ~~~sh
-npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v2.0.0/skills/orphex-weekly-performance-review --agent codex
+npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v2.0.1/skills/orphex-weekly-performance-review --agent codex
 ~~~
 
 ~~~sh
-npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v2.0.0/skills/orphex-weekly-performance-review --agent claude-code
+npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v2.0.1/skills/orphex-weekly-performance-review --agent claude-code
 ~~~
 
 Use the installer's global option when the skill should be available across projects:
 
 ~~~sh
-npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v2.0.0/skills/orphex-weekly-performance-review --agent codex --global
+npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v2.0.1/skills/orphex-weekly-performance-review --agent codex --global
 ~~~
 
 The installer may ask whether to copy or link files and where to place a project-level skill. Review its displayed target before accepting. List the installable skills in the pinned release without installing:
 
 ~~~sh
-npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v2.0.0/skills --list
+npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v2.0.1/skills --list
 ~~~
 
 Expected agent skill directories are:
@@ -58,13 +58,13 @@ See the pinned [Skills CLI v1.7.0 command help](https://github.com/vercel-labs/s
 
 ## Update to a reviewed release
 
-A folder URL remains pinned to its selected tag. An existing v1.0.0 installation does not become v2.0.0 by re-running its old command or using the CLI update command. To move to the reviewed v2.0.0 release, install that tag's skill folder explicitly; the installer will ask before replacing an existing copy:
+A folder URL remains pinned to its selected tag. An existing v1.0.0 installation does not become v2.0.1 by re-running its old command or using the CLI update command. To move to the reviewed v2.0.1 release, install that tag's skill folder explicitly; the installer will ask before replacing an existing copy:
 
 ~~~sh
-npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v2.0.0/skills/orphex-weekly-performance-review --agent codex
+npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v2.0.1/skills/orphex-weekly-performance-review --agent codex
 ~~~
 
-Replace v2.0.0 with the reviewed release tag and change the skill slug and agent as needed. Run the command from the same project for a project installation. Add --global for user scope.
+Replace v2.0.1 with the reviewed release tag and change the skill slug and agent as needed. Run the command from the same project for a project installation. Add --global for user scope.
 
 ## Remove an installation
 

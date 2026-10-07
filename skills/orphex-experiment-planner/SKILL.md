@@ -3,7 +3,7 @@ name: orphex-experiment-planner
 description: "Design a bounded marketing or conversion experiment with a supplied meaningful effect, feasible traffic, guardrails, and a predeclared decision rule."
 license: MIT
 metadata:
-  version: "2.0.0"
+  version: "2.0.1"
 ---
 
 # Orphex Experiment Planner

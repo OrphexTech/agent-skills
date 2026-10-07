@@ -3,7 +3,7 @@ name: orphex-merchant-feed-health-check
 description: "Review destination-specific Merchant Center diagnostics and supplied feed-versus-site evidence to prioritize eligibility, price, stock, and data-quality repairs."
 license: MIT
 metadata:
-  version: "2.0.0"
+  version: "2.0.1"
 ---
 
 # Orphex Merchant Feed Health Check

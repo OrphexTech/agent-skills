@@ -3,7 +3,7 @@ name: orphex-lead-quality-crm-feedback-review
 description: "Compare campaign lead cost with matched CRM qualification and sales outcomes, accounting for cohort maturity, stage definitions, and join coverage."
 license: MIT
 metadata:
-  version: "2.0.0"
+  version: "2.0.1"
 ---
 
 # Orphex Lead Quality & CRM Feedback Review

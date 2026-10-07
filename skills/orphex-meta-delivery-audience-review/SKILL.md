@@ -3,7 +3,7 @@ name: orphex-meta-delivery-audience-review
 description: "Review Meta ad-set delivery, audience context, reporting status, and mature outcome trends to identify supported constraints and bounded tests."
 license: MIT
 metadata:
-  version: "2.0.0"
+  version: "2.0.1"
 ---
 
 # Orphex Meta Delivery & Audience Review

@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.1 - 2026-10-07
+
+- Attach one upload-ready `<slug>.zip` per skill to the release and record its tag-pinned URL, SHA-256 and size in the catalog `download` field, for Claude (Customize › Skills › Upload a skill) and ChatGPT skill upload.
+- Skill instructions and resources are unchanged from 2.0.0 apart from `metadata.version`; no new behavioral evaluation is claimed.
+
 ## Documentation correction - 2026-10-07
 
 - Disclose optional offline Python calculators and distinguish terminal Claude installation from Claude web chat.

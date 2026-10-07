@@ -3,7 +3,7 @@ name: orphex-geo-device-breakdown-analysis
 description: "Compare location and device performance from aligned exports while preserving unknown buckets, separate dimensions, and supported targeting controls."
 license: MIT
 metadata:
-  version: "2.0.0"
+  version: "2.0.1"
 ---
 
 # Orphex Geo & Device Breakdown Analysis

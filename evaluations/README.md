@@ -38,6 +38,8 @@ Independent review must assess evidence attribution, causal limits, missing-data
 
 ## Current release evidence
 
+Version 2.0.1 changes only each SKILL.md `metadata.version` line and adds per-skill upload archives; every other installed file is byte-identical to 2.0.0. The runs below were recorded against 2.0.0 file hashes and were not repeated for 2.0.1.
+
 Recorded on 2026-10-07 for version 2.0.0. The final measurement selection contains 142 records: 29 behavioral cases in baseline and skill-assisted runs for each runtime (58 equal-task pairs), and 13 routing cases per runtime. The exact numerical/decision results below are retained independently of narrative adjudication.
 
 | Runtime / suite | Records | Strict machine passes | Named numerical assertions passed | Native process / schema success |

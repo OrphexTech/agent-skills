@@ -45,9 +45,11 @@ Weekly Summarizer gives a concise stakeholder update; Weekly Performance Review 
 Choose Claude or Codex and run these commands in your terminal from the target project. Claude uses the installer identifier `claude-code` for its terminal agent; these commands install local skill files rather than uploading them to a Claude web chat:
 
 ~~~sh
-npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v2.0.0/skills/orphex-weekly-performance-review --agent claude-code
-npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v2.0.0/skills/orphex-weekly-performance-review --agent codex
+npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v2.0.1/skills/orphex-weekly-performance-review --agent claude-code
+npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v2.0.1/skills/orphex-weekly-performance-review --agent codex
 ~~~
+
+To use a skill in Claude or ChatGPT without a terminal, download its `<slug>.zip` from the [release](https://github.com/OrphexTech/agent-skills/releases/tag/v2.0.1) and upload it: in Claude, Customize › Skills › Upload a skill (code execution must be on for calculators); in ChatGPT, the Skills tab where the plan offers it. Each archive holds one top-level `<slug>/` folder; its SHA-256 is listed in the release catalog.
 
 Add `--global` for user scope across projects. Use the selected reviewed tag to update an older installation. Keep all linked resources with SKILL.md and compare the entire installed folder to that tag. Read [installation guidance](docs/INSTALL.md) for paths, listing, bundle commands, direct installation and carefully scoped removal.
 
@@ -56,7 +58,7 @@ Add `--global` for user scope across projects. Use the selected reviewed tag to 
 Three bounded workflow bundles are defined in the source manifest: Weekly Account Review, Search Optimization and Experiment Cycle. They include conditional steps and natural-language starter prompts. They install existing skills rather than a new all-purpose skill, and they do not authorize advertising-account writes.
 
 ~~~sh
-npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v2.0.0/skills --skill orphex-experiment-planner orphex-experiment-result-reviewer --agent claude-code
+npx skills@1.7.0 add https://github.com/OrphexTech/agent-skills/tree/v2.0.1/skills --skill orphex-experiment-planner orphex-experiment-result-reviewer --agent claude-code
 ~~~
 
 Use the [reusable supplied business context](docs/BUSINESS_CONTEXT.md) across related workflows; unknown goals, unit economics, conversion definitions and brand claims stay unknown.

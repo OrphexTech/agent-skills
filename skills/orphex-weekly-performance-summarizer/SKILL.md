@@ -3,7 +3,7 @@ name: orphex-weekly-performance-summarizer
 description: "Write a brief stakeholder update from supplied weekly results, preserving weighted totals and caveats; use the performance review for deeper diagnosis."
 license: MIT
 metadata:
-  version: "2.0.0"
+  version: "2.0.1"
 ---
 
 # Orphex Weekly Performance Summarizer
