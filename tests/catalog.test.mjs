@@ -5,6 +5,8 @@ import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
+import { buildSkillZip } from '../scripts/skill_zip.mjs';
 import {
   validateCatalogSchema,
   validateSource,
@@ -170,6 +172,11 @@ test('catalog builder emits byte-identical output for identical provenance', asy
     const secondOutput = await readFile(path.join(root, 'dist/catalog.json'), 'utf8');
     assert.equal(firstOutput, secondOutput);
     assert.equal(JSON.parse(firstOutput).sourceSha, sourceSha);
+    for (const skill of JSON.parse(firstOutput).skills) {
+      const archive = await readFile(path.join(root, 'dist', skill.slug + '.zip'));
+      assert.equal(createHash('sha256').update(archive).digest('hex'), skill.download.sha256);
+      assert.equal(archive.length, skill.download.size);
+    }
     assert.equal(firstOutput.endsWith('\n'), true);
   } finally {
     await rm(parent, { recursive: true, force: true });
@@ -241,4 +248,42 @@ test('catalog builder refuses an uncommitted or wrong source tree', async () => 
     assert.equal(run.status, 1);
     assert.ok(run.stderr.includes('must match the committed source tree'));
   } finally { await rm(parent, { recursive: true, force: true }); }
+});
+test('each skill archive is a deterministic single-folder upload that a standard ZIP reader accepts', async () => {
+  const { errors, catalog } = await validateSource(repositoryRoot);
+  assert.deepEqual(errors, []);
+  const parent = await mkdtemp(path.join(os.tmpdir(), 'orphex-skill-zip-'));
+  try {
+    for (const skill of catalog.skills) {
+      const files = await readPortableFiles(path.join(repositoryRoot, 'skills', skill.slug));
+      const archive = buildSkillZip(skill.slug, files);
+      assert.ok(archive.equals(buildSkillZip(skill.slug, await readPortableFiles(path.join(repositoryRoot, 'skills', skill.slug)))));
+      assert.equal(skill.download.url, 'https://github.com/OrphexTech/agent-skills/releases/download/' + catalog.releaseVersion + '/' + skill.slug + '.zip');
+      assert.equal(skill.download.sha256, createHash('sha256').update(archive).digest('hex'));
+      assert.equal(skill.download.size, archive.length);
+      const zipPath = path.join(parent, skill.slug + '.zip');
+      await writeFile(zipPath, archive);
+      const read = spawnSync('python3', ['-B', '-c', [
+        'import hashlib, json, sys, zipfile',
+        'z = zipfile.ZipFile(sys.argv[1])',
+        'assert z.testzip() is None',
+        'print(json.dumps({i.filename: hashlib.sha256(z.read(i)).hexdigest() for i in z.infolist() if not i.is_dir()}))'
+      ].join('\n'), zipPath], { encoding: 'utf8' });
+      assert.equal(read.status, 0, read.stderr);
+      const expected = Object.fromEntries([...files.keys()].sort().map((name) => [skill.slug + '/' + name, files.get(name).contentHash]));
+      assert.deepEqual(JSON.parse(read.stdout), expected);
+    }
+  } finally { await rm(parent, { recursive: true, force: true }); }
+});
+test('catalog schema rejects a malformed download entry', async () => {
+  const { catalog } = await validateSource(repositoryRoot);
+  const schema = await readSchema(repositoryRoot);
+  const invalid = structuredClone(catalog);
+  invalid.skills[0].download.url = 'https://example.invalid/' + invalid.skills[0].slug + '.zip';
+  invalid.skills[1].download.size = 0;
+  delete invalid.skills[2].download;
+  const errors = validateCatalogSchema(invalid, schema);
+  assert.ok(errors.some((error) => error.includes('download.url does not match')));
+  assert.ok(errors.some((error) => error.includes('download.size is below 1')));
+  assert.ok(errors.some((error) => error.includes('is missing download')));
 });

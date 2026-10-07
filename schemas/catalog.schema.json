@@ -55,7 +55,8 @@
           "sourcePath",
           "contentHash",
           "instructions",
-          "resources"
+          "resources",
+          "download"
         ],
         "additionalProperties": false,
         "properties": {
@@ -273,6 +274,29 @@
                   "type": "string",
                   "pattern": "^[a-f0-9]{64}$"
                 }
+              }
+            }
+          },
+          "download": {
+            "type": "object",
+            "required": [
+              "url",
+              "sha256",
+              "size"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "url": {
+                "type": "string",
+                "pattern": "^https://github\\.com/OrphexTech/agent-skills/releases/download/v[0-9]+\\.[0-9]+\\.[0-9]+(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z.-]+)?/orphex-[a-z0-9]+(?:-[a-z0-9]+)*\\.zip$"
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "size": {
+                "type": "integer",
+                "minimum": 1
               }
             }
           }

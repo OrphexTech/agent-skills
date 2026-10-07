@@ -39,7 +39,7 @@ All twenty-nine skill metadata versions and lifecycle dates advance together wit
 
 ## Catalog and exact provenance
 
-The frozen strict generated schema is `schemas/catalog.schema.json`, version2. Output stays ignored under `dist/catalog.json`. Every manifest field is copied; generated fields add agent compatibility labels, version/license, Markdown instruction body, canonical source path, complete SKILL.md SHA-256 and supplementary `resources` path/kind/UTF-8 SHA-256. Supplementary paths are lexically sorted; output is stable JSON with a final newline. Examples must byte-match the corresponding resource files.
+The frozen strict generated schema is `schemas/catalog.schema.json`, version2. Output stays ignored under `dist/catalog.json`. Every manifest field is copied; generated fields add agent compatibility labels, version/license, Markdown instruction body, canonical source path, complete SKILL.md SHA-256 and supplementary `resources` path/kind/UTF-8 SHA-256. Supplementary paths are lexically sorted; output is stable JSON with a final newline. Examples must byte-match the corresponding resource files. Each skill also gets `download` (tag-pinned release URL, SHA-256 and byte size) for `dist/<slug>.zip`: a single top-level `<slug>/` folder holding SKILL.md and its resources, the layout Claude and ChatGPT skill upload expects. Archives store entries uncompressed in lexical order with a fixed timestamp and modes, so identical source bytes give an identical SHA-256.
 
 Build only after committing final inputs:
 

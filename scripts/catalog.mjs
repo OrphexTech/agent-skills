@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildSkillZip } from './skill_zip.mjs';
 
 export const REPOSITORY_URL = 'https://github.com/OrphexTech/agent-skills';
 export const SCHEMA_VERSION = 2;
@@ -105,6 +106,9 @@ function validateSchemaValue(value, schema, location, errors) {
     if (schema.pattern && !(new RegExp(schema.pattern)).test(value)) errors.push(location + ' does not match its required pattern');
   } else if (type === 'boolean') {
     if (typeof value !== 'boolean') errors.push(location + ' must be a boolean');
+  } else if (type === 'integer') {
+    if (!Number.isSafeInteger(value)) { errors.push(location + ' must be an integer'); return; }
+    if (schema.minimum !== undefined && value < schema.minimum) errors.push(location + ' is below ' + schema.minimum);
   } else if (type !== undefined) {
     errors.push(location + ' uses unsupported schema type ' + type);
   }
@@ -202,9 +206,11 @@ function resourceKind(name) {
 export function makeCatalog(manifestSkills, loadedSkills, packageVersion, sourceSha, installerVersion, bundles = []) {
   const skills = [...manifestSkills].sort((a, b) => a.slug.localeCompare(b.slug, 'en')).map((entry) => {
     const loaded = loadedSkills.get(entry.slug);
+    const archive = buildSkillZip(entry.slug, loaded.files);
+    const download = { url: REPOSITORY_URL + '/releases/download/v' + packageVersion + '/' + entry.slug + '.zip', sha256: hash(archive), size: archive.length };
     return { ...entry, agents: ['codex', 'claude-code'], version: loaded.frontmatter.version, license: loaded.frontmatter.license,
       sourcePath: 'skills/' + entry.slug + '/SKILL.md', contentHash: loaded.files.get('SKILL.md').contentHash, instructions: loaded.frontmatter.body,
-      resources: [...loaded.files.keys()].filter((name) => name !== 'SKILL.md').sort().map((name) => ({ path: name, kind: resourceKind(name), contentHash: loaded.files.get(name).contentHash })) };
+      resources: [...loaded.files.keys()].filter((name) => name !== 'SKILL.md').sort().map((name) => ({ path: name, kind: resourceKind(name), contentHash: loaded.files.get(name).contentHash })), download };
   });
   return { schemaVersion: SCHEMA_VERSION, releaseVersion: 'v' + packageVersion, repository: REPOSITORY_URL, sourceSha, installerVersion, skills, bundles };
 }
