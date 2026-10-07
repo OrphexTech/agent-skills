@@ -1,0 +1,2 @@
+budget_id,currency,period_budget,spent,elapsed_days,period_days,future_daily_min,future_daily_max
+month1,USD,30000,12000,12,30,800,1200

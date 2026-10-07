@@ -2,7 +2,7 @@
 
 This repository distributes portable marketing analysis skills. Read [docs/AUTHORING.md](docs/AUTHORING.md) before changing skill content and [docs/RELEASING.md](docs/RELEASING.md) before preparing a release.
 
-The installable source is exactly the directories listed in [skills/manifest.json](skills/manifest.json). Keep generated catalog output under ignored dist/. Do not add executable fixtures, private internal procedures, customer data, or environment-specific setup to skill directories.
+The installable source is exactly the directories listed in [skills/manifest.json](skills/manifest.json). Keep generated catalog output under ignored dist/. The schema-2 portable allowlist includes SKILL.md, CSV templates/examples, input/business/example references and optional byte-identical scripts/marketing_math.py. Evaluation fixtures and raw results stay outside installable folders. Do not add private internal procedures, customer data, credentials or environment-specific setup. Read docs/QUALITY_PLAN.md and evaluations/README.md for distinct source, runtime, review and release acceptance.
 
 For a source change, run:
 

@@ -1,0 +1,4 @@
+campaign_id,ad_group_id,campaign_name,status,objective,budget_id,budget_amount,currency,targeting
+c1,ag1,Search-Team,ACTIVE,qualified-demo,shared1,600,USD,US/team software
+c2,ag2,search_team_copy,ACTIVE,qualified-demo,shared1,600,USD,US/team software
+c3,ag3,Search-Brand,ACTIVE,qualified-demo,b3,100,USD,US/brand

@@ -1,0 +1,245 @@
+{
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "skills",
+    "bundles"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": 2
+    },
+    "skills": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "slug",
+          "title",
+          "description",
+          "outcome",
+          "category",
+          "tags",
+          "updatedAt",
+          "requirements",
+          "relatedSkills",
+          "platforms",
+          "businessTypes",
+          "useWhen",
+          "inputs",
+          "example"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "slug": {
+            "type": "string",
+            "pattern": "^orphex-[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "maxLength": 63
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "outcome": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "reporting-diagnostics",
+              "campaign-optimization",
+              "creative-messaging",
+              "budget-growth",
+              "measurement-data-quality",
+              "conversion-experiments"
+            ]
+          },
+          "tags": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+            }
+          },
+          "updatedAt": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          },
+          "requirements": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+            "pattern": "\\S"
+            }
+          },
+          "relatedSkills": {
+            "type": "array",
+            "minItems": 0,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^orphex-[a-z0-9]+(?:-[a-z0-9]+)*$",
+              "maxLength": 63
+            }
+          },
+          "platforms": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "google-ads",
+                "meta-ads",
+                "ga4",
+                "merchant-center",
+                "crm",
+                "platform-agnostic"
+              ]
+            }
+          },
+          "businessTypes": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "ecommerce",
+                "lead-generation",
+                "saas"
+              ]
+            }
+          },
+          "useWhen": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "inputs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "description",
+                "required"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]*$"
+                },
+                "description": {
+                  "type": "string",
+                  "minLength": 1,
+            "pattern": "\\S"
+                },
+                "required": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "example": {
+            "type": "object",
+            "required": [
+              "request",
+              "inputCsv",
+              "outputMarkdown"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "request": {
+                "type": "string",
+                "minLength": 1,
+            "pattern": "\\S"
+              },
+              "inputCsv": {
+                "type": "string",
+                "minLength": 1,
+            "pattern": "\\S"
+              },
+              "outputMarkdown": {
+                "type": "string",
+                "minLength": 1,
+            "pattern": "\\S"
+              }
+            }
+          }
+        }
+      }
+    },
+    "bundles": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "description",
+          "skills",
+          "request"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": [
+              "weekly-account-review",
+              "search-optimization",
+              "experiment-cycle"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "skills": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^orphex-[a-z0-9]+(?:-[a-z0-9]+)*$",
+              "maxLength": 63
+            }
+          },
+          "request": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        }
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/OrphexTech/agent-skills/blob/main/schemas/manifest.schema.json",
+  "title": "Orphex Agent Skills manifest v2"
+}

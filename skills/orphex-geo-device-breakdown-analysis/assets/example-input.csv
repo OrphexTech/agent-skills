@@ -1,0 +1,5 @@
+period,dimension,segment,currency,spend,clicks,conversions
+2026-09-01/2026-09-07,geo,US,USD,600,600,30
+2026-09-01/2026-09-07,geo,Unknown,USD,100,100,5
+2026-09-01/2026-09-07,device,mobile,USD,500,500,20
+2026-09-01/2026-09-07,device,desktop,USD,200,200,15

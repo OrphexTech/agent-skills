@@ -1,9 +1,9 @@
 ---
 name: orphex-pmax-asset-group-search-themes-audit
-description: "Audit supplied Performance Max asset groups, search themes, audience signals, and Search overlap for evidence-backed coverage and structure recommendations."
+description: "Review PMax asset groups, destinations, themes, and Search overlap; distinguish optimization signals from targeting and causal evidence."
 license: MIT
 metadata:
-  version: "1.1.0"
+  version: "2.0.0"
 ---
 
 # Orphex PMax Asset Group & Search Themes Audit
@@ -35,3 +35,11 @@ Provide scope, objective, date window, currency, conversion definition, lag stat
 Fictional example: one 45-day PMax campaign has separate “starter kit” and “replacement parts” groups, but both point to the same generic landing page; its search insights show “replacement filter refill” attributed to Search. Flag a URL/theme alignment review and compare Search eligibility and brand settings. This does not establish Search cannibalization or that changing the theme will produce additional conversions.
 
 Changing themes, assets, exclusions, URLs, or campaign settings requires explicit user authorization for the named account and exact edits. This audit never applies changes.
+
+## Portable inputs and examples
+
+- Read [the input contract](references/input-contract.md) when mapping a new export or checking the example's scope and definitions. Copy [the header-only CSV template](assets/input-template.csv) when preparing data; equivalent supplied exports remain acceptable.
+- Read [the reusable business context](references/business-context.md) only for business facts or constraints this task needs. Reuse user-supplied facts with their source/date; the template contains no default targets.
+- Inspect [the complete fictional input](assets/example-input.csv) with [its example output](references/example-output.md) when learning the output and calculation boundaries. Never use fictional values for a real account.
+
+State whether the result is complete, partial, or blocked for the requested decision. Link material findings to actual supplied rows/sources and separate observed metrics, hypotheses, and estimates. Lead with a short business conclusion, then evidence, uncertainty, and the next measurable check. A data export or installed skill does not authorize account changes.

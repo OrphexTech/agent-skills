@@ -1,9 +1,9 @@
 ---
 name: orphex-account-structure-audit
-description: "Audit supplied campaign and ad-group structure, naming, budget ownership, targeting overlap, and settings to rank verifiable risks and outline an approval-ready cleanup plan."
+description: "Audit supplied campaign structure, naming, budget ownership, and settings; distinguish operational risks from unproven performance effects."
 license: MIT
 metadata:
-  version: "1.1.0"
+  version: "2.0.0"
 ---
 
 # Orphex Account Structure Audit
@@ -15,6 +15,8 @@ Use this skill when a user asks whether an advertising account is organized, whe
 Request an export with stable account, campaign, ad group or ad set, and parent IDs; names; statuses; campaign type and objective; budgets and budget ownership; bidding or optimization settings; targeting and exclusions; and the export timestamp. Include platform, account timezone, currency, naming rules, and the business's intended product, market, or objective grouping. For performance-impact claims, also request a matching period of spend and objective outcomes plus change history. Mark omitted status, parent, or settings as unknown rather than assuming the entity is active or inherits a particular value.
 
 Map parent-child relationships and settings at each level. Distinguish individual caps from shared budgets or portfolio strategies; never total a shared pool once per linked campaign. Compare budgets only with matching units and periods, and state currency and date. Structures differ across platforms; verify inheritance before labeling a setting as inherited.
+
+Reconcile configured budget capacity separately from served cost, billed cost, and realized spend. A daily budget or its deduplicated owner total is not automatically an enforceable per-day spending ceiling. Do not claim that a higher amount cannot be spent from the ownership arithmetic alone; applicable limits require the actual platform, budget type, billing rules, and time horizon. Preserve the correct unique-owner configured total while leaving actual delivery and cost limits unknown when that evidence is absent.
 
 ## Rank structural findings with evidence
 
@@ -29,3 +31,11 @@ Provide a ranked issue table with entity IDs and paths, observed condition, supp
 Do not rename, move, pause, merge, split, or reconfigure campaigns from an audit alone. Any actual mutation requires explicit current or prior user authorization identifying account, entities, exact changes, timing, and approval. If authorized and supported, make changes in the agreed stages, record before/after values, verify the result, and retain a rollback path. If permission or a stable target is ambiguous, return the plan and ask before acting.
 
 Useful platform references: [Google Ads account organization](https://support.google.com/google-ads/answer/1704396), [shared budgets](https://support.google.com/google-ads/answer/10487241?hl=en), [Smart Bidding across queries](https://support.google.com/google-ads/answer/10964872?hl=en), and [learning-period factors](https://support.google.com/google-ads/answer/13020501?hl=en).
+
+## Portable inputs and examples
+
+- Read [the input contract](references/input-contract.md) when mapping a new export or checking the example's scope and definitions. Copy [the header-only CSV template](assets/input-template.csv) when preparing data; equivalent supplied exports remain acceptable.
+- Read [the reusable business context](references/business-context.md) only for business facts or constraints this task needs. Reuse user-supplied facts with their source/date; the template contains no default targets.
+- Inspect [the complete fictional input](assets/example-input.csv) with [its example output](references/example-output.md) when learning the output and calculation boundaries. Never use fictional values for a real account.
+
+State whether the result is complete, partial, or blocked for the requested decision. Link material findings to actual supplied rows/sources and separate observed metrics, hypotheses, and estimates. Lead with a short business conclusion, then evidence, uncertainty, and the next measurable check. A data export or installed skill does not authorize account changes.

@@ -3,7 +3,7 @@ import { execFileSync } from 'node:child_process';
 import { lstat, mkdir, mkdtemp, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import { DEFAULT_ROOT } from './catalog.mjs';
+import { DEFAULT_ROOT, readPortableFiles } from './catalog.mjs';
 
 const installerVersion = '1.7.0';
 const repositoryUrl = 'https://github.com/OrphexTech/agent-skills';
@@ -135,14 +135,7 @@ async function removeAndVerify({ agent, scope, projectRoot, env, targetBase, ski
       throw new Error('Skills CLI retained a non-directory Codex canonical path; refusing manual cleanup: ' + installDirectory);
     }
 
-    const entries = (await readdir(installDirectory)).sort();
-    if (entries.length !== 1 || entries[0] !== 'SKILL.md') {
-      throw new Error('Skills CLI retained unexpected files at ' + installDirectory + ': ' + entries.join(', '));
-    }
-    const installedPath = path.join(installDirectory, 'SKILL.md');
-    if (digest(await readFile(installedPath)) !== skill.contentHash) {
-      throw new Error('Skills CLI retained a Codex canonical file whose hash differs from the smoke source: ' + installedPath);
-    }
+    await verifyInstalledFiles(installDirectory, skill, agent, scope);
 
     // v1.7.0 can preserve a universal-agent canonical copy when another detected
     // agent shares that root. This exact directory was checked absent pre-install.
@@ -162,6 +155,29 @@ async function removeAndVerify({ agent, scope, projectRoot, env, targetBase, ski
     console.log('Skills CLI remove deleted all selected skill directories.');
   }
   return cliOutput;
+}
+
+async function verifyInstalledFiles(directory, skill, agent, scope) {
+  const installed = await readPortableFiles(directory);
+  if (JSON.stringify([...installed.keys()].sort()) !== JSON.stringify([...skill.files.keys()].sort())) {
+    throw new Error(agent + ' ' + scope + ' resource set differs for ' + skill.slug);
+  }
+  for (const [name, file] of skill.files) {
+    if (installed.get(name)?.contentHash !== file.contentHash) {
+      throw new Error(agent + ' ' + scope + ' installed ' + skill.slug + '/' + name + ' hash differs from the checked-out release');
+    }
+  }
+}
+
+function verifyListing({ skills, agent, scope, projectRoot, env }) {
+  const args = ['list', '--agent', agent, '--json'];
+  if (scope === 'global') args.push('--global');
+  const listing = runInstaller(args, projectRoot, env);
+  let listed;
+  try { listed = JSON.parse(listing); } catch { throw new Error('Skills CLI list did not produce valid JSON'); }
+  if (!Array.isArray(listed)) throw new Error('Skills CLI list JSON must be an array');
+  const listedNames = new Set(listed.map((entry) => entry.name));
+  for (const skill of skills) if (!listedNames.has(skill.slug)) throw new Error(agent + ' ' + scope + ' list output did not include ' + skill.slug);
 }
 
 async function smokeCase({ agent, scope, projectRoot, env, packageVersion, sourceMode, skills }) {
@@ -193,26 +209,9 @@ async function smokeCase({ agent, scope, projectRoot, env, packageVersion, sourc
       }
     }
 
-    for (const skill of skills) {
-      const installedPath = path.join(targetBase, skill.slug, 'SKILL.md');
-      const installedStat = await stat(installedPath).catch(() => null);
-      if (!installedStat?.isFile()) {
-        throw new Error(agent + ' ' + scope + ' install did not create ' + installedPath);
-      }
-      const installedHash = digest(await readFile(installedPath));
-      if (installedHash !== skill.contentHash) {
-        throw new Error(agent + ' ' + scope + ' installed ' + skill.slug + ' SKILL.md hash differs from the checked-out release');
-      }
-    }
+    for (const skill of skills) await verifyInstalledFiles(path.join(targetBase, skill.slug), skill, agent, scope);
 
-    const listArgs = ['list', '--agent', agent, '--json'];
-    if (scope === 'global') listArgs.push('--global');
-    const listing = runInstaller(listArgs, projectRoot, env);
-    for (const skill of skills) {
-      if (!listing.includes(skill.slug)) {
-        throw new Error(agent + ' ' + scope + ' list output did not include ' + skill.slug);
-      }
-    }
+    verifyListing({ skills, agent, scope, projectRoot, env });
 
     removalAttempted = true;
     await removeAndVerify({ agent, scope, projectRoot, env, targetBase, skills: installedSkills });
@@ -225,13 +224,32 @@ async function smokeCase({ agent, scope, projectRoot, env, packageVersion, sourc
   }
 }
 
+async function smokeBundle({ bundle, skills, projectRoot, env, packageVersion, sourceMode, agent, scope }) {
+  const selected = bundle.skills.map((slug) => skills.find((skill) => skill.slug === slug));
+  if (selected.some((skill) => !skill)) throw new Error('bundle references unknown skill');
+  const targetBase = getTargetBase(agent, scope, projectRoot);
+  await assertPathsAbsent(targetBase, selected, agent, scope);
+  const args = ['add', sourceMode === 'local' ? DEFAULT_ROOT : repositoryUrl + '/tree/v' + packageVersion + '/skills', '--skill', ...bundle.skills, '--agent', agent, '--copy', '--yes'];
+  if (scope === 'global') args.push('--global');
+  try {
+    runInstaller(args, projectRoot, env);
+    for (const skill of selected) await verifyInstalledFiles(path.join(targetBase, skill.slug), skill, agent, scope);
+    verifyListing({ skills: selected, agent, scope, projectRoot, env });
+    console.log('Passed bundle ' + bundle.id + ' for ' + agent + ' ' + scope + '.');
+  } finally {
+    const installed = [];
+    for (const skill of selected) if (await lstat(path.join(targetBase, skill.slug)).catch(() => null)) installed.push(skill);
+    await removeAndVerify({ agent, scope, projectRoot, env, targetBase, skills: installed });
+  }
+}
+
 async function main() {
   const sourceMode = parseSourceMode(process.argv.slice(2));
   const packageJson = JSON.parse(await readFile(path.join(DEFAULT_ROOT, 'package.json'), 'utf8'));
   const manifest = JSON.parse(await readFile(path.join(DEFAULT_ROOT, 'skills/manifest.json'), 'utf8'));
   const skills = await Promise.all(manifest.skills.map(async (entry) => ({
     slug: entry.slug,
-    contentHash: digest(await readFile(path.join(DEFAULT_ROOT, 'skills', entry.slug, 'SKILL.md')))
+    files: await readPortableFiles(path.join(DEFAULT_ROOT, 'skills', entry.slug))
   })));
 
   if (sourceMode === 'published-release') assertPublishedTag(packageJson.version);
@@ -269,7 +287,9 @@ async function main() {
           execFileSync('git', ['init', '--quiet'], { cwd: projectRoot, stdio: 'ignore' });
         }
 
-        await smokeCase({ agent, scope, projectRoot, env, packageVersion: packageJson.version, sourceMode, skills });
+        const parameters = { agent, scope, projectRoot, env, packageVersion: packageJson.version, sourceMode, skills };
+        await smokeCase(parameters);
+        for (const bundle of manifest.bundles) await smokeBundle({ ...parameters, bundle });
       }
     }
   } finally {

@@ -1,0 +1,16 @@
+{
+  "id": "routing-unrelated",
+  "suite": "routing",
+  "request": "Translate this sentence into Turkish: The cat is sleeping on the chair.",
+  "assertions": [
+    {
+      "kind": "selection",
+      "expected": [],
+      "required": [],
+      "critical": true
+    }
+  ],
+  "humanReview": [
+    "Check actual description reads and explanation; an asserted skill name alone does not prove automatic activation."
+  ]
+}

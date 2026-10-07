@@ -1,0 +1,5 @@
+evidence_id,evidence_type,statement,scope
+claim1,approved_claim,Paid team budget software with a 14-day trial,Acme product facts October 1
+insight1,audience_insight,Finance teams want one shared view of team budgets,Supplied customer-research summary; no prevalence claim
+prod1,production_constraint,One screen-recorded demo and subtitles; no testimonial rights,Approved production inventory
+obs1,observation,Prior ads have click interest but unmeasured qualified-demo quality,September descriptive report; not an experiment

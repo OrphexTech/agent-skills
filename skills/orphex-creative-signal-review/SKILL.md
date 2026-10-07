@@ -1,9 +1,9 @@
 ---
 name: orphex-creative-signal-review
-description: "Review paid creative results against the campaign objective and delivery context, separating early signals from evidence strong enough to guide a next test."
+description: "Compare creative results for the business objective and plan the next test; optimized delivery does not establish an A/B winner."
 license: MIT
 metadata:
-  version: "1.1.0"
+  version: "2.0.0"
 ---
 
 # Orphex Creative Signal Review
@@ -31,14 +31,12 @@ Recommend a bounded next test that changes a clear creative element, keeps audie
 ## Recommended output
 
 Give the objective and comparison scope first. Use a table with creative, delivery, primary outcome, observed signal, and confidence limit. End with the next test, the metric that will decide it, and the evidence needed before scaling.
+## Portable inputs and examples
 
-## Example with fictional data
+- Read [the input contract](references/input-contract.md) when mapping a new export or checking the example's scope and definitions. Copy [the header-only CSV template](assets/input-template.csv) when preparing data; equivalent supplied exports remain acceptable.
+- Read [the reusable business context](references/business-context.md) only for business facts or constraints this task needs. Reuse user-supplied facts with their source/date; the template contains no default targets.
+- Inspect [the complete fictional input](assets/example-input.csv) with [its example output](references/example-output.md) when learning the output and calculation boundaries. Never use fictional values for a real account.
 
-Fictional 7-day purchase campaign; two assets received the same audience, placement mix, optimization event, and attribution window:
+State whether the result is complete, partial, or blocked for the requested decision. Link material findings to actual supplied rows/sources and separate observed metrics, hypotheses, and estimates. Lead with a short business conclusion, then evidence, uncertainty, and the next measurable check. A data export or installed skill does not authorize account changes.
 
-| Asset | Spend | Impressions | Clicks | Purchases | CTR | CPA |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Cedar - product demo | $2,400 | 120,000 | 1,920 | 96 | 1.60% | $25.00 |
-| Harbor - founder story | $2,400 | 120,000 | 2,400 | 72 | 2.00% | $33.33 |
-
-Fictional read: Harbor has the higher CTR, while Cedar has more purchases at lower average CPA. With no documented random assignment or uncertainty analysis, treat Cedar as the stronger observed purchase signal rather than a proven causal winner. A useful next test is to retain Cedar's opening demonstration and vary only its closing offer, with purchase CPA primary and click-through rate as a diagnostic.
+For the supported arithmetic only, optionally run [the bundled calculator](scripts/marketing_math.py) with Python 3: `python3 scripts/marketing_math.py weighted-ratio < calculation.json`. Read its input mapping in the input contract before preparing JSON. It reads JSON, not CSV directly. If Python or the requested method is unavailable, show a reproducible alternative calculation or mark it unsupported; do not report an uncomputed result as verified.

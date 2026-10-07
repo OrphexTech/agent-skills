@@ -1,9 +1,9 @@
 ---
 name: orphex-geo-device-breakdown-analysis
-description: "Analyze supplied location and device breakdowns across aligned periods to identify durable differences, preserve overlapping dimensions, and propose evidence-bounded targeting or bid checks."
+description: "Compare location and device performance from aligned exports while preserving unknown buckets, separate dimensions, and supported targeting controls."
 license: MIT
 metadata:
-  version: "1.1.0"
+  version: "2.0.0"
 ---
 
 # Orphex Geo & Device Breakdown Analysis
@@ -29,3 +29,13 @@ Rank apparent winners and underperformers by the stated objective, showing perio
 Do not edit bids, location targets, exclusions, budgets, or campaign status without explicit current or prior user authorization naming the account, exact segments and changes, scope, and timing. If authorized and a write-capable tool is available, verify supported controls, retain prior values, apply only the requested action, and read back the result.
 
 Useful platform references: Google Ads [geographic performance views](https://support.google.com/google-ads/answer/2453994?hl=en), [table segments including device and conversion lag](https://support.google.com/google-ads/answer/2454072?hl=en), [Smart Bidding signals](https://support.google.com/google-ads/answer/7065882?hl=en), [bid-adjustment compatibility](https://support.google.com/google-ads/answer/6262954?hl=en), and [conversion-lag reporting](https://support.google.com/google-ads/answer/9347141?hl=en).
+
+## Portable inputs and examples
+
+- Read [the input contract](references/input-contract.md) when mapping a new export or checking the example's scope and definitions. Copy [the header-only CSV template](assets/input-template.csv) when preparing data; equivalent supplied exports remain acceptable.
+- Read [the reusable business context](references/business-context.md) only for business facts or constraints this task needs. Reuse user-supplied facts with their source/date; the template contains no default targets.
+- Inspect [the complete fictional input](assets/example-input.csv) with [its example output](references/example-output.md) when learning the output and calculation boundaries. Never use fictional values for a real account.
+
+State whether the result is complete, partial, or blocked for the requested decision. Link material findings to actual supplied rows/sources and separate observed metrics, hypotheses, and estimates. Lead with a short business conclusion, then evidence, uncertainty, and the next measurable check. A data export or installed skill does not authorize account changes.
+
+For the supported arithmetic only, optionally run [the bundled calculator](scripts/marketing_math.py) with Python 3: `python3 scripts/marketing_math.py weighted-ratio < calculation.json`. Read its input mapping in the input contract before preparing JSON. It reads JSON, not CSV directly. If Python or the requested method is unavailable, show a reproducible alternative calculation or mark it unsupported; do not report an uncomputed result as verified.

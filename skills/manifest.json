@@ -1,12 +1,12 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "skills": [
     {
       "slug": "orphex-account-structure-audit",
       "title": "Orphex Account Structure Audit",
-      "description": "Audit supplied campaign and ad-group structure, naming, budget ownership, targeting overlap, and settings to rank verifiable risks and outline an approval-ready cleanup plan.",
+      "description": "Audit supplied campaign structure, naming, budget ownership, and settings; distinguish operational risks from unproven performance effects.",
       "outcome": "A ranked account-structure audit with evidence-linked operational risks, bounded performance implications, a staged cleanup plan, approvals, and rollback mapping.",
-      "category": "performance",
+      "category": "campaign-optimization",
       "tags": [
         "account-structure",
         "budgets",
@@ -23,14 +23,77 @@
         "orphex-budget-change-proposal",
         "orphex-measurement-consistency-check",
         "orphex-weekly-performance-review"
-      ]
+      ],
+      "platforms": [
+        "google-ads",
+        "meta-ads",
+        "platform-agnostic"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When campaign organization, naming, settings, or shared budget ownership needs a review.",
+      "inputs": [
+        {
+          "name": "campaign_id",
+          "description": "Stable campaign ID",
+          "required": true
+        },
+        {
+          "name": "ad_group_id",
+          "description": "Stable child ID",
+          "required": true
+        },
+        {
+          "name": "campaign_name",
+          "description": "Supplied display name",
+          "required": true
+        },
+        {
+          "name": "status",
+          "description": "Reported status",
+          "required": true
+        },
+        {
+          "name": "objective",
+          "description": "Defined campaign outcome",
+          "required": true
+        },
+        {
+          "name": "budget_id",
+          "description": "Owning budget entity, shared IDs can repeat",
+          "required": true
+        },
+        {
+          "name": "budget_amount",
+          "description": "Owned cap repeated on children is counted once",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "description": "ISO currency",
+          "required": true
+        },
+        {
+          "name": "targeting",
+          "description": "Supplied targeting summary; not proof of auction overlap",
+          "required": false
+        }
+      ],
+      "example": {
+        "request": "Audit naming, ownership, and potential structural duplication.",
+        "inputCsv": "campaign_id,ad_group_id,campaign_name,status,objective,budget_id,budget_amount,currency,targeting\nc1,ag1,Search-Team,ACTIVE,qualified-demo,shared1,600,USD,US/team software\nc2,ag2,search_team_copy,ACTIVE,qualified-demo,shared1,600,USD,US/team software\nc3,ag3,Search-Brand,ACTIVE,qualified-demo,b3,100,USD,US/brand\n",
+        "outputMarkdown": "# Fictional example output\n\nUnique daily cap ownership totals $700: shared1 $600 plus b3 $100. Summing three campaign rows to $1,300 would double count the shared budget.\n\nc2 violates the supplied Channel-Intent naming convention. c1/c2 have the same supplied targeting summary; this flags a possible governance duplicate, not demonstrated self-competition or wasted spend. Verify query eligibility, keyword inventories, and objectives before consolidating.\n\nPrepare a mapping of source IDs, proposed destination, budget owner, dependencies, and prior settings only after the intended cleanup is defined. Keep c3's separate brand role visible. Naming correction can be proposed independently of a structural merge; no performance uplift forecast is supportable. No renames, merges, or deletions were applied.\n"
+      }
     },
     {
       "slug": "orphex-anomaly-investigation",
       "title": "Orphex Anomaly Investigation",
-      "description": "Investigate sudden marketing spend, CPA, ROAS, or conversion shifts from supplied evidence, rank testable causes, and state uncertainty and next checks.",
+      "description": "Investigate an unexpected spend, outcome, CPA, or ROAS shift; rank falsifiable causes without treating coincident changes as proof.",
       "outcome": "A ranked anomaly assessment with comparable metric movement, falsifiable causes, confidence, evidence gaps, and next checks.",
-      "category": "performance",
+      "category": "reporting-diagnostics",
       "tags": [
         "anomaly",
         "attribution",
@@ -49,14 +112,156 @@
         "orphex-measurement-consistency-check",
         "orphex-weekly-performance-review",
         "orphex-weekly-performance-summarizer"
-      ]
+      ],
+      "platforms": [
+        "google-ads",
+        "meta-ads",
+        "platform-agnostic"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When an unexpected performance movement needs a ranked investigation.",
+      "inputs": [
+        {
+          "name": "period",
+          "description": "Named complete reporting interval",
+          "required": true
+        },
+        {
+          "name": "campaign_id",
+          "description": "Stable campaign ID within the supplied account",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "description": "ISO currency code; keep unlike currencies separate",
+          "required": true
+        },
+        {
+          "name": "spend",
+          "description": "Observed spend in currency units",
+          "required": true
+        },
+        {
+          "name": "impressions",
+          "description": "Observed served impressions",
+          "required": false
+        },
+        {
+          "name": "clicks",
+          "description": "Observed clicks",
+          "required": false
+        },
+        {
+          "name": "conversions",
+          "description": "Named attributed outcome count; fractional credits allowed when documented",
+          "required": false
+        },
+        {
+          "name": "conversion_value",
+          "description": "Value under the supplied gross/net definition",
+          "required": false
+        }
+      ],
+      "example": {
+        "request": "Investigate the CPA spike after a landing page release.",
+        "inputCsv": "period,campaign_id,currency,spend,impressions,clicks,conversions,conversion_value\n2026-09-01/2026-09-07,c1,USD,1000,50000,1000,50,2500\n2026-09-08/2026-09-14,c1,USD,1200,60000,1200,30,1500\n",
+        "outputMarkdown": "# Fictional example output\n\nCPA doubled from $20 to $40 (+100%). Spend rose 20%, clicks rose 20%, and leads fell 40%; click-to-lead rate fell from 5.00% to 2.50% (\u22122.50pp). CPC remained $1.00 and CTR remained 2.00%.\n\n| Hypothesis | Evidence | Missing test |\n| --- | --- | --- |\n| Landing conversion-path regression | Release timing coincides with the rate drop | Test form completion and server acceptance before/after with safe diagnostics |\n| Conversion measurement change | Lead reporting is the changing outcome | Compare event configuration and import timestamps |\n| Less qualified click mix | Stable CPC/CTR does not rule out intent changes | Compare query and segment composition |\n\nThe chronology prioritizes investigation; it does not prove the release caused the drop. Metrics are mature and comparable. Check instrumentation and actual lead completion first, then compare traffic mix. Do not roll back the page or adjust bids from this correlation alone. No mutations performed.\n"
+      }
+    },
+    {
+      "slug": "orphex-bid-strategy-learning-review",
+      "title": "Orphex Bid Strategy & Learning Review",
+      "description": "Review Google Ads bidding goals, reported learning status, conversion delay, and delivery constraints before proposing strategy or target changes.",
+      "outcome": "A goal-aware bid-strategy assessment with mature performance, actual status, ranked constraints, and a bounded monitoring plan.",
+      "category": "budget-growth",
+      "tags": [
+        "bidding",
+        "conversion-delay",
+        "google-ads",
+        "learning"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "Supplied data with the documented task-specific columns, stable scope, and refresh/maturity context",
+        "Business definitions and constraints relevant to the decision; see the reusable business-context reference"
+      ],
+      "relatedSkills": [
+        "orphex-budget-pacing-forecast",
+        "orphex-conversion-tracking-health-check",
+        "orphex-experiment-planner"
+      ],
+      "platforms": [
+        "google-ads"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "Before changing a Google Ads bid strategy, target, or optimization goal.",
+      "inputs": [
+        {
+          "name": "period",
+          "description": "Mature matched reporting interval",
+          "required": true
+        },
+        {
+          "name": "campaign_id",
+          "description": "Stable campaign scope",
+          "required": true
+        },
+        {
+          "name": "strategy",
+          "description": "Reported actual strategy; preserve target CPA/ROAS label variants",
+          "required": true
+        },
+        {
+          "name": "status",
+          "description": "Reported bidding status, not inferred from an edit",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "description": "ISO currency",
+          "required": true
+        },
+        {
+          "name": "spend",
+          "description": "Observed spend",
+          "required": true
+        },
+        {
+          "name": "conversions",
+          "description": "Defined biddable conversion credits",
+          "required": true
+        },
+        {
+          "name": "target_cpa",
+          "description": "Supplied CPA target; blank for other strategies",
+          "required": false
+        },
+        {
+          "name": "conversion_delay_days",
+          "description": "Supplied representative reporting delay; define statistic in context",
+          "required": true
+        }
+      ],
+      "example": {
+        "request": "Review whether the target change hurt performance or reset learning.",
+        "inputCsv": "period,campaign_id,strategy,status,currency,spend,conversions,target_cpa,conversion_delay_days\n2026-09-01/2026-09-07,c1,Target CPA,Eligible,USD,1000,50,20,7\n2026-09-08/2026-09-14,c1,Target CPA,Eligible,USD,1200,60,24,7\n",
+        "outputMarkdown": "# Fictional example output\n\nCPA remained $20.00 in both mature intervals: $1,000/50 and $1,200/60. Spend and demos both increased 20%. Current observed CPA is below the $24 target, but the target is not a promise or hard per-conversion ceiling.\n\nThe supplied status is Eligible, so a learning reset is not observed. Do not infer a reset from the target change alone; Smart Bidding continues adapting and target changes do not universally erase prior learning. These before/after results do not prove the target edit caused the added demos.\n\nBoth intervals matured beyond the documented 7-day reporting delay. Next: inspect the actual bid-strategy report, budget constraints, goal settings, and simulator availability if a further change is requested. No appropriate new target or incremental return can be derived without the business constraint and marginal evidence. No bids or goals changed.\n"
+      }
     },
     {
       "slug": "orphex-budget-change-proposal",
       "title": "Orphex Budget Change Proposal",
-      "description": "Prepare a quantified marketing budget change proposal from supplied performance data, including portfolio arithmetic, forecast limits, and a clear approval boundary.",
+      "description": "Quantify a proposed change to campaign or portfolio budget totals, with assumptions and approval scope; use the reallocator when the total must remain fixed.",
       "outcome": "A reviewable budget proposal with per-campaign deltas, portfolio impact, assumptions, risks, and an explicit approval boundary.",
-      "category": "performance",
+      "category": "budget-growth",
       "tags": [
         "budget",
         "forecasting",
@@ -70,14 +275,158 @@
       "relatedSkills": [
         "orphex-measurement-consistency-check",
         "orphex-weekly-performance-review"
-      ]
+      ],
+      "platforms": [
+        "google-ads",
+        "meta-ads",
+        "platform-agnostic"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When deciding whether to change the total campaign or portfolio budget.",
+      "inputs": [
+        {
+          "name": "budget_id",
+          "description": "Unique budget-owning entity; repeat only with identical ownership/cap",
+          "required": true
+        },
+        {
+          "name": "campaign_ids",
+          "description": "Semicolon-separated campaigns affected by that owner",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "description": "ISO currency",
+          "required": true
+        },
+        {
+          "name": "current",
+          "description": "Current cap in the documented unit",
+          "required": true
+        },
+        {
+          "name": "floor",
+          "description": "Lowest permitted proposed cap",
+          "required": true
+        },
+        {
+          "name": "ceiling",
+          "description": "Highest permitted proposed cap",
+          "required": true
+        },
+        {
+          "name": "frozen",
+          "description": "true/false; protected owner cannot move",
+          "required": true
+        },
+        {
+          "name": "spend",
+          "description": "Comparable mature observed spend",
+          "required": false
+        },
+        {
+          "name": "conversions",
+          "description": "Named comparable mature outcomes",
+          "required": false
+        }
+      ],
+      "example": {
+        "request": "Propose raising c1 by $50/day without reducing other campaigns.",
+        "inputCsv": "budget_id,campaign_ids,currency,current,floor,ceiling,frozen,spend,conversions\nb1,c1,USD,600,500,700,false,6000,300\nb2,c2,USD,300,200,400,false,3000,100\nb3,brand,USD,100,100,100,true,1000,100\n",
+        "outputMarkdown": "# Fictional example output\n\nPropose increasing b1/c1 from $600 to $650/day, leaving b2/c2 at $300 and frozen Brand at $100. Portfolio cap rises from $1,000 to $1,050/day: +$50 (+5.00%). All supplied bounds hold.\n\nFor a separately stated seven-day planning scenario, the additional cap capacity is $350. It is not a spend forecast or guaranteed cost. c1's historical average CPA is $20, but dividing $350 by that average to promise 17.5 incremental demos is unsupported without marginal evidence.\n\nThis differs from a fixed-total reallocation: no compensating cut is proposed. Confirm the higher authorized portfolio cap, effective dates, budget unit, and account scope before applying. Evaluate delivery and mature demo outcomes after the 7-day conversion cycle; previous caps provide a rollback reference. No budgets changed.\n"
+      }
+    },
+    {
+      "slug": "orphex-budget-pacing-forecast",
+      "title": "Orphex Budget Pacing & Forecast",
+      "description": "Compare actual spend with a supplied period budget and forecast transparent remaining-spend scenarios; use reallocation to move fixed campaign caps.",
+      "outcome": "A reconciled pacing assessment with remaining budget, required spend rate, explicit forecast scenarios, and the next check.",
+      "category": "budget-growth",
+      "tags": [
+        "budget",
+        "forecasting",
+        "pacing",
+        "planning"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "Supplied data with the documented task-specific columns, stable scope, and refresh/maturity context",
+        "Business definitions and constraints relevant to the decision; see the reusable business-context reference"
+      ],
+      "relatedSkills": [
+        "orphex-bid-strategy-learning-review",
+        "orphex-campaign-budget-reallocator",
+        "orphex-weekly-performance-summarizer"
+      ],
+      "platforms": [
+        "google-ads",
+        "meta-ads",
+        "platform-agnostic"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When checking whether spend will fit a supplied period budget.",
+      "inputs": [
+        {
+          "name": "budget_id",
+          "description": "Unique owned period budget",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "description": "ISO currency",
+          "required": true
+        },
+        {
+          "name": "period_budget",
+          "description": "Authorized total for the complete interval, not a daily cap",
+          "required": true
+        },
+        {
+          "name": "spent",
+          "description": "Reconciled actual spend through the completed reporting cutoff",
+          "required": true
+        },
+        {
+          "name": "elapsed_days",
+          "description": "Completed days, excluding partial current day",
+          "required": true
+        },
+        {
+          "name": "period_days",
+          "description": "Total interval days in account timezone",
+          "required": true
+        },
+        {
+          "name": "future_daily_min",
+          "description": "User-supplied lower spend scenario for remaining days",
+          "required": false
+        },
+        {
+          "name": "future_daily_max",
+          "description": "User-supplied upper spend scenario for remaining days",
+          "required": false
+        }
+      ],
+      "example": {
+        "request": "Forecast month-end spend and required pacing without changing caps.",
+        "inputCsv": "budget_id,currency,period_budget,spent,elapsed_days,period_days,future_daily_min,future_daily_max\nmonth1,USD,30000,12000,12,30,800,1200\n",
+        "outputMarkdown": "# Fictional example output\n\n**On the linear reference pace, with a broad supplied spend scenario.** $12,000 of $30,000 is spent (40.00%); 12 of 30 days are complete (40.00%). Remaining budget is $18,000 over 18 days: $1,000/day required average actual spend.\n\nCurrent observed average is $1,000/day. A constant run-rate scenario finishes at $30,000. The supplied future range gives $12,000 + 18\u00d7$800 = $26,400 to $12,000 + 18\u00d7$1,200 = $33,600: $3,600 below to $3,600 above the budget.\n\nThis is a scenario range, not a confidence interval or a promise of delivery. Linear pacing is a reference and can be inappropriate for uneven flights/promotions. Confirm the flight calendar and cap/billing rules before a change proposal. Recheck after the next completed reporting day; no daily caps changed.\n"
+      }
     },
     {
       "slug": "orphex-campaign-budget-reallocator",
       "title": "Orphex Campaign Budget Reallocator",
-      "description": "Propose a fixed-total budget reallocation across campaigns using efficiency evidence, volume, headroom, bounds, and explicit approval limits.",
+      "description": "Prepare a balanced transfer between supplied campaign budgets while preserving a fixed total and all protected bounds; use budget pacing to forecast period spend.",
       "outcome": "A feasible fixed-total allocation with reconciled deltas, evidence, bounded impact estimates, and an approval boundary.",
-      "category": "performance",
+      "category": "budget-growth",
       "tags": [
         "budget",
         "forecasting",
@@ -95,14 +444,77 @@
         "orphex-measurement-consistency-check",
         "orphex-weekly-performance-review",
         "orphex-weekly-performance-summarizer"
-      ]
+      ],
+      "platforms": [
+        "google-ads",
+        "meta-ads",
+        "platform-agnostic"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When moving campaign allocations while preserving a fixed total.",
+      "inputs": [
+        {
+          "name": "budget_id",
+          "description": "Unique budget-owning entity; repeat only with identical ownership/cap",
+          "required": true
+        },
+        {
+          "name": "campaign_ids",
+          "description": "Semicolon-separated campaigns affected by that owner",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "description": "ISO currency",
+          "required": true
+        },
+        {
+          "name": "current",
+          "description": "Current cap in the documented unit",
+          "required": true
+        },
+        {
+          "name": "floor",
+          "description": "Lowest permitted proposed cap",
+          "required": true
+        },
+        {
+          "name": "ceiling",
+          "description": "Highest permitted proposed cap",
+          "required": true
+        },
+        {
+          "name": "frozen",
+          "description": "true/false; protected owner cannot move",
+          "required": true
+        },
+        {
+          "name": "spend",
+          "description": "Comparable mature observed spend",
+          "required": false
+        },
+        {
+          "name": "conversions",
+          "description": "Named comparable mature outcomes",
+          "required": false
+        }
+      ],
+      "example": {
+        "request": "Prepare a $50 cap transfer to c1 while preserving the fixed total.",
+        "inputCsv": "budget_id,campaign_ids,currency,current,floor,ceiling,frozen,spend,conversions\nb1,c1,USD,600,500,700,false,6000,300\nb2,c2,USD,300,200,400,false,3000,100\nb3,brand,USD,100,100,100,true,1000,100\n",
+        "outputMarkdown": "# Fictional example output\n\n**Feasible proposal; total remains $1,000/day.**\n\n| Owner | Current | Delta | Proposed | Floor / ceiling |\n| --- | ---: | ---: | ---: | ---: |\n| b1 / c1 | $600 | +$50 | $650 | $500 / $700 |\n| b2 / c2 | $300 | \u2212$50 | $250 | $200 / $400 |\n| b3 / Brand | $100 | $0 | $100 | $100 / $100; frozen |\n| Total | $1,000 | $0 | $1,000 | |\n\nThe caps reconcile in cents: 65,000 + 25,000 + 10,000 = 100,000. Observed average CPA is $20 for c1 and $30 for c2, but no incremental-conversion forecast follows from those averages. Cap changes do not guarantee actual spend. Verify October 8 scope and supported write access before application. Review after the documented conversion cycle and compare delivery/outcomes; retain the original $600/$300/$100 caps for any authorized rollback. Proposal only; no change applied.\n"
+      }
     },
     {
       "slug": "orphex-conversion-tracking-health-check",
       "title": "Orphex Conversion Tracking Health Check",
-      "description": "Audit supplied conversion-tracking configuration and event diagnostics for missing, duplicated, or malformed signals without assuming report totals should match.",
+      "description": "Audit supplied conversion configuration and safe diagnostics; separate transport acceptance, deduplication, and actual counted outcomes.",
       "outcome": "A privacy-safe event-path assessment with pass, fail, not-tested, or unknown findings and scoped verification steps.",
-      "category": "measurement",
+      "category": "measurement-data-quality",
       "tags": [
         "attribution",
         "conversion-tracking",
@@ -120,14 +532,67 @@
         "orphex-measurement-consistency-check",
         "orphex-weekly-performance-review",
         "orphex-weekly-performance-summarizer"
-      ]
+      ],
+      "platforms": [
+        "ga4",
+        "google-ads",
+        "meta-ads"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When event configuration or safe diagnostics suggest missing, rejected, or duplicated signals.",
+      "inputs": [
+        {
+          "name": "test_id",
+          "description": "Fictional/safe diagnostic test reference",
+          "required": true
+        },
+        {
+          "name": "channel",
+          "description": "browser/server/import path",
+          "required": true
+        },
+        {
+          "name": "event_name",
+          "description": "Observed event name",
+          "required": true
+        },
+        {
+          "name": "event_id",
+          "description": "Opaque test identifier only; no customer identity",
+          "required": true
+        },
+        {
+          "name": "value",
+          "description": "Event value in documented units",
+          "required": false
+        },
+        {
+          "name": "currency",
+          "description": "ISO event currency",
+          "required": false
+        },
+        {
+          "name": "delivery_status",
+          "description": "Observed diagnostic result",
+          "required": true
+        }
+      ],
+      "example": {
+        "request": "Audit the diagnostic event path and report what is tested.",
+        "inputCsv": "test_id,channel,event_name,event_id,value,currency,delivery_status\nt1,browser,Purchase,test-order-1,100,USD,accepted\nt1,server,Purchase,test-order-1,100,USD,accepted\nt2,server,Purchase,test-order-2,50,,rejected_missing_currency\n",
+        "outputMarkdown": "# Fictional example output\n\n| Check | Status | Evidence |\n| --- | --- | --- |\n| t1 browser/server event-name and event-ID alignment | Pass | Both Purchase/test-order-1 with $100 USD |\n| t1 actual deduplicated counting | Unknown | Two transport acceptances are not proof of one counted conversion; no dedup result supplied |\n| t2 required currency delivery | Fail | Currency blank; diagnostic explicitly rejected missing currency |\n| Consent and production end-to-end coverage | Unknown | No safe coverage evidence supplied |\n\nFix the t2 currency source, then run an authorized synthetic diagnostic and inspect delivery/dedup results. Do not send live customer orders or assume the two accepted t1 transports caused duplicate attribution. Transport acceptance, event configuration, and counted outcomes are separate checks. Missing results leave these two findings unknown; they do not establish that a test has not run or that its source and method are available. No event configuration changed.\n"
+      }
     },
     {
       "slug": "orphex-creative-fatigue-detector",
       "title": "Orphex Creative Fatigue Detector",
-      "description": "Assess creative fatigue from comparable delivery-age, reach, frequency, CTR, CPM, and objective-specific outcome trends, then rank refresh priorities with evidence, confidence limits, and caveats.",
+      "description": "Assess creative fatigue hypotheses from mature comparable trends, delivery age, and reach context; propose a bounded refresh test.",
       "outcome": "A ranked creative fatigue assessment that distinguishes supported decline, watch signals, no observed signal, and unknowns, with a bounded refresh test.",
-      "category": "creative",
+      "category": "creative-messaging",
       "tags": [
         "creative",
         "fatigue",
@@ -145,14 +610,71 @@
         "orphex-landing-conversion-review",
         "orphex-measurement-consistency-check",
         "orphex-weekly-performance-review"
-      ]
+      ],
+      "platforms": [
+        "google-ads",
+        "meta-ads"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When a creative trend suggests declining effectiveness and a refresh may be needed.",
+      "inputs": [
+        {
+          "name": "period",
+          "description": "Matched reporting interval",
+          "required": true
+        },
+        {
+          "name": "creative_id",
+          "description": "Stable ad/creative ID; material edits require lineage",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "description": "ISO currency",
+          "required": true
+        },
+        {
+          "name": "spend",
+          "description": "Observed spend",
+          "required": true
+        },
+        {
+          "name": "impressions",
+          "description": "Observed impressions",
+          "required": true
+        },
+        {
+          "name": "clicks",
+          "description": "Observed objective-relevant clicks",
+          "required": true
+        },
+        {
+          "name": "conversions",
+          "description": "Named mature outcome count",
+          "required": true
+        },
+        {
+          "name": "reach",
+          "description": "Unique reach within this row scope; nonadditive",
+          "required": false
+        }
+      ],
+      "example": {
+        "request": "Assess whether this creative needs a refresh test.",
+        "inputCsv": "period,creative_id,currency,spend,impressions,clicks,conversions,reach\n2026-09-01/2026-09-07,a1,USD,1000,100000,2000,100,50000\n2026-09-08/2026-09-14,a1,USD,1200,100000,1000,50,25000\n",
+        "outputMarkdown": "# Fictional example output\n\n**Status: watch; fatigue is plausible but not established.** CTR fell from 2.00% to 1.00%, CPA rose from $10 to $24 (+140%), and CPM rose from $10 to $12 (+20%). Within-week frequency increased from 2.00 to 4.00 (impressions/reach).\n\nDo not sum weekly reach to 75,000 or average frequency to claim unique fortnight frequency: users may recur across weeks. Frequency 4 is not a universal fatigue threshold. The same unchanged creative has delivered since August 1, but auction cost, audience mix, and conversion-path differences remain alternatives.\n\nPropose one refresh concept with the same offer, objective, and evaluation window, retaining a comparison condition where feasible. Check joint delivery mix and control creative trends first. This is a bounded test recommendation, not a proven causal diagnosis or forecast. No ads paused or replaced.\n"
+      }
     },
     {
       "slug": "orphex-creative-signal-review",
       "title": "Orphex Creative Signal Review",
-      "description": "Review paid creative results against the campaign objective and delivery context, separating early signals from evidence strong enough to guide a next test.",
+      "description": "Compare creative results for the business objective and plan the next test; optimized delivery does not establish an A/B winner.",
       "outcome": "A creative comparison grounded in the stated objective, comparable delivery, observed metrics, and a concrete next test.",
-      "category": "creative",
+      "category": "creative-messaging",
       "tags": [
         "creative",
         "experimentation",
@@ -167,14 +689,366 @@
         "orphex-landing-conversion-review",
         "orphex-measurement-consistency-check",
         "orphex-weekly-performance-review"
-      ]
+      ],
+      "platforms": [
+        "google-ads",
+        "meta-ads",
+        "platform-agnostic"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When choosing the next creative test from supplied delivery and outcome evidence.",
+      "inputs": [
+        {
+          "name": "period",
+          "description": "Matched reporting interval",
+          "required": true
+        },
+        {
+          "name": "creative_id",
+          "description": "Stable ad/creative ID; material edits require lineage",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "description": "ISO currency",
+          "required": true
+        },
+        {
+          "name": "spend",
+          "description": "Observed spend",
+          "required": true
+        },
+        {
+          "name": "impressions",
+          "description": "Observed impressions",
+          "required": true
+        },
+        {
+          "name": "clicks",
+          "description": "Observed objective-relevant clicks",
+          "required": true
+        },
+        {
+          "name": "conversions",
+          "description": "Named mature outcome count",
+          "required": true
+        },
+        {
+          "name": "reach",
+          "description": "Unique reach within this row scope; nonadditive",
+          "required": false
+        }
+      ],
+      "example": {
+        "request": "Compare creatives for the purchase objective and recommend a next test.",
+        "inputCsv": "period,creative_id,currency,spend,impressions,clicks,conversions,reach\n2026-09-01/2026-09-14,a1,USD,600,60000,1200,30,30000\n2026-09-01/2026-09-14,a2,USD,400,40000,1200,16,20000\n",
+        "outputMarkdown": "# Fictional example output\n\nFor purchases, a1 has the better observed CPA ($20 versus $25), while a2 has the higher CTR (3.00% versus 2.00%). Choosing a2 solely for clicks would ignore the stated outcome.\n\n| Creative | Spend | Clicks | Purchases | Click-to-purchase | CPA |\n| --- | ---: | ---: | ---: | ---: | ---: |\n| a1 | $600 | 1,200 | 30 | 2.50% | $20.00 |\n| a2 | $400 | 1,200 | 16 | 1.3333% | $25.00 |\n\nThis is directional evidence from non-random optimized delivery, not an A/B winner or creative causal effect. Reach cannot be added across creatives without overlap data. Next: test the two concepts under a feasible controlled design with purchase outcome and matched maturity; verify whether click intent or post-click experience explains the mismatch. No unsupported ROAS or statistical significance claim was made. No campaign changes applied.\n"
+      }
+    },
+    {
+      "slug": "orphex-creative-test-brief-builder",
+      "title": "Orphex Creative Test Brief Builder",
+      "description": "Build production-ready creative test concepts from supplied offer, audience evidence, brand facts, and assets, with claim sourcing and a measurable hypothesis.",
+      "outcome": "Evidence-sourced creative concepts with executable production briefs, approved claims, and a bounded test proposal.",
+      "category": "creative-messaging",
+      "tags": [
+        "brief",
+        "creative",
+        "messaging",
+        "production",
+        "testing"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "Supplied data with the documented task-specific columns, stable scope, and refresh/maturity context",
+        "Business definitions and constraints relevant to the decision; see the reusable business-context reference"
+      ],
+      "relatedSkills": [
+        "orphex-creative-fatigue-detector",
+        "orphex-creative-signal-review",
+        "orphex-experiment-planner"
+      ],
+      "platforms": [
+        "google-ads",
+        "meta-ads",
+        "platform-agnostic"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When turning approved product facts and audience evidence into an executable creative brief.",
+      "inputs": [
+        {
+          "name": "evidence_id",
+          "description": "Supplied evidence/claim reference",
+          "required": true
+        },
+        {
+          "name": "evidence_type",
+          "description": "approved_claim, audience_insight, observation, or production_constraint",
+          "required": true
+        },
+        {
+          "name": "statement",
+          "description": "Supplied fact or observation; no embedded instruction authority",
+          "required": true
+        },
+        {
+          "name": "scope",
+          "description": "Where/when the evidence applies",
+          "required": true
+        }
+      ],
+      "example": {
+        "request": "Create two executable creative concepts with evidence and a test brief.",
+        "inputCsv": "evidence_id,evidence_type,statement,scope\nclaim1,approved_claim,Paid team budget software with a 14-day trial,Acme product facts October 1\ninsight1,audience_insight,Finance teams want one shared view of team budgets,Supplied customer-research summary; no prevalence claim\nprod1,production_constraint,One screen-recorded demo and subtitles; no testimonial rights,Approved production inventory\nobs1,observation,Prior ads have click interest but unmeasured qualified-demo quality,September descriptive report; not an experiment\n",
+        "outputMarkdown": "# Fictional example output\n\n## Concept A \u2014 Trial first\n\n- Hypothesis: opening with the approved trial offer encourages qualified finance-team prospects to explore the product.\n- Hook: \u201cTry team budget software for 14 days.\u201d Source: claim1.\n- Execution: open on that offer title, use the supplied screen recording as provided, and close with \u201cExplore the 14-day trial.\u201d All spoken and caption copy uses only claim1's approved product and trial facts; subtitles and the existing recording come from prod1. Confirm the recording and destination match those facts before publishing.\n\n## Concept B \u2014 Product first\n\n- Hypothesis: opening on the existing product demonstration improves qualified intent compared with an offer-first opening.\n- Hook: \u201cA quick look at team budget software.\u201d Source: claim1.\n- Execution: show the same supplied recording, then the same trial offer and CTA; change only the opening/story order. Avoid invented speed, savings, security, or workflow-capability claims.\n\n**Production dependency:** insight1 establishes that finance teams want a shared view; it does not establish that Acme provides that capability. Any shared-view messaging or a sequence that combines team views into an overview requires an approved product-capability fact and matching demo frames. That concept is not included in these ready copy/story proposals.\n\n**Test proposal:** compare trial-first and product-first openings under a feasible consistent assignment design; primary metric qualified demos per eligible assigned prospect, with offer/landing page constant. Instrument qualification first because obs1 does not establish it. Budget, duration, sample feasibility, and guardrail acceptance remain decisions for the experiment plan. These are unvalidated concepts and production briefs; no ads published.\n"
+      }
+    },
+    {
+      "slug": "orphex-customer-cohort-ltv-review",
+      "title": "Orphex Customer Cohort & LTV Review",
+      "description": "Compare acquired-customer cohorts at a common observed horizon using defined revenue, retention, and CAC; separate observed value from lifetime forecasts.",
+      "outcome": "A horizon-aligned cohort-value review with CAC, observed repeat behavior, maturity coverage, and explicit lifetime/profit limits.",
+      "category": "budget-growth",
+      "tags": [
+        "cac",
+        "cohorts",
+        "ltv",
+        "retention"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "Supplied data with the documented task-specific columns, stable scope, and refresh/maturity context",
+        "Business definitions and constraints relevant to the decision; see the reusable business-context reference"
+      ],
+      "relatedSkills": [
+        "orphex-lead-quality-crm-feedback-review",
+        "orphex-measurement-consistency-check",
+        "orphex-product-profitability-review"
+      ],
+      "platforms": [
+        "crm",
+        "platform-agnostic"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When comparing acquired customer value and repeat behavior at the same observed age.",
+      "inputs": [
+        {
+          "name": "cohort_id",
+          "description": "Acquisition cohort with a stable supplied membership rule",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "description": "ISO currency",
+          "required": true
+        },
+        {
+          "name": "customers",
+          "description": "Unique acquired customers under the stated definition",
+          "required": true
+        },
+        {
+          "name": "observed_days",
+          "description": "Minimum fully available follow-up for every cohort member",
+          "required": true
+        },
+        {
+          "name": "common_horizon_days",
+          "description": "Same per-customer elapsed observation horizon for comparison",
+          "required": true
+        },
+        {
+          "name": "revenue_at_common_horizon",
+          "description": "Defined cohort revenue observed within the common elapsed horizon",
+          "required": true
+        },
+        {
+          "name": "revenue_to_date",
+          "description": "Revenue over each cohort own available horizon; do not compare unaligned horizons",
+          "required": false
+        },
+        {
+          "name": "acquisition_cost",
+          "description": "Cost attributed to acquiring these unique customers, not all period orders",
+          "required": true
+        },
+        {
+          "name": "repeat_customers_at_common_horizon",
+          "description": "Unique cohort customers with at least one repeat order in common horizon",
+          "required": false
+        }
+      ],
+      "example": {
+        "request": "Compare customer value without extrapolating the younger cohort.",
+        "inputCsv": "cohort_id,currency,customers,observed_days,common_horizon_days,revenue_at_common_horizon,revenue_to_date,acquisition_cost,repeat_customers_at_common_horizon\nJune,USD,100,90,60,8000,9000,3000,50\nJuly,USD,100,60,60,7000,7000,3000,40\n",
+        "outputMarkdown": "# Fictional example output\n\n| Cohort | Common observed horizon | Net revenue / acquired customer | CAC | Observed revenue-to-CAC ratio | Repeat-customer fraction |\n| --- | ---: | ---: | ---: | ---: | ---: |\n| June | 60 days | $8,000/100 = $80 | $3,000/100 = $30 | 2.6667 | 50/100 = 50.00% |\n| July | 60 days | $7,000/100 = $70 | $3,000/100 = $30 | 2.3333 | 40/100 = 40.00% |\n\nJuly's observed 60-day revenue per acquired customer is $10 lower (\u221212.50%). June's $9,000 at 90 days must not be compared with July's $7,000 at 60 days as equal-horizon lifetime value. This is observed 60-day value, not a lifetime forecast or profit LTV; CAC ratios do not include service/product costs.\n\nMembership and elapsed maturity are supported by the fictional export guarantee. Without per-customer age coverage in an actual export, alignment would remain unverified. Next: compare acquisition mix, offers, returns and repeat ordering at the same horizon. No projected lifetime multiple, payback date, or bid-target change was invented.\n"
+      }
+    },
+    {
+      "slug": "orphex-experiment-planner",
+      "title": "Orphex Experiment Planner",
+      "description": "Design a bounded marketing or conversion experiment with a supplied meaningful effect, feasible traffic, guardrails, and a predeclared decision rule.",
+      "outcome": "An experiment brief with hypothesis, randomization, metric/guardrail definitions, feasibility, fixed horizon, and a launch boundary.",
+      "category": "conversion-experiments",
+      "tags": [
+        "experimentation",
+        "hypothesis",
+        "sample-size",
+        "testing"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "Supplied data with the documented task-specific columns, stable scope, and refresh/maturity context",
+        "Business definitions and constraints relevant to the decision; see the reusable business-context reference"
+      ],
+      "relatedSkills": [
+        "orphex-creative-test-brief-builder",
+        "orphex-experiment-result-reviewer",
+        "orphex-landing-conversion-review"
+      ],
+      "platforms": [
+        "google-ads",
+        "meta-ads",
+        "platform-agnostic"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "Before launching a test whose business effect, traffic, guardrails, and decision rule need definition.",
+      "inputs": [
+        {
+          "name": "experiment_id",
+          "description": "Proposed bounded experiment identifier",
+          "required": true
+        },
+        {
+          "name": "baseline_trials",
+          "description": "Eligible independent baseline units",
+          "required": true
+        },
+        {
+          "name": "baseline_successes",
+          "description": "Unique binary outcomes in those baseline units",
+          "required": true
+        },
+        {
+          "name": "weekly_eligible_trials",
+          "description": "Observed feasible traffic before splitting",
+          "required": true
+        },
+        {
+          "name": "target_rate",
+          "description": "User-supplied meaningful treatment rate, fraction 0\u20131",
+          "required": true
+        },
+        {
+          "name": "alpha",
+          "description": "Supplied two-sided false-positive criterion",
+          "required": true
+        },
+        {
+          "name": "power",
+          "description": "Supplied desired detection probability under planning assumptions",
+          "required": true
+        },
+        {
+          "name": "outcome_delay_days",
+          "description": "Required follow-up/reporting delay after the last enrolled unit",
+          "required": true
+        }
+      ],
+      "example": {
+        "request": "Plan a four-week test and assess whether its requested effect is detectable.",
+        "inputCsv": "experiment_id,baseline_trials,baseline_successes,weekly_eligible_trials,target_rate,alpha,power,outcome_delay_days\nform-test,1000,100,1000,0.12,0.05,0.8,7\n",
+        "outputMarkdown": "# Fictional example output\n\n**The requested four-week horizon is insufficient for the stated planning assumptions.** Baseline submit rate is 100/1,000 = 10.00%. The meaningful target is 12.00%: +2.00 percentage points, or +20.00% relative.\n\nThe optional binary normal-approximation calculator requires approximately 3,841 independent units per arm, 7,682 total, for two-sided alpha .05 and power .80. At 1,000 eligible users/week with a 50/50 split, enrollment requires about 7.682 weeks, plus 7 days for the final cohort to mature. Four weeks supplies only about 2,000 users per arm.\n\nDesign: change only form fields; assign users consistently, analyze accepted submissions per eligible assigned user at the fixed horizon, check instrumentation before enrollment, and predeclare the qualification guardrail. The approximate sample estimate is not a guarantee and is invalid for clustered users or repeated dependent trials.\n\nDecide whether to extend the enrollment horizon, seek additional eligible traffic, or revise the user-selected effect criterion. Do not launch a four-week test with a promised winner. No experiment created and no auto-apply enabled.\n"
+      }
+    },
+    {
+      "slug": "orphex-experiment-result-reviewer",
+      "title": "Orphex Experiment Result Reviewer",
+      "description": "Review a supplied experiment against its declared design, mature outcomes, uncertainty, and guardrails; allow inconclusive or invalid results without forcing a winner.",
+      "outcome": "A design-aware result with effect, uncertainty, guardrails, validity checks, and an evidence-bounded rollout recommendation.",
+      "category": "conversion-experiments",
+      "tags": [
+        "experimentation",
+        "guardrails",
+        "results",
+        "statistics"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "Supplied data with the documented task-specific columns, stable scope, and refresh/maturity context",
+        "Business definitions and constraints relevant to the decision; see the reusable business-context reference"
+      ],
+      "relatedSkills": [
+        "orphex-creative-signal-review",
+        "orphex-experiment-planner",
+        "orphex-weekly-performance-summarizer"
+      ],
+      "platforms": [
+        "google-ads",
+        "meta-ads",
+        "platform-agnostic"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "After a supplied experiment has run and mature arm outcomes are available.",
+      "inputs": [
+        {
+          "name": "experiment_id",
+          "description": "Defined experiment",
+          "required": true
+        },
+        {
+          "name": "arm",
+          "description": "control or treatment",
+          "required": true
+        },
+        {
+          "name": "assigned_units",
+          "description": "Independent eligible units included under the predeclared rule",
+          "required": true
+        },
+        {
+          "name": "successes",
+          "description": "Unique binary primary outcomes after mature follow-up",
+          "required": true
+        },
+        {
+          "name": "guardrail_successes",
+          "description": "Unique guardrail outcomes where the stated eligible denominator applies",
+          "required": false
+        }
+      ],
+      "example": {
+        "request": "Review the test and decide whether treatment can roll out.",
+        "inputCsv": "experiment_id,arm,assigned_units,successes,guardrail_successes\nform-test,control,1000,100,40\nform-test,treatment,1000,110,39\n",
+        "outputMarkdown": "# Fictional example output\n\n**No clear primary winner; rollout is not justified by this evidence.** Control is 100/1,000 = 10.00%; treatment is 110/1,000 = 11.00%. Difference is +1.00 percentage point (+10.00% relative).\n\nUnder the supplied independent binary fixed-horizon assumptions, the unpooled normal approximate 95% interval for the absolute difference is \u22121.6867pp to +3.6867pp. It includes zero and material harm as well as benefit. This is inconclusive, not proof of equality or a 95% probability that treatment wins.\n\nQualification per assigned user is 4.00% control and 3.90% treatment (\u22120.10pp). No predeclared guardrail margin was supplied, so acceptance remains unverified. The maturity and assignment checks are supported by the fictional design; any different actual design would require reassessment.\n\nRetain the control and decide whether a separately planned follow-up can answer the question; do not repeatedly extend this test until significance appears. No experiment applied or traffic shifted.\n"
+      }
     },
     {
       "slug": "orphex-geo-device-breakdown-analysis",
       "title": "Orphex Geo & Device Breakdown Analysis",
-      "description": "Analyze supplied location and device breakdowns across aligned periods to identify durable differences, preserve overlapping dimensions, and propose evidence-bounded targeting or bid checks.",
+      "description": "Compare location and device performance from aligned exports while preserving unknown buckets, separate dimensions, and supported targeting controls.",
       "outcome": "An aligned location/device analysis with weighted aggregate metrics, overlap and lag caveats, confidence-bounded segment rankings, and supported next checks.",
-      "category": "performance",
+      "category": "reporting-diagnostics",
       "tags": [
         "device",
         "geography",
@@ -191,14 +1065,67 @@
         "orphex-budget-change-proposal",
         "orphex-measurement-consistency-check",
         "orphex-weekly-performance-review"
-      ]
+      ],
+      "platforms": [
+        "google-ads",
+        "meta-ads",
+        "platform-agnostic"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When location or device differences need review without conflating separate breakdowns.",
+      "inputs": [
+        {
+          "name": "period",
+          "description": "Reporting interval",
+          "required": true
+        },
+        {
+          "name": "dimension",
+          "description": "geo or device; distinct marginal reports are never summed together",
+          "required": true
+        },
+        {
+          "name": "segment",
+          "description": "Observed bucket; explicit Unknown is a real bucket",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "description": "ISO currency",
+          "required": true
+        },
+        {
+          "name": "spend",
+          "description": "Observed spend",
+          "required": true
+        },
+        {
+          "name": "clicks",
+          "description": "Observed clicks",
+          "required": true
+        },
+        {
+          "name": "conversions",
+          "description": "Named mature outcomes",
+          "required": true
+        }
+      ],
+      "example": {
+        "request": "Compare location and device performance without double counting.",
+        "inputCsv": "period,dimension,segment,currency,spend,clicks,conversions\n2026-09-01/2026-09-07,geo,US,USD,600,600,30\n2026-09-01/2026-09-07,geo,Unknown,USD,100,100,5\n2026-09-01/2026-09-07,device,mobile,USD,500,500,20\n2026-09-01/2026-09-07,device,desktop,USD,200,200,15\n",
+        "outputMarkdown": "# Fictional example output\n\nEach dimension reconciles to $700 spend and 35 leads: account CPA is $20.00. Do not add geo and device totals: they describe the same $700.\n\n| Dimension/bucket | Spend | Leads | CPA | Click-to-lead rate |\n| --- | ---: | ---: | ---: | ---: |\n| Geo / US | $600 | 30 | $20.00 | 5.00% |\n| Geo / Unknown | $100 | 5 | $20.00 | 5.00% |\n| Device / mobile | $500 | 20 | $25.00 | 4.00% |\n| Device / desktop | $200 | 15 | $13.33 | 7.50% |\n\nKeep the Unknown location bucket in totals; it is not missing numeric data. Mobile's observed rate is lower, but no matched trend, joint geo-device export, or causal test is present. We cannot conclude that US mobile has the same rates or prescribe a device bid adjustment under this strategy. Check mobile funnel instrumentation and comparable periods, then confirm available targeting controls. No changes applied.\n"
+      }
     },
     {
       "slug": "orphex-impression-share-auction-insights-review",
       "title": "Orphex Impression Share & Auction Insights Review",
-      "description": "Review supplied Search or Performance Max impression-share and Auction Insights data to distinguish budget, rank, and competitor-overlap signals.",
+      "description": "Review Google Ads impression-share losses and Auction Insights overlap without conflating denominators or forecasting competitor spend and profit.",
       "outcome": "A scope-aware delivery review that preserves metric denominators and availability limits, separates budget from rank loss, and frames missed impressions without profit forecasts.",
-      "category": "performance",
+      "category": "reporting-diagnostics",
       "tags": [
         "auction-insights",
         "budget-review",
@@ -216,14 +1143,65 @@
         "orphex-budget-change-proposal",
         "orphex-campaign-budget-reallocator",
         "orphex-weekly-performance-review"
-      ]
+      ],
+      "platforms": [
+        "google-ads"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When distinguishing Search delivery loss from budget, rank, and competitor-overlap signals.",
+      "inputs": [
+        {
+          "name": "campaign_id",
+          "description": "Stable campaign scope",
+          "required": true
+        },
+        {
+          "name": "period",
+          "description": "Aligned reporting interval",
+          "required": true
+        },
+        {
+          "name": "search_impression_share",
+          "description": "Literal reported value including censored values such as <10%",
+          "required": true
+        },
+        {
+          "name": "search_lost_is_budget",
+          "description": "Reported Search lost IS from budget in percent",
+          "required": false
+        },
+        {
+          "name": "search_lost_is_rank",
+          "description": "Reported Search lost IS from rank in percent",
+          "required": false
+        },
+        {
+          "name": "competitor",
+          "description": "Auction Insights domain for the same scope",
+          "required": false
+        },
+        {
+          "name": "overlap_rate",
+          "description": "Literal reported overlap percentage with its denominator preserved",
+          "required": false
+        }
+      ],
+      "example": {
+        "request": "Explain whether budget or rank is the larger delivery limitation.",
+        "inputCsv": "campaign_id,period,search_impression_share,search_lost_is_budget,search_lost_is_rank,competitor,overlap_rate\nc1,2026-09-01/2026-09-07,40%,10%,50%,rival.example,25%\n",
+        "outputMarkdown": "# Fictional example output\n\nReported Search impression share is 40%, with 10% lost to budget and 50% lost to rank. Rank is the larger reported eligibility loss in this matched campaign scope; increasing budget alone does not address rank loss.\n\nThe rival's 25% overlap rate means it appeared in 25% of auctions in which our ad appeared. It does not mean the rival bought 25% of all eligible auctions, spent a given amount, or caused our loss. These metrics have different denominators.\n\nNext: review query relevance, landing experience, bid strategy constraints, and outcome economics before proposing changes. Recoverable impressions, incremental sales, competitor spend, and a profitable bid increase cannot be quantified from these rows. No account changes were made.\n"
+      }
     },
     {
       "slug": "orphex-keyword-mining-on-search-terms",
       "title": "Orphex Keyword Mining on Search Terms",
-      "description": "Mine supplied Search terms for converting or high-intent demand that may merit keyword coverage, with evidence-ranked candidates and eligibility checks.",
+      "description": "Find query-backed keyword test candidates and verify existing coverage; serving history does not establish incremental demand.",
       "outcome": "A ranked, reviewable set of keyword test candidates with observed query evidence, current-coverage checks, suggested match types, ad-group fit, and explicit uncertainty.",
-      "category": "performance",
+      "category": "campaign-optimization",
       "tags": [
         "coverage",
         "google-ads",
@@ -241,14 +1219,75 @@
         "orphex-search-term-cleaning",
         "orphex-weekly-performance-review",
         "orphex-weekly-performance-summarizer"
-      ]
+      ],
+      "platforms": [
+        "google-ads"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When observed search queries may merit deliberate keyword coverage or a bounded test.",
+      "inputs": [
+        {
+          "name": "query",
+          "description": "Observed search term; retain meaningful punctuation",
+          "required": true
+        },
+        {
+          "name": "campaign_id",
+          "description": "Campaign scope",
+          "required": true
+        },
+        {
+          "name": "ad_group_id",
+          "description": "Ad group scope",
+          "required": true
+        },
+        {
+          "name": "matched_keyword",
+          "description": "Keyword that served the query",
+          "required": false
+        },
+        {
+          "name": "match_type",
+          "description": "Search-term report relationship to the triggering keyword; distinct from its configured inventory match type",
+          "required": false
+        },
+        {
+          "name": "currency",
+          "description": "ISO currency",
+          "required": true
+        },
+        {
+          "name": "spend",
+          "description": "Historical query spend",
+          "required": true
+        },
+        {
+          "name": "clicks",
+          "description": "Observed query clicks",
+          "required": true
+        },
+        {
+          "name": "conversions",
+          "description": "Mature named outcome count",
+          "required": true
+        }
+      ],
+      "example": {
+        "request": "Suggest query-backed keyword tests and identify existing coverage.",
+        "inputCsv": "query,campaign_id,ad_group_id,matched_keyword,match_type,currency,spend,clicks,conversions\nfree spreadsheet template,c1,ag1,budget software,BROAD,USD,90,60,0\nacme budget software,c1,ag1,budget software,PHRASE,USD,200,100,10\nteam budget software,c1,ag1,budget software,PHRASE,USD,150,75,6\n",
+        "outputMarkdown": "# Fictional example output\n\nThe strongest non-brand candidate is team budget software: 6 qualified demos from 75 clicks (8.00%) at $25.00 CPA. Acme budget software has 10 demos at $20.00 CPA but belongs to protected brand coverage.\n\n| Candidate | Current evidence | Proposed test |\n| --- | --- | --- |\n| team budget software | Already served by active broad budget software; literal absence does not establish a coverage gap | Consider exact [team budget software] in ag1 for query-aligned reporting/copy; verify eligibility and negatives first |\n| acme budget software | Already served; brand demand | Review brand structure only if requested |\n| free spreadsheet template | 0 demos; off-offer free intent | Exclude from positive keyword candidates; send to cleaning review |\n\nAdding exact coverage is a structure/control hypothesis, not a claim of incremental demand. Past query conversions were already captured by broad matching. No search-volume estimate or lift forecast can be derived. Test without duplicating intended scope, and keep conversion definition and comparison window fixed. No keywords added.\n"
+      }
     },
     {
       "slug": "orphex-landing-conversion-review",
       "title": "Orphex Landing Conversion Review",
-      "description": "Review supplied landing-page and funnel evidence to locate conversion friction, distinguish observed patterns from causes, and propose measurable next checks.",
+      "description": "Locate observed landing and funnel friction, then propose diagnostic checks or experiments without asserting untested causes.",
       "outcome": "A funnel review that identifies observed drop-offs, relevant segment differences, evidence gaps, and testable page hypotheses.",
-      "category": "conversion",
+      "category": "conversion-experiments",
       "tags": [
         "conversion",
         "funnel",
@@ -263,14 +1302,141 @@
         "orphex-creative-signal-review",
         "orphex-measurement-consistency-check",
         "orphex-weekly-performance-review"
-      ]
+      ],
+      "platforms": [
+        "ga4",
+        "platform-agnostic"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When a landing page or funnel has observed drop-offs that need diagnostic checks.",
+      "inputs": [
+        {
+          "name": "segment",
+          "description": "Mutually exclusive defined funnel segment",
+          "required": true
+        },
+        {
+          "name": "visits",
+          "description": "Named eligible session/user denominator",
+          "required": true
+        },
+        {
+          "name": "form_starts",
+          "description": "Subset reaching the supplied form-start event",
+          "required": true
+        },
+        {
+          "name": "form_submits",
+          "description": "Subset successfully accepted by the backend",
+          "required": true
+        }
+      ],
+      "example": {
+        "request": "Locate conversion friction and propose a measurable next check.",
+        "inputCsv": "segment,visits,form_starts,form_submits\nmobile,1000,200,80\ndesktop,500,150,90\n",
+        "outputMarkdown": "# Fictional example output\n\nOverall accepted-submit rate is 170 / 1,500 = 11.3333%. Mobile is 8.00% versus desktop 18.00%; form-start to accepted-submit is 40.00% mobile versus 60.00% desktop.\n\nThe mobile start-to-submit drop is 120 of 200 starts (60.00%). This localizes an observed friction point but does not prove the six fields caused it: traffic intent, device measurement, and form errors remain alternatives.\n\nFirst check mobile validation errors and backend acceptance with safe test submissions. If instrumentation is sound, design a one-change form simplification experiment using accepted submissions as the primary outcome and qualified-demo rate as a guardrail. No causal winner, revenue estimate, or redesign instruction follows from the current evidence alone. No page changed.\n"
+      }
+    },
+    {
+      "slug": "orphex-lead-quality-crm-feedback-review",
+      "title": "Orphex Lead Quality & CRM Feedback Review",
+      "description": "Compare campaign lead cost with matched CRM qualification and sales outcomes, accounting for cohort maturity, stage definitions, and join coverage.",
+      "outcome": "A maturity-aligned lead-quality review with coverage, qualified/won economics, matching limits, and a feedback-path recommendation.",
+      "category": "measurement-data-quality",
+      "tags": [
+        "crm",
+        "lead-quality",
+        "offline-conversions",
+        "sales"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "Supplied data with the documented task-specific columns, stable scope, and refresh/maturity context",
+        "Business definitions and constraints relevant to the decision; see the reusable business-context reference"
+      ],
+      "relatedSkills": [
+        "orphex-bid-strategy-learning-review",
+        "orphex-conversion-tracking-health-check",
+        "orphex-measurement-consistency-check"
+      ],
+      "platforms": [
+        "crm",
+        "google-ads",
+        "meta-ads"
+      ],
+      "businessTypes": [
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When low-cost leads need comparison with qualification and closed-won CRM outcomes.",
+      "inputs": [
+        {
+          "name": "cohort",
+          "description": "Lead-created cohort and documented attribution scope",
+          "required": true
+        },
+        {
+          "name": "campaign_id",
+          "description": "Acquisition campaign under the supplied join rule",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "description": "ISO currency",
+          "required": true
+        },
+        {
+          "name": "spend",
+          "description": "Acquisition spend for this cohort scope",
+          "required": true
+        },
+        {
+          "name": "platform_leads",
+          "description": "Deduplicated originating leads in the stated scope",
+          "required": true
+        },
+        {
+          "name": "matched_leads",
+          "description": "Originating leads matched to CRM under the supplied identity rule",
+          "required": true
+        },
+        {
+          "name": "qualified_leads",
+          "description": "Unique matched leads reaching the defined qualified stage",
+          "required": true
+        },
+        {
+          "name": "won_customers",
+          "description": "Unique matched leads reaching defined closed-won",
+          "required": true
+        },
+        {
+          "name": "won_revenue",
+          "description": "Defined revenue from matched closed-won records",
+          "required": false
+        },
+        {
+          "name": "observed_days",
+          "description": "Available follow-up age; align before comparing stages",
+          "required": true
+        }
+      ],
+      "example": {
+        "request": "Compare campaigns by lead quality and sales, preserving join coverage.",
+        "inputCsv": "cohort,campaign_id,currency,spend,platform_leads,matched_leads,qualified_leads,won_customers,won_revenue,observed_days\n2026-07,c1,USD,1000,100,80,24,8,8000,60\n2026-07,c2,USD,1000,50,45,27,9,9000,60\n",
+        "outputMarkdown": "# Fictional example output\n\nc1 is cheaper on raw leads ($10 versus $20), while c2 is better on the observed matched qualified and won outcomes.\n\n| Campaign | Join coverage | Qualified / matched | Qualified / all origin leads | Cost / observed qualified | Cost / observed won |\n| --- | ---: | ---: | ---: | ---: | ---: |\n| c1 | 80/100 = 80.00% | 24/80 = 30.00% | 24/100 = 24.00% | $41.67 | $125.00 |\n| c2 | 45/50 = 90.00% | 27/45 = 60.00% | 27/50 = 54.00% | $37.04 | $111.11 |\n\nThe all-origin quality fractions are observed matched outcomes divided by the full origin cohort; they are not complete qualification rates because 20/5 leads are unmatched. Matched-only rates may be selection-biased. Equal 60-day follow-up supports this comparison, but no causal incrementality or complete true won rate is established.\n\nNext: reconcile c1's weaker join coverage and stage definitions before a budget or bidding-goal proposal. Booked won revenue is $8,000/$9,000, not profit. No customer identities uploaded or conversion goals changed.\n"
+      }
     },
     {
       "slug": "orphex-measurement-consistency-check",
       "title": "Orphex Measurement Consistency Check",
-      "description": "Reconcile marketing metric and event definitions across supplied reports so apparent differences are explained by scope before being treated as tracking failures.",
+      "description": "Reconcile event, attribution, date, identity, and revenue definitions across reports before treating differing totals as tracking failure.",
       "outcome": "A source-by-source reconciliation of event, denominator, attribution, time, currency, and identity rules with bounded findings.",
-      "category": "measurement",
+      "category": "measurement-data-quality",
       "tags": [
         "analytics",
         "attribution",
@@ -286,14 +1452,241 @@
         "orphex-creative-signal-review",
         "orphex-landing-conversion-review",
         "orphex-weekly-performance-review"
-      ]
+      ],
+      "platforms": [
+        "crm",
+        "ga4",
+        "google-ads",
+        "meta-ads"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When reports disagree and their event, attribution, date, or identity definitions need reconciliation.",
+      "inputs": [
+        {
+          "name": "source",
+          "description": "Supplied reporting system",
+          "required": true
+        },
+        {
+          "name": "period",
+          "description": "Date interval and date basis documented separately",
+          "required": true
+        },
+        {
+          "name": "event",
+          "description": "Named event/outcome",
+          "required": true
+        },
+        {
+          "name": "count",
+          "description": "Reported count; may be fractional attribution credits",
+          "required": true
+        },
+        {
+          "name": "count_basis",
+          "description": "Event or identity counting rule",
+          "required": true
+        },
+        {
+          "name": "attribution",
+          "description": "Named attribution basis/window",
+          "required": true
+        }
+      ],
+      "example": {
+        "request": "Explain differing purchase totals before diagnosing tracking failure.",
+        "inputCsv": "source,period,event,count,count_basis,attribution\nGoogle Ads,2026-09-01/2026-09-07,purchase,100,attributed credits,7-day click; click date\nGA4,2026-09-01/2026-09-07,purchase,90,observed event IDs,event date\nCRM,2026-09-01/2026-09-07,paid_order,85,unique accepted orders,order date; no ad attribution\n",
+        "outputMarkdown": "# Fictional example output\n\nThe reports differ by 10 Google Ads credits versus GA4 events and 5 GA4 events versus accepted CRM orders, but those differences are not validated duplicate or missing purchases.\n\n| Source | Observed count | Non-comparable feature |\n| --- | ---: | --- |\n| Google Ads | 100 | Attributed credits by click date with 7-day window |\n| GA4 | 90 | Observed purchase event IDs by event date |\n| CRM | 85 | Accepted unique orders by order date without ad attribution |\n\nFirst reconcile event/order mapping, status exclusions, date basis, consent coverage, and attribution. No deduplicated cross-source total exists from aggregate counts; adding them to 275 would triple-count unlike representations. Tracking health remains unknown until aligned diagnostics or an authorized pseudonymous join is supplied. No reporting configuration changed.\n"
+      }
+    },
+    {
+      "slug": "orphex-merchant-feed-health-check",
+      "title": "Orphex Merchant Feed Health Check",
+      "description": "Review destination-specific Merchant Center diagnostics and supplied feed-versus-site evidence to prioritize eligibility, price, stock, and data-quality repairs.",
+      "outcome": "A destination-aware feed repair queue with actual diagnostic evidence, matched-source checks, and bounded eligibility conclusions.",
+      "category": "campaign-optimization",
+      "tags": [
+        "diagnostics",
+        "ecommerce",
+        "feed",
+        "merchant-center",
+        "shopping"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "Supplied data with the documented task-specific columns, stable scope, and refresh/maturity context",
+        "Business definitions and constraints relevant to the decision; see the reusable business-context reference"
+      ],
+      "relatedSkills": [
+        "orphex-measurement-consistency-check",
+        "orphex-pmax-asset-group-search-themes-audit",
+        "orphex-product-profitability-review"
+      ],
+      "platforms": [
+        "google-ads",
+        "merchant-center"
+      ],
+      "businessTypes": [
+        "ecommerce"
+      ],
+      "useWhen": "When Merchant Center eligibility or feed-versus-site consistency needs a scoped repair queue.",
+      "inputs": [
+        {
+          "name": "item_id",
+          "description": "Stable merchant item identity within target country/language/destination",
+          "required": true
+        },
+        {
+          "name": "destination",
+          "description": "Reported eligibility destination",
+          "required": true
+        },
+        {
+          "name": "status",
+          "description": "Actual destination-specific eligibility status",
+          "required": true
+        },
+        {
+          "name": "issue_code",
+          "description": "Supplied diagnostic issue identifier or none",
+          "required": true
+        },
+        {
+          "name": "feed_price",
+          "description": "Submitted customer price in supplied currency",
+          "required": true
+        },
+        {
+          "name": "landing_price",
+          "description": "Observed equivalent landing/checkout price at same time",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "description": "ISO currency",
+          "required": true
+        },
+        {
+          "name": "feed_availability",
+          "description": "Submitted stock/preorder state",
+          "required": true
+        },
+        {
+          "name": "landing_availability",
+          "description": "Observed equivalent landing/checkout availability",
+          "required": true
+        },
+        {
+          "name": "observed_spend",
+          "description": "Matched historical spend; not future lost revenue",
+          "required": false
+        }
+      ],
+      "example": {
+        "request": "Prioritize feed repairs and distinguish diagnostics from revenue claims.",
+        "inputCsv": "item_id,destination,status,issue_code,feed_price,landing_price,currency,feed_availability,landing_availability,observed_spend\nsku-a,Shopping ads,disapproved,price_mismatch,90,100,USD,in_stock,in_stock,400\nsku-b,Shopping ads,eligible,none,50,50,USD,in_stock,out_of_stock,100\nsku-c,free listings,eligible,none,80,80,USD,in_stock,in_stock,0\n",
+        "outputMarkdown": "# Fictional example output\n\n| Item/destination | Finding | Next verification |\n| --- | --- | --- |\n| sku-a / Shopping ads | Reported disapproval plus observed $90 feed / $100 landing price mismatch | Reconcile source-of-truth price and destination/crawl timestamp; correct the authorized feed source, then recheck diagnostics |\n| sku-b / Shopping ads | Status says eligible, but supplied stock observations conflict | Verify stock freshness, variant and checkout consistency; eligibility may lag current data |\n| sku-c / free listings | No supplied mismatch or diagnostic issue | Preserve this scoped observation; it does not certify all attributes/destinations |\n\nOne of three supplied item-destination rows is disapproved (33.33%). One of two Shopping-ad rows is disapproved (50.00%); free listings must not be silently counted as ad eligibility. Historical spend for sku-a is $400 exposure, not lost sales or recoverable revenue. No merchant-wide health guarantee, appeal, product exclusion, or price change was made.\n"
+      }
+    },
+    {
+      "slug": "orphex-meta-delivery-audience-review",
+      "title": "Orphex Meta Delivery & Audience Review",
+      "description": "Review Meta ad-set delivery, audience context, reporting status, and mature outcome trends to identify supported constraints and bounded tests.",
+      "outcome": "A Meta delivery assessment separating actual diagnostics, audience/creative hypotheses, nonadditive reach, and supported next tests.",
+      "category": "campaign-optimization",
+      "tags": [
+        "audiences",
+        "delivery",
+        "learning",
+        "meta-ads"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "Supplied data with the documented task-specific columns, stable scope, and refresh/maturity context",
+        "Business definitions and constraints relevant to the decision; see the reusable business-context reference"
+      ],
+      "relatedSkills": [
+        "orphex-conversion-tracking-health-check",
+        "orphex-creative-fatigue-detector",
+        "orphex-experiment-planner"
+      ],
+      "platforms": [
+        "meta-ads"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When Meta ad-set delivery or audience context needs investigation before account changes.",
+      "inputs": [
+        {
+          "name": "period",
+          "description": "Matched complete reporting interval",
+          "required": true
+        },
+        {
+          "name": "ad_set_id",
+          "description": "Stable ad-set scope",
+          "required": true
+        },
+        {
+          "name": "delivery_status",
+          "description": "Actual supplied delivery status, not inferred",
+          "required": true
+        },
+        {
+          "name": "optimization_event",
+          "description": "Actual optimization event",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "description": "ISO currency",
+          "required": true
+        },
+        {
+          "name": "spend",
+          "description": "Observed spend",
+          "required": true
+        },
+        {
+          "name": "impressions",
+          "description": "Observed impressions",
+          "required": true
+        },
+        {
+          "name": "reach",
+          "description": "Reported unique/estimated reach within this row scope",
+          "required": false
+        },
+        {
+          "name": "link_clicks",
+          "description": "Named link clicks; not all engagement clicks",
+          "required": false
+        },
+        {
+          "name": "results",
+          "description": "Reported named optimized outcomes",
+          "required": true
+        }
+      ],
+      "example": {
+        "request": "Review delivery decline and audience saturation hypotheses.",
+        "inputCsv": "period,ad_set_id,delivery_status,optimization_event,currency,spend,impressions,reach,link_clicks,results\n2026-09-01/2026-09-07,cold1,Active,Purchase,USD,1000,100000,50000,2000,50\n2026-09-08/2026-09-14,cold1,Learning limited,Purchase,USD,1000,80000,20000,800,25\n",
+        "outputMarkdown": "# Fictional example output\n\nObserved Purchase CPA increased from $20 to $40 (+100%). CPM rose from $10 to $12.50 (+25%); link CTR fell from 2.00% to 1.00%. Within-week frequency rose from 2.00 to 4.00, while reach fell from 50,000 to 20,000.\n\nThe supplied status changed to Learning limited; its cause is not established by these counts. The creative edit coincides with the change but is not proof that it reset learning or caused the drop. Frequency 4 is not a universal saturation threshold. Weekly reach is nonadditive, so neither 70,000 unique people nor a pooled frequency can be asserted.\n\nPrioritize the actual delivery diagnostics, current event/attribution settings, change history, and matched placement/audience breakdown. Audience expansion and removing exclusions require checking which settings are actual controls in this campaign. Do not switch to an easier event just to clear status or promise a budget increase will resolve it. No targeting, event, or budget change applied.\n"
+      }
     },
     {
       "slug": "orphex-placement-cleaning",
       "title": "Orphex Placement Cleaning",
-      "description": "Review supplied ad placement and inventory reports to separate brand suitability from efficiency, quantify observable spend at stake, and propose verified, scoped exclusions for display, video, and Performance Max inventory.",
+      "description": "Review placement suitability and observable efficiency, then propose narrow supported exclusions without inventing spend from impressions.",
       "outcome": "A scoped placement review that separates suitability from efficiency, quantifies only observed spend, and presents verified exclusions with coverage and confidence limits.",
-      "category": "performance",
+      "category": "campaign-optimization",
       "tags": [
         "brand-suitability",
         "display",
@@ -311,14 +1704,70 @@
         "orphex-creative-signal-review",
         "orphex-measurement-consistency-check",
         "orphex-weekly-performance-review"
-      ]
+      ],
+      "platforms": [
+        "google-ads"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When deciding whether a supplied placement conflicts with suitability rules or warrants an efficiency check.",
+      "inputs": [
+        {
+          "name": "campaign_id",
+          "description": "Campaign scope",
+          "required": true
+        },
+        {
+          "name": "campaign_type",
+          "description": "Reported campaign type",
+          "required": true
+        },
+        {
+          "name": "placement",
+          "description": "Normalized supplied placement identity",
+          "required": true
+        },
+        {
+          "name": "placement_type",
+          "description": "Website/video/app identity type",
+          "required": true
+        },
+        {
+          "name": "impressions",
+          "description": "Observed impressions",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "description": "ISO currency when cost exists",
+          "required": false
+        },
+        {
+          "name": "spend",
+          "description": "Observed cost; blank is unavailable",
+          "required": false
+        },
+        {
+          "name": "conversions",
+          "description": "Named outcome count; blank is unavailable",
+          "required": false
+        }
+      ],
+      "example": {
+        "request": "Identify suitability and efficiency findings without inventing PMax waste.",
+        "inputCsv": "campaign_id,campaign_type,placement,placement_type,impressions,currency,spend,conversions\ndisplay1,DISPLAY,games.example,website,10000,USD,120,0\npmax1,PERFORMANCE_MAX,video.example/v1,video,8000,,,\n",
+        "outputMarkdown": "# Fictional example output\n\n| Placement | Finding | Quantified evidence | Proposed next check |\n| --- | --- | --- | --- |\n| games.example | Suitability unknown; the hostname does not verify games content. Efficiency warrants review | Display: 10,000 impressions, $120 spend, 0 mature purchases; CPA undefined | Obtain actual content/category evidence against the supplied Games ban, verify normalized identity and supported Display exclusion scope, then consider a narrow exclusion only if the conflict is confirmed |\n| video.example/v1 | Unknown suitability and efficiency | PMax: 8,000 impressions; cost/outcomes unavailable | Obtain suitability evidence and supported exclusion control if needed |\n\n$120 is observed spend exposure, not guaranteed savings. The supplied suitability rule does not establish this website's category, and zero observed purchases alone does not require exclusion. No cost, CPA, fraud claim, or exclusion recommendation is supportable for the PMax row from impressions alone. A missing cost is not zero. No blanket app-category block or account-wide exclusion is justified. Proposal only; nothing applied.\n"
+      }
     },
     {
       "slug": "orphex-pmax-asset-group-search-themes-audit",
       "title": "Orphex PMax Asset Group & Search Themes Audit",
-      "description": "Audit supplied Performance Max asset groups, search themes, audience signals, and Search overlap for evidence-backed coverage and structure recommendations.",
+      "description": "Review PMax asset groups, destinations, themes, and Search overlap; distinguish optimization signals from targeting and causal evidence.",
       "outcome": "A campaign-aware audit of PMax group, asset, URL, theme, and Search-overlap evidence that separates platform signals from targeting controls and causal conclusions.",
-      "category": "performance",
+      "category": "campaign-optimization",
       "tags": [
         "asset-groups",
         "google-ads",
@@ -336,14 +1785,157 @@
         "orphex-campaign-budget-reallocator",
         "orphex-keyword-mining-on-search-terms",
         "orphex-search-term-cleaning"
-      ]
+      ],
+      "platforms": [
+        "google-ads",
+        "merchant-center"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When reviewing PMax group organization, destinations, themes, signals, and Search coverage.",
+      "inputs": [
+        {
+          "name": "campaign_id",
+          "description": "Stable PMax campaign ID",
+          "required": true
+        },
+        {
+          "name": "asset_group_id",
+          "description": "Stable asset group ID",
+          "required": true
+        },
+        {
+          "name": "asset_group_name",
+          "description": "Provided group name",
+          "required": true
+        },
+        {
+          "name": "final_url",
+          "description": "Provided destination URL",
+          "required": true
+        },
+        {
+          "name": "search_themes",
+          "description": "Semicolon-separated supplied themes",
+          "required": false
+        },
+        {
+          "name": "audience_signals",
+          "description": "Semicolon-separated signals; not hard targeting",
+          "required": false
+        },
+        {
+          "name": "asset_types",
+          "description": "Semicolon-separated available asset types",
+          "required": true
+        },
+        {
+          "name": "status",
+          "description": "Reported group status",
+          "required": true
+        }
+      ],
+      "example": {
+        "request": "Review PMax coverage, destinations, and overlap without claiming cannibalization.",
+        "inputCsv": "campaign_id,asset_group_id,asset_group_name,final_url,search_themes,audience_signals,asset_types,status\np1,g1,Budget software,https://example.com/team,team budget software;finance collaboration,website visitors,text;image;video,ELIGIBLE\np1,g2,General,https://example.com/,budget software,all visitors,text;image,ELIGIBLE\n",
+        "outputMarkdown": "# Fictional example output\n\nGroup g1 has a theme-to-destination alignment hypothesis worth preserving: team software themes route to /team and text/image/video are supplied. g2 routes to a broad homepage and lacks a supplied video asset; check current asset diagnostics and actual destination behavior before prescribing edits.\n\nThemes and audience signals are optimization inputs, not a whitelist of eligible searches or hard audience targeting. Search keyword overlap identifies a coverage question; it does not prove PMax cannibalized incremental conversions.\n\nNext checks: obtain current URL-expansion settings, brand/negative controls, asset diagnostics, and matched campaign/group outcomes. Confirm current supported theme limits and controls in official documentation before proposing uploads. No group-level ROAS, lost revenue, or asset totals were inferred, and no settings were changed.\n"
+      }
+    },
+    {
+      "slug": "orphex-product-profitability-review",
+      "title": "Orphex Product Profitability Review",
+      "description": "Review product advertising economics using aligned net revenue, returns, and explicit variable costs; distinguish contribution from gross ROAS and company profit.",
+      "outcome": "A cost-reconciled product contribution review with net/gross return distinctions, observed break-even ratios, and bounded economic actions.",
+      "category": "budget-growth",
+      "tags": [
+        "contribution",
+        "ecommerce",
+        "margin",
+        "profitability",
+        "returns"
+      ],
+      "updatedAt": "2026-10-07",
+      "requirements": [
+        "Supplied data with the documented task-specific columns, stable scope, and refresh/maturity context",
+        "Business definitions and constraints relevant to the decision; see the reusable business-context reference"
+      ],
+      "relatedSkills": [
+        "orphex-campaign-budget-reallocator",
+        "orphex-customer-cohort-ltv-review",
+        "orphex-merchant-feed-health-check"
+      ],
+      "platforms": [
+        "crm",
+        "google-ads",
+        "merchant-center",
+        "platform-agnostic"
+      ],
+      "businessTypes": [
+        "ecommerce"
+      ],
+      "useWhen": "When product revenue and advertising returns need reconciliation with returns and variable costs.",
+      "inputs": [
+        {
+          "name": "product_id",
+          "description": "Stable product aggregate for the matched order/advertising scope",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "description": "ISO currency",
+          "required": true
+        },
+        {
+          "name": "gross_revenue",
+          "description": "Revenue before separately listed discounts/refunds; exclude taxes under the supplied rule",
+          "required": true
+        },
+        {
+          "name": "discounts",
+          "description": "Discounts not already deducted in gross_revenue",
+          "required": true
+        },
+        {
+          "name": "refunds",
+          "description": "Refunded revenue not already deducted; same cohort/horizon",
+          "required": true
+        },
+        {
+          "name": "cost_of_goods",
+          "description": "Total COGS under supplied accounting scope, net of any stated recovered stock adjustment",
+          "required": true
+        },
+        {
+          "name": "fulfilment",
+          "description": "Distinct variable fulfilment costs not already included in COGS",
+          "required": true
+        },
+        {
+          "name": "payment_fees",
+          "description": "Distinct retained payment fees not already included in other costs",
+          "required": true
+        },
+        {
+          "name": "ad_spend",
+          "description": "Attributed/matched advertising cost under stated allocation, counted once",
+          "required": true
+        }
+      ],
+      "example": {
+        "request": "Compare product contribution and identify misleading gross ROAS.",
+        "inputCsv": "product_id,currency,gross_revenue,discounts,refunds,cost_of_goods,fulfilment,payment_fees,ad_spend\nsku-a,USD,10000,1000,500,4000,800,200,2000\nsku-b,USD,6000,0,1000,3000,600,150,1500\n",
+        "outputMarkdown": "# Fictional example output\n\n| Product | Net revenue | Contribution before ads | Ads | Contribution after ads | Net-revenue ROAS | Contribution break-even ROAS |\n| --- | ---: | ---: | ---: | ---: | ---: | ---: |\n| sku-a | $8,500 | $3,500 | $2,000 | $1,500 | 4.25 | 2.4286 |\n| sku-b | $5,000 | $1,250 | $1,500 | \u2212$250 | 3.3333 | 4.00 |\n| Total | $13,500 | $4,750 | $3,500 | $1,250 | 3.8571 | 2.8421 |\n\nsku-b's gross ROAS is 6,000/1,500 = 4.00, but the settled discounts/refunds and variable costs leave \u2212$250 after advertising. Gross return is not profit.\n\nFor sku-a, net revenue is 10,000\u22121,000\u2212500 = 8,500; pre-ad contribution is 8,500\u22124,000\u2212800\u2212200 = 3,500. Net-revenue break-even ROAS is 8,500/3,500, under these cost semantics. This is variable contribution, not company net profit, and assumes the observed cost mix rather than marginal scalability.\n\nReview sku-b's returns, cost allocation and offer economics before proposing budget cuts or price changes. No product, price, or campaign changes applied.\n"
+      }
     },
     {
       "slug": "orphex-quality-score-reviewer",
       "title": "Orphex Quality Score Reviewer",
-      "description": "Review supplied Search keyword Quality Score components and group actionable patterns by business exposure rather than score averages.",
+      "description": "Prioritize Search Quality Score component checks by business exposure; treat the score as a keyword diagnostic.",
       "outcome": "A diagnostic review of keyword-level expected CTR, ad relevance, and landing-page experience patterns, tied to business exposure and testable follow-up hypotheses.",
-      "category": "performance",
+      "category": "campaign-optimization",
       "tags": [
         "diagnostics",
         "google-ads",
@@ -361,14 +1953,75 @@
         "orphex-anomaly-investigation",
         "orphex-landing-conversion-review",
         "orphex-weekly-performance-review"
-      ]
+      ],
+      "platforms": [
+        "google-ads"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When Search keyword diagnostics need prioritized relevance and landing-page checks.",
+      "inputs": [
+        {
+          "name": "keyword_id",
+          "description": "Stable Search keyword ID",
+          "required": true
+        },
+        {
+          "name": "keyword",
+          "description": "Keyword text",
+          "required": true
+        },
+        {
+          "name": "quality_score",
+          "description": "1\u201310 diagnostic or literal missing marker",
+          "required": false
+        },
+        {
+          "name": "expected_ctr",
+          "description": "Reported component status",
+          "required": true
+        },
+        {
+          "name": "ad_relevance",
+          "description": "Reported component status",
+          "required": true
+        },
+        {
+          "name": "landing_page_experience",
+          "description": "Reported component status",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "description": "ISO currency",
+          "required": true
+        },
+        {
+          "name": "spend",
+          "description": "Aligned business-exposure spend",
+          "required": true
+        },
+        {
+          "name": "conversions",
+          "description": "Mature named outcomes",
+          "required": true
+        }
+      ],
+      "example": {
+        "request": "Prioritize Quality Score work by business exposure.",
+        "inputCsv": "keyword_id,keyword,quality_score,expected_ctr,ad_relevance,landing_page_experience,currency,spend,conversions\nk1,team budget software,5,Average,Below average,Average,USD,900,30\nk2,free budget tool,3,Below average,Below average,Below average,USD,50,0\nk3,acme budget software,--,--,--,--,USD,150,10\n",
+        "outputMarkdown": "# Fictional example output\n\nPrioritize k1's ad relevance investigation: it has $900 of the $1,100 observed spend (81.82%) and 30 demos at $30 CPA. k2 has a lower score but only $50 exposure; its free budget tool wording warrants checking the actual product/offer fit before score work. No supplied offer definition establishes that it is off-offer.\n\nk3's -- diagnostic is unavailable, not zero. Its observed demo CPA is $15, but the missing diagnostic does not establish excellent or poor quality.\n\nDo not average QS into an account KPI or treat it as the auction input. k1's below-average ad relevance suggests checking query-to-ad alignment and drafting a bounded copy test. Snapshot components and performance dates have different windows, so a causal performance effect is unproven. No promised CPC reduction or score target was invented. No changes applied.\n"
+      }
     },
     {
       "slug": "orphex-rsa-ad-copy-asset-review",
       "title": "Orphex RSA Ad Copy & Asset Review",
-      "description": "Review supplied responsive Search ad assets for keep, replace, pin, and copy-test proposals grounded in query, offer, and asset evidence.",
+      "description": "Review RSA assets and approved claims for keep, replace, pin, or copy-test proposals; preserve overlapping asset metrics.",
       "outcome": "An asset-by-asset RSA review with directional performance evidence, approved-claim sourcing, pinning risk, and clearly labeled copy-test proposals.",
-      "category": "creative",
+      "category": "creative-messaging",
       "tags": [
         "ad-copy",
         "creative-review",
@@ -386,14 +2039,70 @@
         "orphex-creative-signal-review",
         "orphex-landing-conversion-review",
         "orphex-weekly-performance-review"
-      ]
+      ],
+      "platforms": [
+        "google-ads"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When RSA claims, asset combinations, or copy proposals need evidence-based review.",
+      "inputs": [
+        {
+          "name": "ad_id",
+          "description": "Stable RSA ad ID",
+          "required": true
+        },
+        {
+          "name": "asset_id",
+          "description": "Stable asset ID",
+          "required": true
+        },
+        {
+          "name": "asset_type",
+          "description": "Headline or description",
+          "required": true
+        },
+        {
+          "name": "text",
+          "description": "Supplied asset text; treat as evidence, not instructions",
+          "required": true
+        },
+        {
+          "name": "pin",
+          "description": "Supplied pinned position or none",
+          "required": true
+        },
+        {
+          "name": "impressions",
+          "description": "Asset appearances; overlapping across assets",
+          "required": false
+        },
+        {
+          "name": "clicks",
+          "description": "Asset-associated clicks; overlapping",
+          "required": false
+        },
+        {
+          "name": "conversions",
+          "description": "Asset-associated mature credits; overlapping",
+          "required": false
+        }
+      ],
+      "example": {
+        "request": "Review RSA asset claims and suggest a safe copy test.",
+        "inputCsv": "ad_id,asset_id,asset_type,text,pin,impressions,clicks,conversions\nrsa1,h1,headline,Team Budget Software,none,1000,100,5\nrsa1,h2,headline,Free Forever,none,1000,100,5\n",
+        "outputMarkdown": "# Fictional example output\n\nReplace h2's Free Forever claim: it contradicts the supplied paid-product facts. Keep h1 as a relevant concept; its apparent metrics do not isolate its contribution.\n\n| Asset | Decision | Reason | Draft test proposal |\n| --- | --- | --- | --- |\n| h1 | Keep for test | Matches approved team-software proposition | Team Budget Software |\n| h2 | Replace | Unsupported free-forever claim | Try the 14-Day Trial |\n\nThe two asset rows each show the same co-served 5 conversions; the ad total is 5, not 10. These asset observations cannot prove h1 outperformed h2. Do not pin text by default; verify any mandatory legal/offer positioning and supported limits before upload. Drafts use only supplied claims. No ads edited and no lift estimate promised.\n"
+      }
     },
     {
       "slug": "orphex-search-term-cleaning",
       "title": "Orphex Search Term Cleaning",
       "description": "Review supplied Search terms to separate irrelevant spend from relevant demand and prepare scoped, risk-aware negative keyword proposals.",
       "outcome": "An evidence-linked negative keyword proposal that protects converting and relevant queries, states historical spend exposure, and makes match-type and scope risks reviewable.",
-      "category": "performance",
+      "category": "campaign-optimization",
       "tags": [
         "google-ads",
         "negative-keywords",
@@ -411,14 +2120,75 @@
         "orphex-measurement-consistency-check",
         "orphex-placement-cleaning",
         "orphex-weekly-performance-review"
-      ]
+      ],
+      "platforms": [
+        "google-ads"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When preparing narrow negative keyword proposals from irrelevant observed queries.",
+      "inputs": [
+        {
+          "name": "query",
+          "description": "Observed search term; retain meaningful punctuation",
+          "required": true
+        },
+        {
+          "name": "campaign_id",
+          "description": "Campaign scope",
+          "required": true
+        },
+        {
+          "name": "ad_group_id",
+          "description": "Ad group scope",
+          "required": true
+        },
+        {
+          "name": "matched_keyword",
+          "description": "Keyword that served the query",
+          "required": false
+        },
+        {
+          "name": "match_type",
+          "description": "Search-term report relationship to the triggering keyword; distinct from its configured inventory match type",
+          "required": false
+        },
+        {
+          "name": "currency",
+          "description": "ISO currency",
+          "required": true
+        },
+        {
+          "name": "spend",
+          "description": "Historical query spend",
+          "required": true
+        },
+        {
+          "name": "clicks",
+          "description": "Observed query clicks",
+          "required": true
+        },
+        {
+          "name": "conversions",
+          "description": "Mature named outcome count",
+          "required": true
+        }
+      ],
+      "example": {
+        "request": "Find safe negative keyword proposals while protecting valuable demand.",
+        "inputCsv": "query,campaign_id,ad_group_id,matched_keyword,match_type,currency,spend,clicks,conversions\nfree spreadsheet template,c1,ag1,budget software,BROAD,USD,90,60,0\nacme budget software,c1,ag1,budget software,PHRASE,USD,200,100,10\nteam budget software,c1,ag1,budget software,PHRASE,USD,150,75,6\n",
+        "outputMarkdown": "# Fictional example output\n\nOne narrow negative candidate merits review; protect the two converting software queries.\n\n| Query | Proposal | Scope | Evidence and conflict check |\n| --- | --- | --- | --- |\n| free spreadsheet template | Negative exact [free spreadsheet template] | c1/ag1 | Off-offer free-template intent; $90 observed spend, 60 clicks, zero mature demos; no supplied protected exact query conflict |\n| acme budget software | Keep | c1/ag1 | Protected brand; 10 demos at $20 CPA |\n| team budget software | Keep | c1/ag1 | Relevant paid-software demand; 6 demos at $25 CPA |\n\nA broad negative such as software or budget would conflict with valuable demand; do not use it. Negative exact is a proposal for this observed term, not an automatic exclusion of close variants. $90 is historical exposure, not promised future savings. Verify the live negative inventory and requested scope before any authorized application. No negative was applied.\n"
+      }
     },
     {
       "slug": "orphex-weekly-performance-review",
       "title": "Orphex Weekly Performance Review",
-      "description": "Review weekly or monthly marketing performance from supplied exports and documents, aligning comparison periods, metric definitions, currency, and attribution limits.",
+      "description": "Review marketing period changes and diagnose evidence-backed drivers from supplied comparable exports; use the summarizer for a short stakeholder update.",
       "outcome": "A concise period-over-period review with comparable metrics, evidence-linked explanations, uncertainty, and prioritized next actions.",
-      "category": "performance",
+      "category": "reporting-diagnostics",
       "tags": [
         "attribution",
         "marketing",
@@ -434,14 +2204,72 @@
         "orphex-creative-signal-review",
         "orphex-landing-conversion-review",
         "orphex-measurement-consistency-check"
-      ]
+      ],
+      "platforms": [
+        "google-ads",
+        "meta-ads",
+        "platform-agnostic"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When a weekly or monthly performance change needs a deeper evidence-backed review.",
+      "inputs": [
+        {
+          "name": "period",
+          "description": "Named complete reporting interval",
+          "required": true
+        },
+        {
+          "name": "campaign_id",
+          "description": "Stable campaign ID within the supplied account",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "description": "ISO currency code; keep unlike currencies separate",
+          "required": true
+        },
+        {
+          "name": "spend",
+          "description": "Observed spend in currency units",
+          "required": true
+        },
+        {
+          "name": "impressions",
+          "description": "Observed served impressions",
+          "required": false
+        },
+        {
+          "name": "clicks",
+          "description": "Observed clicks",
+          "required": false
+        },
+        {
+          "name": "conversions",
+          "description": "Named attributed outcome count; fractional credits allowed when documented",
+          "required": false
+        },
+        {
+          "name": "conversion_value",
+          "description": "Value under the supplied gross/net definition",
+          "required": false
+        }
+      ],
+      "example": {
+        "request": "Review the week ending September 20 and explain where to investigate.",
+        "inputCsv": "period,campaign_id,currency,spend,impressions,clicks,conversions,conversion_value\n2026-09-07/2026-09-13,brand,USD,400,20000,1000,40,2000\n2026-09-07/2026-09-13,generic,USD,1600,80000,2000,40,2000\n2026-09-14/2026-09-20,brand,USD,500,25000,1250,50,2500\n2026-09-14/2026-09-20,generic,USD,1700,85000,2125,34,1700\n",
+        "outputMarkdown": "# Fictional example output\n\nAverage CPA increased 4.76%, with the observed deterioration concentrated in Generic.\n\n| Metric | Sep 7\u201313 | Sep 14\u201320 | Movement |\n| --- | ---: | ---: | ---: |\n| Spend | $2,000 | $2,200 | +$200 (+10.00%) |\n| Purchases | 80 | 84 | +4 (+5.00%) |\n| CPA | $25.00 | $26.19 | +$1.19 (+4.76%) |\n| Gross attributed ROAS | 2.00 | 1.91 | \u22120.09 (\u22124.55%) |\n| CTR | 3.00% | 3.0682% | +0.0682 percentage points |\n\nTotals use sums before division: current CTR is 3,375 / 110,000, and CPA is 2,200 / 84. Generic CPA moved from $40.00 to $50.00 (+25%); Brand stayed at $10.00. These are campaign-mix observations, not explanations of causality. The mature reporting window supports comparison; it does not establish incremental revenue or future returns.\n\nNext check: inspect Generic query mix, delivery changes, and conversion-path diagnostics before proposing a budget change. No platform changes were applied.\n"
+      }
     },
     {
       "slug": "orphex-weekly-performance-summarizer",
       "title": "Orphex Weekly Performance Summarizer",
-      "description": "Summarize supplied weekly marketing results into a concise stakeholder update with comparable metrics, evidence-backed movement, caveats, and the next useful action.",
+      "description": "Write a brief stakeholder update from supplied weekly results, preserving weighted totals and caveats; use the performance review for deeper diagnosis.",
       "outcome": "A concise, evidence-linked weekly update with correctly aggregated metrics, confidence, caveats, and prioritized next actions.",
-      "category": "performance",
+      "category": "reporting-diagnostics",
       "tags": [
         "attribution",
         "marketing",
@@ -460,7 +2288,102 @@
         "orphex-conversion-tracking-health-check",
         "orphex-measurement-consistency-check",
         "orphex-weekly-performance-review"
-      ]
+      ],
+      "platforms": [
+        "google-ads",
+        "meta-ads",
+        "platform-agnostic"
+      ],
+      "businessTypes": [
+        "ecommerce",
+        "lead-generation",
+        "saas"
+      ],
+      "useWhen": "When the team needs a brief update from supplied comparable weekly results.",
+      "inputs": [
+        {
+          "name": "period",
+          "description": "Named complete reporting interval",
+          "required": true
+        },
+        {
+          "name": "campaign_id",
+          "description": "Stable campaign ID within the supplied account",
+          "required": true
+        },
+        {
+          "name": "currency",
+          "description": "ISO currency code; keep unlike currencies separate",
+          "required": true
+        },
+        {
+          "name": "spend",
+          "description": "Observed spend in currency units",
+          "required": true
+        },
+        {
+          "name": "impressions",
+          "description": "Observed served impressions",
+          "required": false
+        },
+        {
+          "name": "clicks",
+          "description": "Observed clicks",
+          "required": false
+        },
+        {
+          "name": "conversions",
+          "description": "Named attributed outcome count; fractional credits allowed when documented",
+          "required": false
+        },
+        {
+          "name": "conversion_value",
+          "description": "Value under the supplied gross/net definition",
+          "required": false
+        }
+      ],
+      "example": {
+        "request": "Give the team a brief weekly performance update.",
+        "inputCsv": "period,campaign_id,currency,spend,impressions,clicks,conversions,conversion_value\n2026-09-07/2026-09-13,brand,USD,400,20000,1000,40,2000\n2026-09-07/2026-09-13,generic,USD,1600,80000,2000,40,2000\n2026-09-14/2026-09-20,brand,USD,500,25000,1250,50,2500\n2026-09-14/2026-09-20,generic,USD,1700,85000,2125,34,1700\n",
+        "outputMarkdown": "# Fictional example output\n\n**Week ending September 20:** Spend increased 10.0% to $2,200; attributed purchases increased 5.0% to 84. Average CPA rose 4.76% to $26.19 and gross attributed ROAS fell 4.55% to 1.91.\n\nThe main observed pressure is Generic: CPA rose from $40 to $50 while Brand stayed at $10. Both periods are complete with the same purchase definition, currency, and matured 7-day attribution window. Summed campaign spend and purchases determine the account ratio; campaign CPAs are not averaged.\n\n**Next action:** Review Generic query and conversion-path changes. Cause and incremental impact remain unproven; no change history or experiment was supplied. This is a reporting summary, and no account settings were changed.\n"
+      }
+    }
+  ],
+  "bundles": [
+    {
+      "id": "experiment-cycle",
+      "title": "Experiment Cycle",
+      "description": "Plan a feasible test with clear success criteria, then assess completed results when outcomes are ready. Get a decision grounded in the evidence and a clear next step.",
+      "skills": [
+        "orphex-experiment-planner",
+        "orphex-experiment-result-reviewer"
+      ],
+      "request": "Help me design one experiment from the supplied business question, meaningful effect, eligible traffic and guardrails. Check feasibility and keep creation proposal-only. When I later provide actual design and mature arm outcomes, review validity, effect, uncertainty and guardrails; allow an inconclusive result and do not apply a trial without authorization."
+    },
+    {
+      "id": "search-optimization",
+      "title": "Search Optimization",
+      "description": "Find irrelevant search terms and promising queries, then review Quality Score and RSA evidence. Build a scoped optimization plan while protecting converting demand.",
+      "skills": [
+        "orphex-search-term-cleaning",
+        "orphex-keyword-mining-on-search-terms",
+        "orphex-quality-score-reviewer",
+        "orphex-rsa-ad-copy-asset-review"
+      ],
+      "request": "Review my supplied Search exports, keyword/negative inventory, diagnostics and approved offer facts. Prepare narrow negative proposals, distinguish already-served demand from possible keyword tests, prioritize Quality Score checks by exposure, and draft sourced RSA tests only when asset and claim evidence exists. Do not apply changes."
+    },
+    {
+      "id": "weekly-account-review",
+      "title": "Weekly Account Review",
+      "description": "Combine tracking checks, mature performance, anomaly analysis, and budget pacing in one weekly review. Finish with a focused summary and prioritized next actions.",
+      "skills": [
+        "orphex-conversion-tracking-health-check",
+        "orphex-weekly-performance-review",
+        "orphex-anomaly-investigation",
+        "orphex-budget-pacing-forecast",
+        "orphex-weekly-performance-summarizer"
+      ],
+      "request": "Review my supplied weekly account data. Check tracking only where diagnostics are provided, compare mature results, investigate material anomalies only when present, assess pacing if I supplied a period budget, and finish with a short stakeholder update. Keep evidence and definitions attached across steps; propose changes without applying them."
     }
   ]
 }

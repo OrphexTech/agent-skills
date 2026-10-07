@@ -1,9 +1,9 @@
 ---
 name: orphex-conversion-tracking-health-check
-description: "Audit supplied conversion-tracking configuration and event diagnostics for missing, duplicated, or malformed signals without assuming report totals should match."
+description: "Audit supplied conversion configuration and safe diagnostics; separate transport acceptance, deduplication, and actual counted outcomes."
 license: MIT
 metadata:
-  version: "1.1.0"
+  version: "2.0.0"
 ---
 
 # Orphex Conversion Tracking Health Check
@@ -12,7 +12,7 @@ Use this skill to check whether business events are configured, fired, transport
 
 ## Define the expected event path
 
-Define the event's business meaning, exact name, primary/secondary role, bidding inclusion, source, value/currency rules, and expected user path. Record platform, account/property, site/app, dates, timezone, refresh time, attribution basis, and recent changes. Minimum evidence is the event definition plus a safe diagnostic, configuration view, or reproducible test. Redacted traces, retry behavior, counts, consent, and redirects help. Without a diagnostic or sample, report `unknown` or `not tested`; a report total alone cannot prove health.
+Define the event's business meaning, exact name, primary/secondary role, bidding inclusion, source, value/currency rules, and expected user path. Record platform, account/property, site/app, dates, timezone, refresh time, attribution basis, and recent changes. Minimum evidence is the event definition plus a safe diagnostic, configuration view, or reproducible test. Redacted traces, retry behavior, counts, consent, and redirects help. Without a diagnostic or sample, report `unknown`. Use `not tested` only when the test is known not to have run and its required source and safe method are available; missing results alone do not establish that. A report total alone cannot prove health.
 
 Use these finding statuses consistently:
 
@@ -42,3 +42,11 @@ Fictional failure case: a synthetic checkout test shows one browser `Purchase` e
 - [Google Tag Assistant troubleshooting](https://support.google.com/tagassistant/answer/10039345?hl=en)
 - [Google Ads conversion tracking status](https://support.google.com/google-ads/answer/12674892?hl=en)
 - [Meta Conversions API: deduplicate Pixel and server events](https://developers.facebook.com/docs/marketing-api/conversions-api/deduplicate-pixel-and-server-events/)
+
+## Portable inputs and examples
+
+- Read [the input contract](references/input-contract.md) when mapping a new export or checking the example's scope and definitions. Copy [the header-only CSV template](assets/input-template.csv) when preparing data; equivalent supplied exports remain acceptable.
+- Read [the reusable business context](references/business-context.md) only for business facts or constraints this task needs. Reuse user-supplied facts with their source/date; the template contains no default targets.
+- Inspect [the complete fictional input](assets/example-input.csv) with [its example output](references/example-output.md) when learning the output and calculation boundaries. Never use fictional values for a real account.
+
+State whether the result is complete, partial, or blocked for the requested decision. Link material findings to actual supplied rows/sources and separate observed metrics, hypotheses, and estimates. Lead with a short business conclusion, then evidence, uncertainty, and the next measurable check. A data export or installed skill does not authorize account changes.

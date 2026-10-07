@@ -1,0 +1,4 @@
+item_id,destination,status,issue_code,feed_price,landing_price,currency,feed_availability,landing_availability,observed_spend
+sku-a,Shopping ads,disapproved,price_mismatch,90,100,USD,in_stock,in_stock,400
+sku-b,Shopping ads,eligible,none,50,50,USD,in_stock,out_of_stock,100
+sku-c,free listings,eligible,none,80,80,USD,in_stock,in_stock,0

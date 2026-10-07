@@ -1,3 +1,4 @@
+import { execFileSync } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { DEFAULT_ROOT, validateSource } from './catalog.mjs';
@@ -41,6 +42,13 @@ try {
   const installerVersion = options.installerVersion || process.env.ORPHEX_SKILLS_INSTALLER_VERSION;
   if (!sourceSha) throw new Error('source SHA is required through --source-sha or ORPHEX_SKILLS_SOURCE_SHA');
   if (!installerVersion) throw new Error('installer version is required through --installer-version or ORPHEX_SKILLS_INSTALLER_VERSION');
+  const committedSha = execFileSync('git', ['rev-parse', '--verify', sourceSha + '^{commit}'], { cwd: DEFAULT_ROOT, encoding: 'utf8' }).trim();
+  const head = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: DEFAULT_ROOT, encoding: 'utf8' }).trim();
+  if (committedSha !== sourceSha || head !== sourceSha) throw new Error('source SHA must be the full exact checked-out HEAD commit');
+  const inputPaths = ['package.json', 'CHANGELOG.md', 'skills', 'schemas', 'resources', 'scripts'];
+  const changed = execFileSync('git', ['diff', '--name-only', sourceSha, '--', ...inputPaths], { cwd: DEFAULT_ROOT, encoding: 'utf8' }).trim();
+  const untracked = execFileSync('git', ['ls-files', '--others', '--exclude-standard', '--', ...inputPaths], { cwd: DEFAULT_ROOT, encoding: 'utf8' }).trim();
+  if (changed || untracked) throw new Error('catalog input files must match the committed source tree; commit source edits before building');
   const { errors, catalog } = await validateSource(DEFAULT_ROOT, { sourceSha, installerVersion });
   if (errors.length) throw new Error(errors.join('\n'));
 
