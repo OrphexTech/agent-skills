@@ -65,6 +65,8 @@ Use the [reusable supplied business context](docs/BUSINESS_CONTEXT.md) across re
 
 Read the versioned [behavioral evaluation report](evaluations/README.md), [release scope and acceptance stories](docs/QUALITY_PLAN.md), and [authoring contract](docs/AUTHORING.md). Source-format checks, deterministic calculations, full-file installation hashes, native synthetic task behavior and independent review are separate evidence. No real-account business uplift or campaign execution is inferred from a synthetic pass count.
 
+The [documentation correction](docs/evidence-corrections.md) supplies a native evidence ZIP with working relative screenshot links, preserves the original documents and all hash-bound records, and explains the historical review's limits. It does not change the installed v2.0.0 skills or claim a new runtime evaluation.
+
 The source uses Node.js 22+ standard libraries without package dependencies. Optional calculator tests require Python 3.
 
 ~~~sh
@@ -78,4 +80,4 @@ Commit final source before building the ignored exact-source catalog:
 ORPHEX_SKILLS_SOURCE_SHA=$(git rev-parse HEAD) ORPHEX_SKILLS_INSTALLER_VERSION=1.7.0 npm run build:catalog
 ~~~
 
-The builder rejects uncommitted catalog input files and preserves exact committed provenance. Public installation remains pinned to skills CLI1.7.0 and immutable release tags; v1.1.0 stays available.
+The builder rejects uncommitted catalog input files and preserves exact committed provenance. Public installation remains pinned to skills CLI1.7.0 and protected version tags; v1.1.0 stays available. See the [release process](docs/RELEASING.md) for future immutable publications and the limits of historical asset protection.

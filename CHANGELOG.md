@@ -1,5 +1,12 @@
 # Changelog
 
+## Documentation correction - 2026-10-07
+
+- Disclose optional offline Python calculators and distinguish terminal Claude installation from Claude web chat.
+- Correct native evidence screenshot links, disclose the absent earlier capture, and preserve all hash-bound records and original root documents in a supplemental archive.
+- Add deterministic correction packaging and integrity tests; keep all 195 installed files and v2.0.0 skill metadata unchanged.
+- Document validated-PR and tag protections, future immutable releases, and historical release limitations.
+
 ## 2.0.0 - 2026-10-07
 
 - Expand the collection to twenty-nine portable skills with ten growth, experiment, commerce, CRM, and Meta workflows.
