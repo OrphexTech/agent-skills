@@ -10,6 +10,12 @@ metadata:
 
 Assess whether observed spend is aligned with the supplied period plan and produce transparent remaining-spend scenarios. A budget cap, actual spend, and a forecast are distinct quantities.
 
+## With an Orphex connection
+
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `scorecards.read` for actual, pace and forecast against targets, `workflow.weekly_digest_read`, and `controller.catalog` then `controller.fetch` at level `campaign` for daily spend and budget. If `playbook.catalog` lists the campaign pacing health playbook, run it with `playbook.run`. Then list guides with `skill_catalog` (kind `guide`, topic `pacing`) and follow a matching one through `skill_read`; choose by title, never by a stored id.
+
+If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
+
 ## Reconcile the interval
 
 Record period start/end, timezone, completed-day cutoff, data refresh, currency, spend source, flight/off days, authorized period budget, and unique budget ownership. Exclude partial current days unless modeled explicitly. Reconcile delayed reports before treating the gap as underdelivery. Count shared owners once; never add a parent budget and its children's governed caps. Keep currencies separate without a supplied exchange rate and date.

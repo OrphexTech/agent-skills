@@ -10,6 +10,12 @@ metadata:
 
 Use this skill to review whether Performance Max asset groups and search themes reflect the supplied offer and observed search demand, or to investigate possible overlap with Search campaigns. Work from exports and documents the user provides; an authorized read-only data source is optional. Return an audit and proposals only.
 
+## With an Orphex connection
+
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `controller.catalog` then `controller.fetch` at level `asset` for asset-group assets and at level `search_term` for Search overlap. If `playbook.catalog` lists the PMax asset-group coverage playbook, run it with `playbook.run`.
+
+If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
+
 ## Inputs and limits
 
 Request campaign and asset-group IDs/names, reporting dates/timezone, currency, campaign-level spend and conversion/value outcomes, conversion action/window, goals, asset IDs/types/text/status, final URLs and URL expansion setting, search themes, audience signals, and brand exclusions/negative keywords. Add search-term or insights rows with any “source” dimension, related Search keyword/campaign inventory, and approved product/brand facts where available. Ask whether the current period has matured for conversion lag. Without campaign-level outcomes or definitions, summarize structure and coverage without ranking business performance. Without Search controls, label overlap “not assessable.”

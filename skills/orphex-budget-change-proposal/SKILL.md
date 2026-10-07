@@ -10,6 +10,12 @@ metadata:
 
 Prepare a decision-ready proposal from budgets, performance exports, and planning documents supplied by the user. Orphex MCP may be used when it is already available and the user has authorized that data access; it is optional. A proposal is not permission to change an advertising account.
 
+## With an Orphex connection
+
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `scorecards.read` for targets and pace, `controller.catalog` then `controller.fetch` at level `campaign` for spend, budget, outcomes and lost impression share, and `causal.latest_summary` for any measured lift. If `playbook.catalog` lists the lost-impression-share budget playbook, run it with `playbook.run`. Then list guides with `skill_catalog` (kind `guide`, topic `budget`, then `pacing`) and follow a matching one through `skill_read`; choose by title, never by a stored id.
+
+If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
+
 ## Build the proposal
 
 First identify the scope: account or portfolio, campaigns or other budget units, budget type (daily, lifetime, or total), currency, current limits, proposed effective dates, and the user's spend or performance constraint. If a material field is missing, label the assumption or ask for the missing input before presenting a precise change.

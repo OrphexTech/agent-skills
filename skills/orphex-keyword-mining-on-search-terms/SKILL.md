@@ -10,6 +10,12 @@ metadata:
 
 Use this skill to identify observed queries that could justify a keyword test or a more deliberate ad-group mapping. Analyze only user-supplied exports and documents unless an already-authorized read-only source is available. Produce candidates and checks; do not add keywords or change campaigns.
 
+## With an Orphex connection
+
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `controller.catalog` then `controller.fetch` at levels `search_term` and `keyword` for queries and existing keyword coverage. If `playbook.catalog` lists the keyword cannibalization playbook, run it with `playbook.run`. Then list guides with `skill_catalog` (kind `guide`, topic `search_terms`) and follow a matching one through `skill_read`; choose by title, never by a stored id.
+
+If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
+
 ## Minimum evidence and fallback
 
 Request a Search terms export with dates and timezone, currency, campaign/ad-group identifiers, query, matched keyword, reported match type, impressions, clicks, cost, conversions and value where available. For coverage review, also request the current keyword inventory with configured match type, status, scope, final URL or landing page, negatives and relevant campaign eligibility settings. Ask for the business goal, target regions/languages, approved product names, conversion definition, attribution window and expected conversion lag.

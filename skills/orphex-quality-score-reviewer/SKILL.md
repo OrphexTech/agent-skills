@@ -10,6 +10,12 @@ metadata:
 
 Use this skill when asked to diagnose Search keyword Quality Score (QS), explain component patterns, or prioritize ad-group follow-up. QS is a keyword-level diagnostic, not a campaign outcome. Work from supplied exports and documents; an already-authorized read-only source is optional. Do not treat the review as permission to edit ads, keywords, or landing pages.
 
+## With an Orphex connection
+
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `controller.catalog` then `controller.fetch` at level `keyword` for Quality Score, its components, cost and outcomes. If `playbook.catalog` lists the quality score repair playbook, run it with `playbook.run`.
+
+If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
+
 ## Gather comparable evidence
 
 Request keyword ID/text, campaign and ad-group IDs, match type, current and historical QS, the three component statuses, date or segment, impressions, clicks, cost, conversions/value, status, final URL, and relevant query or ad evidence. Ask for account timezone, currency, conversion action and attribution window. Include the current and historical period separately because the score and its statuses are benchmark diagnostics, while performance rows may cover a different date range. Historical QS components are evaluated against other advertisers whose ads showed for the exact same search over the preceding 90 days; do not imply that a 7-day performance export measures the same window. See [Google's Quality Score guide](https://support.google.com/google-ads/answer/6167118?hl=en).

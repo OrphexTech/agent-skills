@@ -10,6 +10,12 @@ metadata:
 
 Use this skill to check whether business events are configured, fired, transported, and counted as intended across tags, pixels, server APIs, imports, and analytics. It assesses tracking health; it does not expect attribution reports to match. Optional Orphex MCP reads may be used within the user's authorized scope.
 
+## With an Orphex connection
+
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `workspace.config_read` for connected pixels, analytics and store connections with their auth health, and `insights.read` for standing tracking findings. Then list guides with `skill_catalog` (kind `guide`, topic `measurement`, then `account_health`) and follow a matching one through `skill_read`; choose by title, never by a stored id.
+
+If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
+
 ## Define the expected event path
 
 Define the event's business meaning, exact name, primary/secondary role, bidding inclusion, source, value/currency rules, and expected user path. Record platform, account/property, site/app, dates, timezone, refresh time, attribution basis, and recent changes. Minimum evidence is the event definition plus a safe diagnostic, configuration view, or reproducible test. Redacted traces, retry behavior, counts, consent, and redirects help. Without a diagnostic or sample, report `unknown`. Use `not tested` only when the test is known not to have run and its required source and safe method are available; missing results alone do not establish that. A report total alone cannot prove health.

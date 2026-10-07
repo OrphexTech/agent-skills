@@ -10,6 +10,12 @@ metadata:
 
 Review customer cohort value, repeat behavior and acquisition economics at a common observed horizon. A skill title containing LTV does not make a finite observation a lifetime estimate.
 
+## With an Orphex connection
+
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `business_outcomes.mmp_cohort_campaign_read` for install-cohort revenue, purchases and events at d0, w0 and m0, and `controller.catalog` then `controller.fetch` at level `campaign` for matching cost. Then list guides with `skill_catalog` (kind `guide`, topic `subscription`) and follow a matching one through `skill_read`; choose by title, never by a stored id.
+
+If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
+
 ## Align cohorts before comparing
 
 Define new/acquired customer membership, acquisition date, attribution and cost allocation, unique identity rules, product/business model, currency, revenue/cost basis, snapshot, and per-customer follow-up. Use the same elapsed horizon from acquisition for every eligible customer; a monthly cohort's average age or earliest member age cannot certify maturity for the whole cohort. Exclude right-censored periods from an equal-horizon comparison or disclose a valid censoring-adjusted method rather than extrapolating automatically.
