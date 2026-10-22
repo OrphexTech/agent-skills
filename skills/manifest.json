@@ -4,7 +4,7 @@
     {
       "slug": "orphex-account-structure-audit",
       "title": "Orphex Account Structure Audit",
-      "description": "Audit supplied campaign structure, naming, budget ownership, and settings; distinguish operational risks from unproven performance effects.",
+      "description": "Audit supplied ad account and campaign structure, naming, budget ownership, and settings; distinguish operational risks from unproven performance effects.",
       "outcome": "A ranked account-structure audit with evidence-linked operational risks, bounded performance implications, a staged cleanup plan, approvals, and rollback mapping.",
       "category": "campaign-optimization",
       "tags": [
@@ -259,7 +259,7 @@
     {
       "slug": "orphex-budget-change-proposal",
       "title": "Orphex Budget Change Proposal",
-      "description": "Quantify a proposed change to campaign or portfolio budget totals, with assumptions and approval scope; use the reallocator when the total must remain fixed.",
+      "description": "Quantify a proposed change to ad campaign or portfolio budget totals, with assumptions and approval scope; use the reallocator when the total must remain fixed.",
       "outcome": "A reviewable budget proposal with per-campaign deltas, portfolio impact, assumptions, risks, and an explicit approval boundary.",
       "category": "budget-growth",
       "tags": [
@@ -343,7 +343,7 @@
     {
       "slug": "orphex-budget-pacing-forecast",
       "title": "Orphex Budget Pacing & Forecast",
-      "description": "Compare actual spend with a supplied period budget and forecast transparent remaining-spend scenarios; use reallocation to move fixed campaign caps.",
+      "description": "Compare actual ad spend with a supplied period budget and forecast transparent remaining-spend scenarios; use reallocation to move fixed campaign caps.",
       "outcome": "A reconciled pacing assessment with remaining budget, required spend rate, explicit forecast scenarios, and the next check.",
       "category": "budget-growth",
       "tags": [
@@ -424,7 +424,7 @@
     {
       "slug": "orphex-campaign-budget-reallocator",
       "title": "Orphex Campaign Budget Reallocator",
-      "description": "Prepare a balanced transfer between supplied campaign budgets while preserving a fixed total and all protected bounds; use budget pacing to forecast period spend.",
+      "description": "Prepare a balanced transfer between supplied ad campaign budgets while preserving a fixed total and all protected bounds; use budget pacing to forecast period spend.",
       "outcome": "A feasible fixed-total allocation with reconciled deltas, evidence, bounded impact estimates, and an approval boundary.",
       "category": "budget-growth",
       "tags": [
@@ -512,7 +512,7 @@
     {
       "slug": "orphex-conversion-tracking-health-check",
       "title": "Orphex Conversion Tracking Health Check",
-      "description": "Audit supplied conversion configuration and safe diagnostics; separate transport acceptance, deduplication, and actual counted outcomes.",
+      "description": "Audit supplied ad-platform and analytics conversion tracking configuration and safe diagnostics; separate transport acceptance, deduplication, and actual counted outcomes.",
       "outcome": "A privacy-safe event-path assessment with pass, fail, not-tested, or unknown findings and scoped verification steps.",
       "category": "measurement-data-quality",
       "tags": [
@@ -590,7 +590,7 @@
     {
       "slug": "orphex-creative-fatigue-detector",
       "title": "Orphex Creative Fatigue Detector",
-      "description": "Assess creative fatigue hypotheses from mature comparable trends, delivery age, and reach context; propose a bounded refresh test.",
+      "description": "Assess ad creative fatigue hypotheses from mature comparable trends, delivery age, and reach context; propose a bounded refresh test.",
       "outcome": "A ranked creative fatigue assessment that distinguishes supported decline, watch signals, no observed signal, and unknowns, with a bounded refresh test.",
       "category": "creative-messaging",
       "tags": [
@@ -672,7 +672,7 @@
     {
       "slug": "orphex-creative-signal-review",
       "title": "Orphex Creative Signal Review",
-      "description": "Compare creative results for the business objective and plan the next test; optimized delivery does not establish an A/B winner.",
+      "description": "Compare ad creative results for the business objective and plan the next test; optimized delivery does not establish an A/B winner.",
       "outcome": "A creative comparison grounded in the stated objective, comparable delivery, observed metrics, and a concrete next test.",
       "category": "creative-messaging",
       "tags": [
@@ -752,7 +752,7 @@
     {
       "slug": "orphex-creative-test-brief-builder",
       "title": "Orphex Creative Test Brief Builder",
-      "description": "Build production-ready creative test concepts from supplied offer, audience evidence, brand facts, and assets, with claim sourcing and a measurable hypothesis.",
+      "description": "Build production-ready ad creative test concepts from supplied offer, audience evidence, brand facts, and assets, with claim sourcing and a measurable hypothesis.",
       "outcome": "Evidence-sourced creative concepts with executable production briefs, approved claims, and a bounded test proposal.",
       "category": "creative-messaging",
       "tags": [
@@ -980,7 +980,7 @@
     {
       "slug": "orphex-experiment-result-reviewer",
       "title": "Orphex Experiment Result Reviewer",
-      "description": "Review a supplied experiment against its declared design, mature outcomes, uncertainty, and guardrails; allow inconclusive or invalid results without forcing a winner.",
+      "description": "Review a supplied marketing or conversion experiment against its declared design, mature outcomes, uncertainty, and guardrails; allow inconclusive or invalid results without forcing a winner.",
       "outcome": "A design-aware result with effect, uncertainty, guardrails, validity checks, and an evidence-bounded rollout recommendation.",
       "category": "conversion-experiments",
       "tags": [
@@ -1046,7 +1046,7 @@
     {
       "slug": "orphex-geo-device-breakdown-analysis",
       "title": "Orphex Geo & Device Breakdown Analysis",
-      "description": "Compare location and device performance from aligned exports while preserving unknown buckets, separate dimensions, and supported targeting controls.",
+      "description": "Compare ad campaign location and device performance from aligned exports while preserving unknown buckets, separate dimensions, and supported targeting controls.",
       "outcome": "An aligned location/device analysis with weighted aggregate metrics, overlap and lag caveats, confidence-bounded segment rankings, and supported next checks.",
       "category": "reporting-diagnostics",
       "tags": [
@@ -1199,7 +1199,7 @@
     {
       "slug": "orphex-keyword-mining-on-search-terms",
       "title": "Orphex Keyword Mining on Search Terms",
-      "description": "Find query-backed keyword test candidates and verify existing coverage; serving history does not establish incremental demand.",
+      "description": "Find query-backed Google Ads keyword test candidates and verify existing coverage; serving history does not establish incremental demand.",
       "outcome": "A ranked, reviewable set of keyword test candidates with observed query evidence, current-coverage checks, suggested match types, ad-group fit, and explicit uncertainty.",
       "category": "campaign-optimization",
       "tags": [
@@ -1285,7 +1285,7 @@
     {
       "slug": "orphex-landing-conversion-review",
       "title": "Orphex Landing Conversion Review",
-      "description": "Locate observed landing and funnel friction, then propose diagnostic checks or experiments without asserting untested causes.",
+      "description": "Locate observed landing-page and conversion-funnel friction for ad or marketing traffic, then propose diagnostic checks or experiments without asserting untested causes.",
       "outcome": "A funnel review that identifies observed drop-offs, relevant segment differences, evidence gaps, and testable page hypotheses.",
       "category": "conversion-experiments",
       "tags": [
@@ -1434,7 +1434,7 @@
     {
       "slug": "orphex-measurement-consistency-check",
       "title": "Orphex Measurement Consistency Check",
-      "description": "Reconcile event, attribution, date, identity, and revenue definitions across reports before treating differing totals as tracking failure.",
+      "description": "Reconcile event, attribution, date, identity, and revenue definitions across ad platform, analytics, and CRM reports before treating differing totals as tracking failure.",
       "outcome": "A source-by-source reconciliation of event, denominator, attribution, time, currency, and identity rules with bounded findings.",
       "category": "measurement-data-quality",
       "tags": [
@@ -1684,7 +1684,7 @@
     {
       "slug": "orphex-placement-cleaning",
       "title": "Orphex Placement Cleaning",
-      "description": "Review placement suitability and observable efficiency, then propose narrow supported exclusions without inventing spend from impressions.",
+      "description": "Review Google Ads placement suitability and observable efficiency, then propose narrow supported exclusions without inventing spend from impressions.",
       "outcome": "A scoped placement review that separates suitability from efficiency, quantifies only observed spend, and presents verified exclusions with coverage and confidence limits.",
       "category": "campaign-optimization",
       "tags": [
@@ -1765,7 +1765,7 @@
     {
       "slug": "orphex-pmax-asset-group-search-themes-audit",
       "title": "Orphex PMax Asset Group & Search Themes Audit",
-      "description": "Review PMax asset groups, destinations, themes, and Search overlap; distinguish optimization signals from targeting and causal evidence.",
+      "description": "Review Google Ads Performance Max (PMax) asset groups, destinations, themes, and Search overlap; distinguish optimization signals from targeting and causal evidence.",
       "outcome": "A campaign-aware audit of PMax group, asset, URL, theme, and Search-overlap evidence that separates platform signals from targeting controls and causal conclusions.",
       "category": "campaign-optimization",
       "tags": [
@@ -1933,7 +1933,7 @@
     {
       "slug": "orphex-quality-score-reviewer",
       "title": "Orphex Quality Score Reviewer",
-      "description": "Prioritize Search Quality Score component checks by business exposure; treat the score as a keyword diagnostic.",
+      "description": "Prioritize Google Ads Search Quality Score component checks by business exposure; treat the score as a keyword diagnostic.",
       "outcome": "A diagnostic review of keyword-level expected CTR, ad relevance, and landing-page experience patterns, tied to business exposure and testable follow-up hypotheses.",
       "category": "campaign-optimization",
       "tags": [
@@ -2019,7 +2019,7 @@
     {
       "slug": "orphex-rsa-ad-copy-asset-review",
       "title": "Orphex RSA Ad Copy & Asset Review",
-      "description": "Review RSA assets and approved claims for keep, replace, pin, or copy-test proposals; preserve overlapping asset metrics.",
+      "description": "Review Google Ads responsive search ad (RSA) assets and approved claims for keep, replace, pin, or copy-test proposals; preserve overlapping asset metrics.",
       "outcome": "An asset-by-asset RSA review with directional performance evidence, approved-claim sourcing, pinning risk, and clearly labeled copy-test proposals.",
       "category": "creative-messaging",
       "tags": [
@@ -2100,7 +2100,7 @@
     {
       "slug": "orphex-search-term-cleaning",
       "title": "Orphex Search Term Cleaning",
-      "description": "Review supplied Search terms to separate irrelevant spend from relevant demand and prepare scoped, risk-aware negative keyword proposals.",
+      "description": "Review supplied Google Ads search terms to separate irrelevant spend from relevant demand and prepare scoped, risk-aware negative keyword proposals.",
       "outcome": "An evidence-linked negative keyword proposal that protects converting and relevant queries, states historical spend exposure, and makes match-type and scope risks reviewable.",
       "category": "campaign-optimization",
       "tags": [
@@ -2186,7 +2186,7 @@
     {
       "slug": "orphex-weekly-performance-review",
       "title": "Orphex Weekly Performance Review",
-      "description": "Review marketing period changes and diagnose evidence-backed drivers from supplied comparable exports; use the summarizer for a short stakeholder update.",
+      "description": "Review marketing and ad campaign period changes and diagnose evidence-backed drivers from supplied comparable exports; use the summarizer for a short stakeholder update.",
       "outcome": "A concise period-over-period review with comparable metrics, evidence-linked explanations, uncertainty, and prioritized next actions.",
       "category": "reporting-diagnostics",
       "tags": [
@@ -2267,7 +2267,7 @@
     {
       "slug": "orphex-weekly-performance-summarizer",
       "title": "Orphex Weekly Performance Summarizer",
-      "description": "Write a brief stakeholder update from supplied weekly results, preserving weighted totals and caveats; use the performance review for deeper diagnosis.",
+      "description": "Write a brief stakeholder update from supplied weekly marketing and ad campaign results, preserving weighted totals and caveats; use the performance review for deeper diagnosis.",
       "outcome": "A concise, evidence-linked weekly update with correctly aggregated metrics, confidence, caveats, and prioritized next actions.",
       "category": "reporting-diagnostics",
       "tags": [
