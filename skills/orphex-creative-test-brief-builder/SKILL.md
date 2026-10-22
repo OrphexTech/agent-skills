@@ -1,6 +1,6 @@
 ---
 name: orphex-creative-test-brief-builder
-description: "Build production-ready creative test concepts from supplied offer, audience evidence, brand facts, and assets, with claim sourcing and a measurable hypothesis."
+description: "Build production-ready ad creative test concepts from supplied offer, audience evidence, brand facts, and assets, with claim sourcing and a measurable hypothesis."
 license: MIT
 metadata:
   version: "2.0.1"

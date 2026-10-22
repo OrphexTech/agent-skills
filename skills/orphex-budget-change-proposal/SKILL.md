@@ -1,6 +1,6 @@
 ---
 name: orphex-budget-change-proposal
-description: "Quantify a proposed change to campaign or portfolio budget totals, with assumptions and approval scope; use the reallocator when the total must remain fixed."
+description: "Quantify a proposed change to ad campaign or portfolio budget totals, with assumptions and approval scope; use the reallocator when the total must remain fixed."
 license: MIT
 metadata:
   version: "2.0.1"

@@ -1,6 +1,6 @@
 ---
 name: orphex-weekly-performance-summarizer
-description: "Write a brief stakeholder update from supplied weekly results, preserving weighted totals and caveats; use the performance review for deeper diagnosis."
+description: "Write a brief stakeholder update from supplied weekly marketing and ad campaign results, preserving weighted totals and caveats; use the performance review for deeper diagnosis."
 license: MIT
 metadata:
   version: "2.0.1"

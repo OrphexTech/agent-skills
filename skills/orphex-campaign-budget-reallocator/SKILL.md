@@ -1,6 +1,6 @@
 ---
 name: orphex-campaign-budget-reallocator
-description: "Prepare a balanced transfer between supplied campaign budgets while preserving a fixed total and all protected bounds; use budget pacing to forecast period spend."
+description: "Prepare a balanced transfer between supplied ad campaign budgets while preserving a fixed total and all protected bounds; use budget pacing to forecast period spend."
 license: MIT
 metadata:
   version: "2.0.1"
