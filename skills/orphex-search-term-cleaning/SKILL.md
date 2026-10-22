@@ -8,7 +8,7 @@ metadata:
 
 # Orphex Search Term Cleaning
 
-Use this skill when someone asks which Search queries should be excluded, whether paid-search spend is being wasted on irrelevant demand, or how to draft a negative-keyword review. Work from user-supplied exports and documents; an already-authorized read-only data source is optional. Return a proposal, never an account edit.
+Use this skill when someone asks which Search queries should be excluded, whether paid-search spend is being wasted on irrelevant demand, or how to draft a negative-keyword review. Work from Orphex data when the connection below reaches it, and from user-supplied exports and documents otherwise. Return a proposal, never an account edit.
 
 ## With an Orphex connection
 
