@@ -1,6 +1,6 @@
 ---
 name: orphex-weekly-performance-review
-description: "Review marketing period changes and diagnose evidence-backed drivers from supplied comparable exports; use the summarizer for a short stakeholder update."
+description: "Review marketing and ad campaign period changes and diagnose evidence-backed drivers from supplied comparable exports; use the summarizer for a short stakeholder update."
 license: MIT
 metadata:
   version: "2.0.1"

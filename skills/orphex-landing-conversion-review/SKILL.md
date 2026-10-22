@@ -1,6 +1,6 @@
 ---
 name: orphex-landing-conversion-review
-description: "Locate observed landing and funnel friction, then propose diagnostic checks or experiments without asserting untested causes."
+description: "Locate observed landing-page and conversion-funnel friction for ad or marketing traffic, then propose diagnostic checks or experiments without asserting untested causes."
 license: MIT
 metadata:
   version: "2.0.1"
