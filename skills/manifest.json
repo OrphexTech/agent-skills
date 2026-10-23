@@ -83,7 +83,7 @@
         }
       ],
       "example": {
-        "request": "Audit my ad account structure from the attached campaign export: naming, shared budget ownership and possible duplicate campaigns.",
+        "request": "Audit my ad account structure: naming, shared budget ownership and possible duplicate campaigns.",
         "inputCsv": "campaign_id,ad_group_id,campaign_name,status,objective,budget_id,budget_amount,currency,targeting\nc1,ag1,Search-Team,ACTIVE,qualified-demo,shared1,600,USD,US/team software\nc2,ag2,search_team_copy,ACTIVE,qualified-demo,shared1,600,USD,US/team software\nc3,ag3,Search-Brand,ACTIVE,qualified-demo,b3,100,USD,US/brand\n",
         "outputMarkdown": "# Fictional example output\n\nUnique daily cap ownership totals $700: shared1 $600 plus b3 $100. Summing three campaign rows to $1,300 would double count the shared budget.\n\nc2 violates the supplied Channel-Intent naming convention. c1/c2 have the same supplied targeting summary; this flags a possible governance duplicate, not demonstrated self-competition or wasted spend. Verify query eligibility, keyword inventories, and objectives before consolidating.\n\nPrepare a mapping of source IDs, proposed destination, budget owner, dependencies, and prior settings only after the intended cleanup is defined. Keep c3's separate brand role visible. Naming correction can be proposed independently of a structural merge; no performance uplift forecast is supportable. No renames, merges, or deletions were applied.\n"
       }
@@ -167,7 +167,7 @@
         }
       ],
       "example": {
-        "request": "Our ad campaign CPA spiked after a landing page release. Investigate the attached performance export and rank the likely causes.",
+        "request": "Our ad campaign CPA spiked after a landing page release. Investigate and rank the likely causes.",
         "inputCsv": "period,campaign_id,currency,spend,impressions,clicks,conversions,conversion_value\n2026-09-01/2026-09-07,c1,USD,1000,50000,1000,50,2500\n2026-09-08/2026-09-14,c1,USD,1200,60000,1200,30,1500\n",
         "outputMarkdown": "# Fictional example output\n\nCPA doubled from $20 to $40 (+100%). Spend rose 20%, clicks rose 20%, and leads fell 40%; click-to-lead rate fell from 5.00% to 2.50% (\u22122.50pp). CPC remained $1.00 and CTR remained 2.00%.\n\n| Hypothesis | Evidence | Missing test |\n| --- | --- | --- |\n| Landing conversion-path regression | Release timing coincides with the rate drop | Test form completion and server acceptance before/after with safe diagnostics |\n| Conversion measurement change | Lead reporting is the changing outcome | Compare event configuration and import timestamps |\n| Less qualified click mix | Stable CPC/CTR does not rule out intent changes | Compare query and segment composition |\n\nThe chronology prioritizes investigation; it does not prove the release caused the drop. Metrics are mature and comparable. Check instrumentation and actual lead completion first, then compare traffic mix. Do not roll back the page or adjust bids from this correlation alone. No mutations performed.\n"
       }
@@ -251,7 +251,7 @@
         }
       ],
       "example": {
-        "request": "We changed a Google Ads target CPA. Using the attached campaign export, check whether it hurt performance or reset bid strategy learning.",
+        "request": "We changed a Google Ads target CPA. Check whether it hurt performance or reset bid strategy learning.",
         "inputCsv": "period,campaign_id,strategy,status,currency,spend,conversions,target_cpa,conversion_delay_days\n2026-09-01/2026-09-07,c1,Target CPA,Eligible,USD,1000,50,20,7\n2026-09-08/2026-09-14,c1,Target CPA,Eligible,USD,1200,60,24,7\n",
         "outputMarkdown": "# Fictional example output\n\nCPA remained $20.00 in both mature intervals: $1,000/50 and $1,200/60. Spend and demos both increased 20%. Current observed CPA is below the $24 target, but the target is not a promise or hard per-conversion ceiling.\n\nThe supplied status is Eligible, so a learning reset is not observed. Do not infer a reset from the target change alone; Smart Bidding continues adapting and target changes do not universally erase prior learning. These before/after results do not prove the target edit caused the added demos.\n\nBoth intervals matured beyond the documented 7-day reporting delay. Next: inspect the actual bid-strategy report, budget constraints, goal settings, and simulator availability if a further change is requested. No appropriate new target or incremental return can be derived without the business constraint and marginal evidence. No bids or goals changed.\n"
       }
@@ -335,7 +335,7 @@
         }
       ],
       "example": {
-        "request": "We can add $50/day to our ad budget. Using the attached campaign budget export, propose where it should go without cutting other campaigns.",
+        "request": "We can add $50/day to our ad budget. Propose where it should go without cutting other campaigns.",
         "inputCsv": "budget_id,campaign_ids,currency,current,floor,ceiling,frozen,spend,conversions\nb1,c1,USD,600,500,700,false,6000,300\nb2,c2,USD,300,200,400,false,3000,100\nb3,brand,USD,100,100,100,true,1000,100\n",
         "outputMarkdown": "# Fictional example output\n\nPropose increasing b1/c1 from $600 to $650/day, leaving b2/c2 at $300 and frozen Brand at $100. Portfolio cap rises from $1,000 to $1,050/day: +$50 (+5.00%). All supplied bounds hold.\n\nFor a separately stated seven-day planning scenario, the additional cap capacity is $350. It is not a spend forecast or guaranteed cost. c1's historical average CPA is $20, but dividing $350 by that average to promise 17.5 incremental demos is unsupported without marginal evidence.\n\nThis differs from a fixed-total reallocation: no compensating cut is proposed. Confirm the higher authorized portfolio cap, effective dates, budget unit, and account scope before applying. Evaluate delivery and mature demo outcomes after the 7-day conversion cycle; previous caps provide a rollback reference. No budgets changed.\n"
       }
@@ -416,7 +416,7 @@
         }
       ],
       "example": {
-        "request": "Using the attached ad spend and budget export, forecast month-end spend and the daily pace needed to stay within budget.",
+        "request": "Forecast our month-end ad spend and the daily pace needed to stay within budget.",
         "inputCsv": "budget_id,currency,period_budget,spent,elapsed_days,period_days,future_daily_min,future_daily_max\nmonth1,USD,30000,12000,12,30,800,1200\n",
         "outputMarkdown": "# Fictional example output\n\n**On the linear reference pace, with a broad supplied spend scenario.** $12,000 of $30,000 is spent (40.00%); 12 of 30 days are complete (40.00%). Remaining budget is $18,000 over 18 days: $1,000/day required average actual spend.\n\nCurrent observed average is $1,000/day. A constant run-rate scenario finishes at $30,000. The supplied future range gives $12,000 + 18\u00d7$800 = $26,400 to $12,000 + 18\u00d7$1,200 = $33,600: $3,600 below to $3,600 above the budget.\n\nThis is a scenario range, not a confidence interval or a promise of delivery. Linear pacing is a reference and can be inappropriate for uneven flights/promotions. Confirm the flight calendar and cap/billing rules before a change proposal. Recheck after the next completed reporting day; no daily caps changed.\n"
       }
@@ -504,7 +504,7 @@
         }
       ],
       "example": {
-        "request": "Using the attached campaign budget export, shift $50/day between ad campaigns while keeping our total daily budget unchanged.",
+        "request": "Shift $50/day between our ad campaigns while keeping our total daily budget unchanged.",
         "inputCsv": "budget_id,campaign_ids,currency,current,floor,ceiling,frozen,spend,conversions\nb1,c1,USD,600,500,700,false,6000,300\nb2,c2,USD,300,200,400,false,3000,100\nb3,brand,USD,100,100,100,true,1000,100\n",
         "outputMarkdown": "# Fictional example output\n\n**Feasible proposal; total remains $1,000/day.**\n\n| Owner | Current | Delta | Proposed | Floor / ceiling |\n| --- | ---: | ---: | ---: | ---: |\n| b1 / c1 | $600 | +$50 | $650 | $500 / $700 |\n| b2 / c2 | $300 | \u2212$50 | $250 | $200 / $400 |\n| b3 / Brand | $100 | $0 | $100 | $100 / $100; frozen |\n| Total | $1,000 | $0 | $1,000 | |\n\nThe caps reconcile in cents: 65,000 + 25,000 + 10,000 = 100,000. Observed average CPA is $20 for c1 and $30 for c2, but no incremental-conversion forecast follows from those averages. Cap changes do not guarantee actual spend. Verify October 8 scope and supported write access before application. Review after the documented conversion cycle and compare delivery/outcomes; retain the original $600/$300/$100 caps for any authorized rollback. Proposal only; no change applied.\n"
       }
@@ -582,7 +582,7 @@
         }
       ],
       "example": {
-        "request": "Audit our ad conversion tracking from the attached browser and server event test results: what arrived, what was rejected, what may be duplicated?",
+        "request": "Audit our ad conversion tracking: which browser and server events arrived, which were rejected, which may be duplicated?",
         "inputCsv": "test_id,channel,event_name,event_id,value,currency,delivery_status\nt1,browser,Purchase,test-order-1,100,USD,accepted\nt1,server,Purchase,test-order-1,100,USD,accepted\nt2,server,Purchase,test-order-2,50,,rejected_missing_currency\n",
         "outputMarkdown": "# Fictional example output\n\n| Check | Status | Evidence |\n| --- | --- | --- |\n| t1 browser/server event-name and event-ID alignment | Pass | Both Purchase/test-order-1 with $100 USD |\n| t1 actual deduplicated counting | Unknown | Two transport acceptances are not proof of one counted conversion; no dedup result supplied |\n| t2 required currency delivery | Fail | Currency blank; diagnostic explicitly rejected missing currency |\n| Consent and production end-to-end coverage | Unknown | No safe coverage evidence supplied |\n\nFix the t2 currency source, then run an authorized synthetic diagnostic and inspect delivery/dedup results. Do not send live customer orders or assume the two accepted t1 transports caused duplicate attribution. Transport acceptance, event configuration, and counted outcomes are separate checks. Missing results leave these two findings unknown; they do not establish that a test has not run or that its source and method are available. No event configuration changed.\n"
       }
@@ -664,7 +664,7 @@
         }
       ],
       "example": {
-        "request": "Is our ad creative fatigued? Using the attached weekly creative export, assess fatigue and whether a creative refresh test is worth running.",
+        "request": "Is our ad creative fatigued? Assess fatigue and whether a creative refresh test is worth running.",
         "inputCsv": "period,creative_id,currency,spend,impressions,clicks,conversions,reach\n2026-09-01/2026-09-07,a1,USD,1000,100000,2000,100,50000\n2026-09-08/2026-09-14,a1,USD,1200,100000,1000,50,25000\n",
         "outputMarkdown": "# Fictional example output\n\n**Status: watch; fatigue is plausible but not established.** CTR fell from 2.00% to 1.00%, CPA rose from $10 to $24 (+140%), and CPM rose from $10 to $12 (+20%). Within-week frequency increased from 2.00 to 4.00 (impressions/reach).\n\nDo not sum weekly reach to 75,000 or average frequency to claim unique fortnight frequency: users may recur across weeks. Frequency 4 is not a universal fatigue threshold. The same unchanged creative has delivered since August 1, but auction cost, audience mix, and conversion-path differences remain alternatives.\n\nPropose one refresh concept with the same offer, objective, and evaluation window, retaining a comparison condition where feasible. Check joint delivery mix and control creative trends first. This is a bounded test recommendation, not a proven causal diagnosis or forecast. No ads paused or replaced.\n"
       }
@@ -744,7 +744,7 @@
         }
       ],
       "example": {
-        "request": "Using the attached ad creative export, compare creatives on cost per purchase and recommend the next creative test.",
+        "request": "Compare our ad creatives on cost per purchase and recommend the next creative test.",
         "inputCsv": "period,creative_id,currency,spend,impressions,clicks,conversions,reach\n2026-09-01/2026-09-14,a1,USD,600,60000,1200,30,30000\n2026-09-01/2026-09-14,a2,USD,400,40000,1200,16,20000\n",
         "outputMarkdown": "# Fictional example output\n\nFor purchases, a1 has the better observed CPA ($20 versus $25), while a2 has the higher CTR (3.00% versus 2.00%). Choosing a2 solely for clicks would ignore the stated outcome.\n\n| Creative | Spend | Clicks | Purchases | Click-to-purchase | CPA |\n| --- | ---: | ---: | ---: | ---: | ---: |\n| a1 | $600 | 1,200 | 30 | 2.50% | $20.00 |\n| a2 | $400 | 1,200 | 16 | 1.3333% | $25.00 |\n\nThis is directional evidence from non-random optimized delivery, not an A/B winner or creative causal effect. Reach cannot be added across creatives without overlap data. Next: test the two concepts under a feasible controlled design with purchase outcome and matched maturity; verify whether click intent or post-click experience explains the mismatch. No unsupported ROAS or statistical significance claim was made. No campaign changes applied.\n"
       }
@@ -806,7 +806,7 @@
         }
       ],
       "example": {
-        "request": "Using the attached product facts and audience research, write two distinct ad creative concepts and a creative test brief.",
+        "request": "From our product facts and audience research, write two distinct ad creative concepts and a creative test brief.",
         "inputCsv": "evidence_id,evidence_type,statement,scope\nclaim1,approved_claim,Paid team budget software with a 14-day trial,Acme product facts October 1\ninsight1,audience_insight,Finance teams want one shared view of team budgets,Supplied customer-research summary; no prevalence claim\nprod1,production_constraint,One screen-recorded demo and subtitles; no testimonial rights,Approved production inventory\nobs1,observation,Prior ads have click interest but unmeasured qualified-demo quality,September descriptive report; not an experiment\n",
         "outputMarkdown": "# Fictional example output\n\n## Concept A \u2014 Trial first\n\n- Hypothesis: opening with the approved trial offer encourages qualified finance-team prospects to explore the product.\n- Hook: \u201cTry team budget software for 14 days.\u201d Source: claim1.\n- Execution: open on that offer title, use the supplied screen recording as provided, and close with \u201cExplore the 14-day trial.\u201d All spoken and caption copy uses only claim1's approved product and trial facts; subtitles and the existing recording come from prod1. Confirm the recording and destination match those facts before publishing.\n\n## Concept B \u2014 Product first\n\n- Hypothesis: opening on the existing product demonstration improves qualified intent compared with an offer-first opening.\n- Hook: \u201cA quick look at team budget software.\u201d Source: claim1.\n- Execution: show the same supplied recording, then the same trial offer and CTA; change only the opening/story order. Avoid invented speed, savings, security, or workflow-capability claims.\n\n**Production dependency:** insight1 establishes that finance teams want a shared view; it does not establish that Acme provides that capability. Any shared-view messaging or a sequence that combines team views into an overview requires an approved product-capability fact and matching demo frames. That concept is not included in these ready copy/story proposals.\n\n**Test proposal:** compare trial-first and product-first openings under a feasible consistent assignment design; primary metric qualified demos per eligible assigned prospect, with offer/landing page constant. Instrument qualification first because obs1 does not establish it. Budget, duration, sample feasibility, and guardrail acceptance remain decisions for the experiment plan. These are unvalidated concepts and production briefs; no ads published.\n"
       }
@@ -891,7 +891,7 @@
         }
       ],
       "example": {
-        "request": "Using the attached customer cohort export, compare customer value and CAC across acquisition cohorts at the same customer age.",
+        "request": "Compare customer value and CAC across our acquisition cohorts at the same customer age.",
         "inputCsv": "cohort_id,currency,customers,observed_days,common_horizon_days,revenue_at_common_horizon,revenue_to_date,acquisition_cost,repeat_customers_at_common_horizon\nJune,USD,100,90,60,8000,9000,3000,50\nJuly,USD,100,60,60,7000,7000,3000,40\n",
         "outputMarkdown": "# Fictional example output\n\n| Cohort | Common observed horizon | Net revenue / acquired customer | CAC | Observed revenue-to-CAC ratio | Repeat-customer fraction |\n| --- | ---: | ---: | ---: | ---: | ---: |\n| June | 60 days | $8,000/100 = $80 | $3,000/100 = $30 | 2.6667 | 50/100 = 50.00% |\n| July | 60 days | $7,000/100 = $70 | $3,000/100 = $30 | 2.3333 | 40/100 = 40.00% |\n\nJuly's observed 60-day revenue per acquired customer is $10 lower (\u221212.50%). June's $9,000 at 90 days must not be compared with July's $7,000 at 60 days as equal-horizon lifetime value. This is observed 60-day value, not a lifetime forecast or profit LTV; CAC ratios do not include service/product costs.\n\nMembership and elapsed maturity are supported by the fictional export guarantee. Without per-customer age coverage in an actual export, alignment would remain unverified. Next: compare acquisition mix, offers, returns and repeat ordering at the same horizon. No projected lifetime multiple, payback date, or bid-target change was invented.\n"
       }
@@ -972,7 +972,7 @@
         }
       ],
       "example": {
-        "request": "Plan a four-week A/B test for our lead form using the attached baseline conversion data, and check whether the target lift is detectable.",
+        "request": "Plan a four-week A/B test for our lead form and check whether the target lift is detectable from our baseline conversion rate.",
         "inputCsv": "experiment_id,baseline_trials,baseline_successes,weekly_eligible_trials,target_rate,alpha,power,outcome_delay_days\nform-test,1000,100,1000,0.12,0.05,0.8,7\n",
         "outputMarkdown": "# Fictional example output\n\n**The requested four-week horizon is insufficient for the stated planning assumptions.** Baseline submit rate is 100/1,000 = 10.00%. The meaningful target is 12.00%: +2.00 percentage points, or +20.00% relative.\n\nThe optional binary normal-approximation calculator requires approximately 3,841 independent units per arm, 7,682 total, for two-sided alpha .05 and power .80. At 1,000 eligible users/week with a 50/50 split, enrollment requires about 7.682 weeks, plus 7 days for the final cohort to mature. Four weeks supplies only about 2,000 users per arm.\n\nDesign: change only form fields; assign users consistently, analyze accepted submissions per eligible assigned user at the fixed horizon, check instrumentation before enrollment, and predeclare the qualification guardrail. The approximate sample estimate is not a guarantee and is invalid for clustered users or repeated dependent trials.\n\nDecide whether to extend the enrollment horizon, seek additional eligible traffic, or revise the user-selected effect criterion. Do not launch a four-week test with a promised winner. No experiment created and no auto-apply enabled.\n"
       }
@@ -1038,7 +1038,7 @@
         }
       ],
       "example": {
-        "request": "Review our A/B test results in the attached export and decide whether the treatment variant should roll out.",
+        "request": "Review our A/B test results and decide whether the treatment variant should roll out.",
         "inputCsv": "experiment_id,arm,assigned_units,successes,guardrail_successes\nform-test,control,1000,100,40\nform-test,treatment,1000,110,39\n",
         "outputMarkdown": "# Fictional example output\n\n**No clear primary winner; rollout is not justified by this evidence.** Control is 100/1,000 = 10.00%; treatment is 110/1,000 = 11.00%. Difference is +1.00 percentage point (+10.00% relative).\n\nUnder the supplied independent binary fixed-horizon assumptions, the unpooled normal approximate 95% interval for the absolute difference is \u22121.6867pp to +3.6867pp. It includes zero and material harm as well as benefit. This is inconclusive, not proof of equality or a 95% probability that treatment wins.\n\nQualification per assigned user is 4.00% control and 3.90% treatment (\u22120.10pp). No predeclared guardrail margin was supplied, so acceptance remains unverified. The maturity and assignment checks are supported by the fictional design; any different actual design would require reassessment.\n\nRetain the control and decide whether a separately planned follow-up can answer the question; do not repeatedly extend this test until significance appears. No experiment applied or traffic shifted.\n"
       }
@@ -1115,7 +1115,7 @@
         }
       ],
       "example": {
-        "request": "Using the attached ad performance breakdown, compare results by location and by device without double counting spend.",
+        "request": "Compare our ad results by location and by device without double counting spend.",
         "inputCsv": "period,dimension,segment,currency,spend,clicks,conversions\n2026-09-01/2026-09-07,geo,US,USD,600,600,30\n2026-09-01/2026-09-07,geo,Unknown,USD,100,100,5\n2026-09-01/2026-09-07,device,mobile,USD,500,500,20\n2026-09-01/2026-09-07,device,desktop,USD,200,200,15\n",
         "outputMarkdown": "# Fictional example output\n\nEach dimension reconciles to $700 spend and 35 leads: account CPA is $20.00. Do not add geo and device totals: they describe the same $700.\n\n| Dimension/bucket | Spend | Leads | CPA | Click-to-lead rate |\n| --- | ---: | ---: | ---: | ---: |\n| Geo / US | $600 | 30 | $20.00 | 5.00% |\n| Geo / Unknown | $100 | 5 | $20.00 | 5.00% |\n| Device / mobile | $500 | 20 | $25.00 | 4.00% |\n| Device / desktop | $200 | 15 | $13.33 | 7.50% |\n\nKeep the Unknown location bucket in totals; it is not missing numeric data. Mobile's observed rate is lower, but no matched trend, joint geo-device export, or causal test is present. We cannot conclude that US mobile has the same rates or prescribe a device bid adjustment under this strategy. Check mobile funnel instrumentation and comparable periods, then confirm available targeting controls. No changes applied.\n"
       }
@@ -1191,7 +1191,7 @@
         }
       ],
       "example": {
-        "request": "Using the attached Google Ads impression share and Auction Insights export, explain whether budget or ad rank limits our Search delivery more.",
+        "request": "Check our Google Ads impression share and Auction Insights: is budget or ad rank limiting our Search delivery more?",
         "inputCsv": "campaign_id,period,search_impression_share,search_lost_is_budget,search_lost_is_rank,competitor,overlap_rate\nc1,2026-09-01/2026-09-07,40%,10%,50%,rival.example,25%\n",
         "outputMarkdown": "# Fictional example output\n\nReported Search impression share is 40%, with 10% lost to budget and 50% lost to rank. Rank is the larger reported eligibility loss in this matched campaign scope; increasing budget alone does not address rank loss.\n\nThe rival's 25% overlap rate means it appeared in 25% of auctions in which our ad appeared. It does not mean the rival bought 25% of all eligible auctions, spent a given amount, or caused our loss. These metrics have different denominators.\n\nNext: review query relevance, landing experience, bid strategy constraints, and outcome economics before proposing changes. Recoverable impressions, incremental sales, competitor spend, and a profitable bid increase cannot be quantified from these rows. No account changes were made.\n"
       }
@@ -1277,7 +1277,7 @@
         }
       ],
       "example": {
-        "request": "Using the attached Google Ads search terms report, suggest new keywords to test and flag queries our keywords already cover.",
+        "request": "Check our Google Ads search terms, suggest new keywords to test and flag queries our keywords already cover.",
         "inputCsv": "query,campaign_id,ad_group_id,matched_keyword,match_type,currency,spend,clicks,conversions\nfree spreadsheet template,c1,ag1,budget software,BROAD,USD,90,60,0\nacme budget software,c1,ag1,budget software,PHRASE,USD,200,100,10\nteam budget software,c1,ag1,budget software,PHRASE,USD,150,75,6\n",
         "outputMarkdown": "# Fictional example output\n\nThe strongest non-brand candidate is team budget software: 6 qualified demos from 75 clicks (8.00%) at $25.00 CPA. Acme budget software has 10 demos at $20.00 CPA but belongs to protected brand coverage.\n\n| Candidate | Current evidence | Proposed test |\n| --- | --- | --- |\n| team budget software | Already served by active broad budget software; literal absence does not establish a coverage gap | Consider exact [team budget software] in ag1 for query-aligned reporting/copy; verify eligibility and negatives first |\n| acme budget software | Already served; brand demand | Review brand structure only if requested |\n| free spreadsheet template | 0 demos; off-offer free intent | Exclude from positive keyword candidates; send to cleaning review |\n\nAdding exact coverage is a structure/control hypothesis, not a claim of incremental demand. Past query conversions were already captured by broad matching. No search-volume estimate or lift forecast can be derived. Test without duplicating intended scope, and keep conversion definition and comparison window fixed. No keywords added.\n"
       }
@@ -1336,7 +1336,7 @@
         }
       ],
       "example": {
-        "request": "Using the attached landing page funnel data, find where visitors drop off before converting and propose the next check.",
+        "request": "Find where landing page visitors drop off before converting and propose the next check.",
         "inputCsv": "segment,visits,form_starts,form_submits\nmobile,1000,200,80\ndesktop,500,150,90\n",
         "outputMarkdown": "# Fictional example output\n\nOverall accepted-submit rate is 170 / 1,500 = 11.3333%. Mobile is 8.00% versus desktop 18.00%; form-start to accepted-submit is 40.00% mobile versus 60.00% desktop.\n\nThe mobile start-to-submit drop is 120 of 200 starts (60.00%). This localizes an observed friction point but does not prove the six fields caused it: traffic intent, device measurement, and form errors remain alternatives.\n\nFirst check mobile validation errors and backend acceptance with safe test submissions. If instrumentation is sound, design a one-change form simplification experiment using accepted submissions as the primary outcome and qualified-demo rate as a guardrail. No causal winner, revenue estimate, or redesign instruction follows from the current evidence alone. No page changed.\n"
       }
@@ -1426,7 +1426,7 @@
         }
       ],
       "example": {
-        "request": "Using the attached ad lead and CRM export, compare campaigns by qualified leads and closed sales, not just cost per lead.",
+        "request": "Compare our ad campaigns by qualified leads and closed sales in the CRM, not just cost per lead.",
         "inputCsv": "cohort,campaign_id,currency,spend,platform_leads,matched_leads,qualified_leads,won_customers,won_revenue,observed_days\n2026-07,c1,USD,1000,100,80,24,8,8000,60\n2026-07,c2,USD,1000,50,45,27,9,9000,60\n",
         "outputMarkdown": "# Fictional example output\n\nc1 is cheaper on raw leads ($10 versus $20), while c2 is better on the observed matched qualified and won outcomes.\n\n| Campaign | Join coverage | Qualified / matched | Qualified / all origin leads | Cost / observed qualified | Cost / observed won |\n| --- | ---: | ---: | ---: | ---: | ---: |\n| c1 | 80/100 = 80.00% | 24/80 = 30.00% | 24/100 = 24.00% | $41.67 | $125.00 |\n| c2 | 45/50 = 90.00% | 27/45 = 60.00% | 27/50 = 54.00% | $37.04 | $111.11 |\n\nThe all-origin quality fractions are observed matched outcomes divided by the full origin cohort; they are not complete qualification rates because 20/5 leads are unmatched. Matched-only rates may be selection-biased. Equal 60-day follow-up supports this comparison, but no causal incrementality or complete true won rate is established.\n\nNext: reconcile c1's weaker join coverage and stage definitions before a budget or bidding-goal proposal. Booked won revenue is $8,000/$9,000, not profit. No customer identities uploaded or conversion goals changed.\n"
       }
@@ -1498,7 +1498,7 @@
         }
       ],
       "example": {
-        "request": "Google Ads, GA4 and our CRM show different purchase totals. Using the attached export, explain the gap before assuming tracking is broken.",
+        "request": "Google Ads, GA4 and our CRM show different purchase totals. Explain the gap before assuming tracking is broken.",
         "inputCsv": "source,period,event,count,count_basis,attribution\nGoogle Ads,2026-09-01/2026-09-07,purchase,100,attributed credits,7-day click; click date\nGA4,2026-09-01/2026-09-07,purchase,90,observed event IDs,event date\nCRM,2026-09-01/2026-09-07,paid_order,85,unique accepted orders,order date; no ad attribution\n",
         "outputMarkdown": "# Fictional example output\n\nThe reports differ by 10 Google Ads credits versus GA4 events and 5 GA4 events versus accepted CRM orders, but those differences are not validated duplicate or missing purchases.\n\n| Source | Observed count | Non-comparable feature |\n| --- | ---: | --- |\n| Google Ads | 100 | Attributed credits by click date with 7-day window |\n| GA4 | 90 | Observed purchase event IDs by event date |\n| CRM | 85 | Accepted unique orders by order date without ad attribution |\n\nFirst reconcile event/order mapping, status exclusions, date basis, consent coverage, and attribution. No deduplicated cross-source total exists from aggregate counts; adding them to 275 would triple-count unlike representations. Tracking health remains unknown until aligned diagnostics or an authorized pseudonymous join is supplied. No reporting configuration changed.\n"
       }
@@ -1587,7 +1587,7 @@
         }
       ],
       "example": {
-        "request": "Using the attached Google Merchant Center diagnostics export, prioritize product feed fixes for our Shopping ads.",
+        "request": "Check our Google Merchant Center diagnostics and prioritize product feed fixes for our Shopping ads.",
         "inputCsv": "item_id,destination,status,issue_code,feed_price,landing_price,currency,feed_availability,landing_availability,observed_spend\nsku-a,Shopping ads,disapproved,price_mismatch,90,100,USD,in_stock,in_stock,400\nsku-b,Shopping ads,eligible,none,50,50,USD,in_stock,out_of_stock,100\nsku-c,free listings,eligible,none,80,80,USD,in_stock,in_stock,0\n",
         "outputMarkdown": "# Fictional example output\n\n| Item/destination | Finding | Next verification |\n| --- | --- | --- |\n| sku-a / Shopping ads | Reported disapproval plus observed $90 feed / $100 landing price mismatch | Reconcile source-of-truth price and destination/crawl timestamp; correct the authorized feed source, then recheck diagnostics |\n| sku-b / Shopping ads | Status says eligible, but supplied stock observations conflict | Verify stock freshness, variant and checkout consistency; eligibility may lag current data |\n| sku-c / free listings | No supplied mismatch or diagnostic issue | Preserve this scoped observation; it does not certify all attributes/destinations |\n\nOne of three supplied item-destination rows is disapproved (33.33%). One of two Shopping-ad rows is disapproved (50.00%); free listings must not be silently counted as ad eligibility. Historical spend for sku-a is $400 exposure, not lost sales or recoverable revenue. No merchant-wide health guarantee, appeal, product exclusion, or price change was made.\n"
       }
@@ -1676,7 +1676,7 @@
         }
       ],
       "example": {
-        "request": "Our Meta ad set delivery is declining. Using the attached ad set export, check whether audience saturation explains it.",
+        "request": "Our Meta ad set delivery is declining. Check whether audience saturation explains it.",
         "inputCsv": "period,ad_set_id,delivery_status,optimization_event,currency,spend,impressions,reach,link_clicks,results\n2026-09-01/2026-09-07,cold1,Active,Purchase,USD,1000,100000,50000,2000,50\n2026-09-08/2026-09-14,cold1,Learning limited,Purchase,USD,1000,80000,20000,800,25\n",
         "outputMarkdown": "# Fictional example output\n\nObserved Purchase CPA increased from $20 to $40 (+100%). CPM rose from $10 to $12.50 (+25%); link CTR fell from 2.00% to 1.00%. Within-week frequency rose from 2.00 to 4.00, while reach fell from 50,000 to 20,000.\n\nThe supplied status changed to Learning limited; its cause is not established by these counts. The creative edit coincides with the change but is not proof that it reset learning or caused the drop. Frequency 4 is not a universal saturation threshold. Weekly reach is nonadditive, so neither 70,000 unique people nor a pooled frequency can be asserted.\n\nPrioritize the actual delivery diagnostics, current event/attribution settings, change history, and matched placement/audience breakdown. Audience expansion and removing exclusions require checking which settings are actual controls in this campaign. Do not switch to an easier event just to clear status or promise a budget increase will resolve it. No targeting, event, or budget change applied.\n"
       }
@@ -1757,7 +1757,7 @@
         }
       ],
       "example": {
-        "request": "Using the attached Google Ads placement report, flag Display and Performance Max placements to review for brand suitability or poor efficiency.",
+        "request": "Check our Google Ads placements and flag Display and Performance Max placements to review for brand suitability or poor efficiency.",
         "inputCsv": "campaign_id,campaign_type,placement,placement_type,impressions,currency,spend,conversions\ndisplay1,DISPLAY,games.example,website,10000,USD,120,0\npmax1,PERFORMANCE_MAX,video.example/v1,video,8000,,,\n",
         "outputMarkdown": "# Fictional example output\n\n| Placement | Finding | Quantified evidence | Proposed next check |\n| --- | --- | --- | --- |\n| games.example | Suitability unknown; the hostname does not verify games content. Efficiency warrants review | Display: 10,000 impressions, $120 spend, 0 mature purchases; CPA undefined | Obtain actual content/category evidence against the supplied Games ban, verify normalized identity and supported Display exclusion scope, then consider a narrow exclusion only if the conflict is confirmed |\n| video.example/v1 | Unknown suitability and efficiency | PMax: 8,000 impressions; cost/outcomes unavailable | Obtain suitability evidence and supported exclusion control if needed |\n\n$120 is observed spend exposure, not guaranteed savings. The supplied suitability rule does not establish this website's category, and zero observed purchases alone does not require exclusion. No cost, CPA, fraud claim, or exclusion recommendation is supportable for the PMax row from impressions alone. A missing cost is not zero. No blanket app-category block or account-wide exclusion is justified. Proposal only; nothing applied.\n"
       }
@@ -1839,7 +1839,7 @@
         }
       ],
       "example": {
-        "request": "Audit our Google Ads Performance Max asset groups from the attached export: search themes, landing pages and overlap with Search campaigns.",
+        "request": "Audit our Google Ads Performance Max asset groups: search themes, landing pages and overlap with Search campaigns.",
         "inputCsv": "campaign_id,asset_group_id,asset_group_name,final_url,search_themes,audience_signals,asset_types,status\np1,g1,Budget software,https://example.com/team,team budget software;finance collaboration,website visitors,text;image;video,ELIGIBLE\np1,g2,General,https://example.com/,budget software,all visitors,text;image,ELIGIBLE\n",
         "outputMarkdown": "# Fictional example output\n\nGroup g1 has a theme-to-destination alignment hypothesis worth preserving: team software themes route to /team and text/image/video are supplied. g2 routes to a broad homepage and lacks a supplied video asset; check current asset diagnostics and actual destination behavior before prescribing edits.\n\nThemes and audience signals are optimization inputs, not a whitelist of eligible searches or hard audience targeting. Search keyword overlap identifies a coverage question; it does not prove PMax cannibalized incremental conversions.\n\nNext checks: obtain current URL-expansion settings, brand/negative controls, asset diagnostics, and matched campaign/group outcomes. Confirm current supported theme limits and controls in official documentation before proposing uploads. No group-level ROAS, lost revenue, or asset totals were inferred, and no settings were changed.\n"
       }
@@ -1925,7 +1925,7 @@
         }
       ],
       "example": {
-        "request": "Using the attached product sales and cost export, show which advertised products are profitable after ad spend, not just on ROAS.",
+        "request": "Show which of our advertised products are profitable after ad spend, not just on ROAS.",
         "inputCsv": "product_id,currency,gross_revenue,discounts,refunds,cost_of_goods,fulfilment,payment_fees,ad_spend\nsku-a,USD,10000,1000,500,4000,800,200,2000\nsku-b,USD,6000,0,1000,3000,600,150,1500\n",
         "outputMarkdown": "# Fictional example output\n\n| Product | Net revenue | Contribution before ads | Ads | Contribution after ads | Net-revenue ROAS | Contribution break-even ROAS |\n| --- | ---: | ---: | ---: | ---: | ---: | ---: |\n| sku-a | $8,500 | $3,500 | $2,000 | $1,500 | 4.25 | 2.4286 |\n| sku-b | $5,000 | $1,250 | $1,500 | \u2212$250 | 3.3333 | 4.00 |\n| Total | $13,500 | $4,750 | $3,500 | $1,250 | 3.8571 | 2.8421 |\n\nsku-b's gross ROAS is 6,000/1,500 = 4.00, but the settled discounts/refunds and variable costs leave \u2212$250 after advertising. Gross return is not profit.\n\nFor sku-a, net revenue is 10,000\u22121,000\u2212500 = 8,500; pre-ad contribution is 8,500\u22124,000\u2212800\u2212200 = 3,500. Net-revenue break-even ROAS is 8,500/3,500, under these cost semantics. This is variable contribution, not company net profit, and assumes the observed cost mix rather than marginal scalability.\n\nReview sku-b's returns, cost allocation and offer economics before proposing budget cuts or price changes. No product, price, or campaign changes applied.\n"
       }
@@ -2011,7 +2011,7 @@
         }
       ],
       "example": {
-        "request": "Using the attached Google Ads keyword export, prioritize which Quality Score issues to fix first based on spend and conversions.",
+        "request": "Prioritize which Google Ads Quality Score issues to fix first based on spend and conversions.",
         "inputCsv": "keyword_id,keyword,quality_score,expected_ctr,ad_relevance,landing_page_experience,currency,spend,conversions\nk1,team budget software,5,Average,Below average,Average,USD,900,30\nk2,free budget tool,3,Below average,Below average,Below average,USD,50,0\nk3,acme budget software,--,--,--,--,USD,150,10\n",
         "outputMarkdown": "# Fictional example output\n\nPrioritize k1's ad relevance investigation: it has $900 of the $1,100 observed spend (81.82%) and 30 demos at $30 CPA. k2 has a lower score but only $50 exposure; its free budget tool wording warrants checking the actual product/offer fit before score work. No supplied offer definition establishes that it is off-offer.\n\nk3's -- diagnostic is unavailable, not zero. Its observed demo CPA is $15, but the missing diagnostic does not establish excellent or poor quality.\n\nDo not average QS into an account KPI or treat it as the auction input. k1's below-average ad relevance suggests checking query-to-ad alignment and drafting a bounded copy test. Snapshot components and performance dates have different windows, so a causal performance effect is unproven. No promised CPC reduction or score target was invented. No changes applied.\n"
       }
@@ -2092,7 +2092,7 @@
         }
       ],
       "example": {
-        "request": "Review the Google Ads responsive search ad assets in the attached export for risky claims and suggest a safe ad copy test.",
+        "request": "Review our Google Ads responsive search ad assets for risky claims and suggest a safe ad copy test.",
         "inputCsv": "ad_id,asset_id,asset_type,text,pin,impressions,clicks,conversions\nrsa1,h1,headline,Team Budget Software,none,1000,100,5\nrsa1,h2,headline,Free Forever,none,1000,100,5\n",
         "outputMarkdown": "# Fictional example output\n\nReplace h2's Free Forever claim: it contradicts the supplied paid-product facts. Keep h1 as a relevant concept; its apparent metrics do not isolate its contribution.\n\n| Asset | Decision | Reason | Draft test proposal |\n| --- | --- | --- | --- |\n| h1 | Keep for test | Matches approved team-software proposition | Team Budget Software |\n| h2 | Replace | Unsupported free-forever claim | Try the 14-Day Trial |\n\nThe two asset rows each show the same co-served 5 conversions; the ad total is 5, not 10. These asset observations cannot prove h1 outperformed h2. Do not pin text by default; verify any mandatory legal/offer positioning and supported limits before upload. Drafts use only supplied claims. No ads edited and no lift estimate promised.\n"
       }
@@ -2178,7 +2178,7 @@
         }
       ],
       "example": {
-        "request": "Using the attached Google Ads search terms report, propose negative keywords without blocking queries that convert.",
+        "request": "Check our Google Ads search terms and propose negative keywords without blocking queries that convert.",
         "inputCsv": "query,campaign_id,ad_group_id,matched_keyword,match_type,currency,spend,clicks,conversions\nfree spreadsheet template,c1,ag1,budget software,BROAD,USD,90,60,0\nacme budget software,c1,ag1,budget software,PHRASE,USD,200,100,10\nteam budget software,c1,ag1,budget software,PHRASE,USD,150,75,6\n",
         "outputMarkdown": "# Fictional example output\n\nOne narrow negative candidate merits review; protect the two converting software queries.\n\n| Query | Proposal | Scope | Evidence and conflict check |\n| --- | --- | --- | --- |\n| free spreadsheet template | Negative exact [free spreadsheet template] | c1/ag1 | Off-offer free-template intent; $90 observed spend, 60 clicks, zero mature demos; no supplied protected exact query conflict |\n| acme budget software | Keep | c1/ag1 | Protected brand; 10 demos at $20 CPA |\n| team budget software | Keep | c1/ag1 | Relevant paid-software demand; 6 demos at $25 CPA |\n\nA broad negative such as software or budget would conflict with valuable demand; do not use it. Negative exact is a proposal for this observed term, not an automatic exclusion of close variants. $90 is historical exposure, not promised future savings. Verify the live negative inventory and requested scope before any authorized application. No negative was applied.\n"
       }
@@ -2259,7 +2259,7 @@
         }
       ],
       "example": {
-        "request": "Review last week's ad performance in the attached campaign export: explain what changed and where we should investigate.",
+        "request": "Review last week's ad performance: explain what changed and where we should investigate.",
         "inputCsv": "period,campaign_id,currency,spend,impressions,clicks,conversions,conversion_value\n2026-09-07/2026-09-13,brand,USD,400,20000,1000,40,2000\n2026-09-07/2026-09-13,generic,USD,1600,80000,2000,40,2000\n2026-09-14/2026-09-20,brand,USD,500,25000,1250,50,2500\n2026-09-14/2026-09-20,generic,USD,1700,85000,2125,34,1700\n",
         "outputMarkdown": "# Fictional example output\n\nAverage CPA increased 4.76%, with the observed deterioration concentrated in Generic.\n\n| Metric | Sep 7\u201313 | Sep 14\u201320 | Movement |\n| --- | ---: | ---: | ---: |\n| Spend | $2,000 | $2,200 | +$200 (+10.00%) |\n| Purchases | 80 | 84 | +4 (+5.00%) |\n| CPA | $25.00 | $26.19 | +$1.19 (+4.76%) |\n| Gross attributed ROAS | 2.00 | 1.91 | \u22120.09 (\u22124.55%) |\n| CTR | 3.00% | 3.0682% | +0.0682 percentage points |\n\nTotals use sums before division: current CTR is 3,375 / 110,000, and CPA is 2,200 / 84. Generic CPA moved from $40.00 to $50.00 (+25%); Brand stayed at $10.00. These are campaign-mix observations, not explanations of causality. The mature reporting window supports comparison; it does not establish incremental revenue or future returns.\n\nNext check: inspect Generic query mix, delivery changes, and conversion-path diagnostics before proposing a budget change. No platform changes were applied.\n"
       }
@@ -2343,7 +2343,7 @@
         }
       ],
       "example": {
-        "request": "Write a brief weekly ad performance update for the team from the attached campaign export.",
+        "request": "Write a brief weekly ad performance update for the team.",
         "inputCsv": "period,campaign_id,currency,spend,impressions,clicks,conversions,conversion_value\n2026-09-07/2026-09-13,brand,USD,400,20000,1000,40,2000\n2026-09-07/2026-09-13,generic,USD,1600,80000,2000,40,2000\n2026-09-14/2026-09-20,brand,USD,500,25000,1250,50,2500\n2026-09-14/2026-09-20,generic,USD,1700,85000,2125,34,1700\n",
         "outputMarkdown": "# Fictional example output\n\n**Week ending September 20:** Spend increased 10.0% to $2,200; attributed purchases increased 5.0% to 84. Average CPA rose 4.76% to $26.19 and gross attributed ROAS fell 4.55% to 1.91.\n\nThe main observed pressure is Generic: CPA rose from $40 to $50 while Brand stayed at $10. Both periods are complete with the same purchase definition, currency, and matured 7-day attribution window. Summed campaign spend and purchases determine the account ratio; campaign CPAs are not averaged.\n\n**Next action:** Review Generic query and conversion-path changes. Cause and incremental impact remain unproven; no change history or experiment was supplied. This is a reporting summary, and no account settings were changed.\n"
       }
