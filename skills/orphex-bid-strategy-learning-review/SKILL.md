@@ -10,6 +10,12 @@ metadata:
 
 Review the fit between the user's business goal, biddable conversion signal, actual strategy, and observed delivery. Preserve current platform strategy names; label changes do not establish behavior changes.
 
+## With an Orphex connection
+
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `controller.catalog` then `controller.fetch` at level `campaign` for cost, conversions and conversion value over mature equal-length intervals, and `platform_actions.changes_read` for the strategy, target and goal edits Orphex requested; the current strategy, its status reason, targets, simulators and edits made outside Orphex are live platform reads. Then list guides with `skill_catalog` (kind `guide`, topic `measurement`, then `change_history`) and follow a matching one through `skill_read`; choose by title, never by a stored id.
+
+If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
+
 ## Assess the supplied strategy
 
 Establish the primary versus secondary conversion goals, value definition, conversion/import delay, strategy scope (campaign/portfolio), target and average target over the interval, budgets, status reason, eligibility, and change dates. Distinguish a missing goal or import problem from a restrictive target, capped spend, policy/eligibility issue, or ordinary reporting delay. Compare mature equal-length intervals; do not treat recent incomplete conversions as deterioration.

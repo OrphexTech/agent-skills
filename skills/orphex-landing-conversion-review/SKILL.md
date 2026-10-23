@@ -10,6 +10,12 @@ metadata:
 
 Review supplied page copy, screenshots, funnel exports, experiment notes, and analytics documents. Orphex MCP may provide data when already available and authorized, but the review must also work from files the user supplies. Do not claim to have opened or inspected an unprovided live page.
 
+## With an Orphex connection
+
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `workspace.config_read` for the connected analytics and store sources with their auth health, and `controller.catalog` then `controller.fetch` at level `campaign` for the clicks and platform-attributed conversions sending traffic to the page; the ordered funnel, landing-page rows, field page-experience data and behaviour signals are live analytics reads. Page copy and screenshots still come from the user. Then list guides with `skill_catalog` (kind `guide`, topic `measurement`) and follow a matching one through `skill_read`; choose by title, never by a stored id.
+
+If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
+
 ## Define the funnel
 
 Record the page or variant, target audience, traffic sources, date range, account timezone, device or locale segments, and the intended conversion. Name each funnel event and denominator, such as sessions to form starts to submitted leads to qualified leads. Do not call unlike stages the same conversion.
