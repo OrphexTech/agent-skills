@@ -8,7 +8,7 @@ metadata:
 
 # Orphex Keyword Mining on Search Terms
 
-Use this skill to identify observed queries that could justify a keyword test or a more deliberate ad-group mapping. Analyze only user-supplied exports and documents unless an already-authorized read-only source is available. Produce candidates and checks; do not add keywords or change campaigns.
+Use this skill to identify observed queries that could justify a keyword test or a more deliberate ad-group mapping. Analyze search terms from the Orphex connection below when it reaches them, and user-supplied exports and documents otherwise. Produce candidates and checks; do not add keywords or change campaigns.
 
 ## With an Orphex connection
 

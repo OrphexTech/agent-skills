@@ -8,7 +8,7 @@ metadata:
 
 # Orphex Budget Change Proposal
 
-Prepare a decision-ready proposal from budgets, performance exports, and planning documents supplied by the user. Orphex MCP may be used when it is already available and the user has authorized that data access; it is optional. A proposal is not permission to change an advertising account.
+Prepare a decision-ready proposal from budgets, performance data, and planning documents. Work from Orphex data when the connection below reaches it, and from what the user supplies otherwise. A proposal is not permission to change an advertising account.
 
 ## With an Orphex connection
 
@@ -39,6 +39,7 @@ If the user separately asks to apply a change, confirm that their instruction cl
 ## Recommended output
 
 Start with the decision requested and the total portfolio impact. Follow with a table of each change, its evidence, and its key uncertainty. Then state the assumptions, risks, monitoring condition, rollback value, and whether the result is proposal-only or was applied under explicit authorization.
+
 ## Portable inputs and examples
 
 - Read [the input contract](references/input-contract.md) when mapping a new export or checking the example's scope and definitions. Copy [the header-only CSV template](assets/input-template.csv) when preparing data; equivalent supplied exports remain acceptable.

@@ -8,7 +8,7 @@ metadata:
 
 # Orphex Creative Signal Review
 
-Compare creative results using data and creative descriptions supplied by the user. Orphex MCP is optional when available and authorized. Do not assume access to an ad account, asset library, or unprovided creative files.
+Compare creative results using Orphex data when the connection below reaches it, and data and creative descriptions supplied by the user otherwise. Do not assume access to an ad account, asset library, or creative files that no read returned and the user did not provide.
 
 ## With an Orphex connection
 
@@ -37,6 +37,7 @@ Recommend a bounded next test that changes a clear creative element, keeps audie
 ## Recommended output
 
 Give the objective and comparison scope first. Use a table with creative, delivery, primary outcome, observed signal, and confidence limit. End with the next test, the metric that will decide it, and the evidence needed before scaling.
+
 ## Portable inputs and examples
 
 - Read [the input contract](references/input-contract.md) when mapping a new export or checking the example's scope and definitions. Copy [the header-only CSV template](assets/input-template.csv) when preparing data; equivalent supplied exports remain acceptable.

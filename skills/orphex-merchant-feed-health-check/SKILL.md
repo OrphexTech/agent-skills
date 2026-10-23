@@ -10,6 +10,12 @@ metadata:
 
 Review the supplied Merchant Center product data, destination-specific issues and matching website/checkout evidence. Eligibility issues and economic performance are different analyses.
 
+## With an Orphex connection
+
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `controller.catalog` then `controller.fetch` at level `product` for product cost and attributed revenue when exposure matters. Feed items and diagnostics are live Merchant Center reads: run `capability_search` with platform `merchant_center` and use `platform_management.entities_read` for product items and `platform_management.opportunities_read` for destination-specific issues, only when that search returns them. Then list guides with `skill_catalog` (kind `guide`, topic `platform_reads`) and follow a matching one through `skill_read`; choose by title, never by a stored id.
+
+If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
+
 ## Establish product identity and freshness
 
 Record merchant scope, target country/language, destination, stable item/variant ID, feed source/update, diagnostic/crawl timestamp, and site/checkout observation time. An item can have different status across destinations; keep unique item-destination rows and their denominators explicit. Do not call a partial export a complete catalog audit. Preserve account-level versus item-level issues and statuses exactly as supplied.

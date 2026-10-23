@@ -8,7 +8,13 @@ metadata:
 
 # Orphex Landing Conversion Review
 
-Review supplied page copy, screenshots, funnel exports, experiment notes, and analytics documents. Orphex MCP may provide data when already available and authorized, but the review must also work from files the user supplies. Do not claim to have opened or inspected an unprovided live page.
+Review funnel and page evidence from the Orphex connection below when it reaches it, and supplied page copy, screenshots, funnel exports, experiment notes, and analytics documents otherwise. Do not claim to have opened or inspected a live page that no read returned and the user did not provide.
+
+## With an Orphex connection
+
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `controller.catalog` then `controller.fetch` at level `campaign` for the paid traffic, spend and platform-credited conversions behind the page. The funnel is a live analytics read: run `capability_search` with platform `google_analytics` and use `google_analytics.funnel_read` for ordered step completion and `google_analytics.report_read` for landing-page, source and device segments; for page experience, run it with platform `google` and use `technical_seo.crux_read` for field data and `technical_seo.pagespeed_read` for a lab run, each only when that search returns it. Then list guides with `skill_catalog` (kind `guide`, topic `measurement`) and follow a matching one through `skill_read`; choose by title, never by a stored id.
+
+If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
 
 ## Define the funnel
 
@@ -29,6 +35,7 @@ Prioritize hypotheses by likely user impact, evidence strength, and ease of chec
 ## Recommended output
 
 State the conversion definition and period first. Show a funnel table with counts and rates, then a short list of observed friction signals and testable hypotheses. Close with missing evidence and the next check that would most reduce uncertainty.
+
 ## Portable inputs and examples
 
 - Read [the input contract](references/input-contract.md) when mapping a new export or checking the example's scope and definitions. Copy [the header-only CSV template](assets/input-template.csv) when preparing data; equivalent supplied exports remain acceptable.

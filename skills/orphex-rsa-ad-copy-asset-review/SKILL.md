@@ -8,11 +8,11 @@ metadata:
 
 # Orphex RSA Ad Copy & Asset Review
 
-Use this skill to review responsive search ad (RSA) headlines, descriptions, pins, and reported asset performance, or to draft new copy from approved evidence. Work from supplied exports, ads, landing pages, and brand or legal guidance. An authorized read-only source is optional. Produce reviewable recommendations, never publish or edit an ad.
+Use this skill to review responsive search ad (RSA) headlines, descriptions, pins, and reported asset performance, or to draft new copy from approved evidence. Work from Orphex data when the connection below reaches it, and from supplied exports, ads, landing pages, and brand or legal guidance. Produce reviewable recommendations, never publish or edit an ad.
 
 ## With an Orphex connection
 
-If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `controller.catalog` then `controller.fetch` at levels `asset` and `adtext` for headline and description performance. If `playbook.catalog` lists the ad-text variant pruning playbook, run it with `playbook.run`.
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `controller.catalog` then `controller.fetch` at levels `asset` and `adtext` for headline and description performance. If `playbook.catalog` lists the ad-text variant pruning playbook, run it with `playbook.run`. Then list guides with `skill_catalog` (kind `guide`, topic `platform_reads`) and follow a matching one through `skill_read`; choose by title, never by a stored id.
 
 If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
 

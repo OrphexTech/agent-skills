@@ -8,7 +8,7 @@ metadata:
 
 # Orphex Quality Score Reviewer
 
-Use this skill when asked to diagnose Search keyword Quality Score (QS), explain component patterns, or prioritize ad-group follow-up. QS is a keyword-level diagnostic, not a campaign outcome. Work from supplied exports and documents; an already-authorized read-only source is optional. Do not treat the review as permission to edit ads, keywords, or landing pages.
+Use this skill when asked to diagnose Search keyword Quality Score (QS), explain component patterns, or prioritize ad-group follow-up. QS is a keyword-level diagnostic, not a campaign outcome. Work from Orphex data when the connection below reaches it, and from supplied exports and documents otherwise. Do not treat the review as permission to edit ads, keywords, or landing pages.
 
 ## With an Orphex connection
 

@@ -8,13 +8,13 @@ metadata:
 
 # Orphex Measurement Consistency Check
 
-Compare reports, exports, event dictionaries, and measurement notes supplied by the user. Orphex MCP is optional when it is already available and authorized. The task is to explain what can and cannot be compared from the evidence; do not assume a tracking defect because two systems show different totals.
+Compare reports, exports, event dictionaries, and measurement notes from the Orphex connection below when it reaches them, and from the user otherwise. The task is to explain what can and cannot be compared from the evidence; do not assume a tracking defect because two systems show different totals.
 
 Treat definition differences as untested explanations until supplied aligned records establish their actual sign and magnitude. Neither a timezone offset nor an attribution-model label predicts which source should be higher. Do not say that documented mismatches predict the observed direction, or that data-driven credit routinely exceeds last-click credit, without the actual compatible source populations, settings, and contributions. Report the observed ordering separately and keep its cause unresolved. A later caveat does not repair an unsupported expectation in the headline or evidence; check the entire final response for consistent uncertainty before presenting it.
 
 ## With an Orphex connection
 
-If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `controller.catalog` then `controller.fetch` for the stored platform figures being reconciled, and `workspace.config_read` for the connected sources. Then list guides with `skill_catalog` (kind `guide`, topic `doctrine`, then `measurement`) and follow a matching one through `skill_read`; choose by title, never by a stored id. Read the attribution, aggregation, currency and freshness doctrine before explaining a gap.
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `controller.catalog` then `controller.fetch` for the stored platform figures being reconciled, and `workspace.config_read` for the connected sources. Then list guides with `skill_catalog` (kind `guide`, topic `doctrine`, then `cross_platform` and `measurement`) and follow a matching one through `skill_read`; choose by title, never by a stored id. Read the attribution, aggregation, currency and freshness doctrine before explaining a gap.
 
 If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
 
@@ -47,6 +47,7 @@ Equal raw-event and distinct-ID counts establish only identifier uniqueness with
 ## Recommended output
 
 Use a source-definition matrix followed by a reconciliation table. Label each row as comparable, comparable with caveat, or not directly comparable, and explain why. Prioritize unresolved discrepancies by impact and testability. State exactly which document, export, sample record, or owner input is needed next.
+
 ## Portable inputs and examples
 
 - Read [the input contract](references/input-contract.md) when mapping a new export or checking the example's scope and definitions. Copy [the header-only CSV template](assets/input-template.csv) when preparing data; equivalent supplied exports remain acceptable.

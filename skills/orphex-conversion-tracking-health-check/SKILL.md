@@ -8,7 +8,7 @@ metadata:
 
 # Orphex Conversion Tracking Health Check
 
-Use this skill to check whether business events are configured, fired, transported, and counted as intended across tags, pixels, server APIs, imports, and analytics. It assesses tracking health; it does not expect attribution reports to match. Optional Orphex MCP reads may be used within the user's authorized scope.
+Use this skill to check whether business events are configured, fired, transported, and counted as intended across tags, pixels, server APIs, imports, and analytics. It assesses tracking health; it does not expect attribution reports to match. Work from Orphex data when the connection below reaches it, and from supplied diagnostics, configuration views, and tests otherwise.
 
 ## With an Orphex connection
 

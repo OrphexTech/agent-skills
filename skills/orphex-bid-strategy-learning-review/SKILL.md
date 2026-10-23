@@ -10,6 +10,12 @@ metadata:
 
 Review the fit between the user's business goal, biddable conversion signal, actual strategy, and observed delivery. Preserve current platform strategy names; label changes do not establish behavior changes.
 
+## With an Orphex connection
+
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `controller.catalog` then `controller.fetch` at level `campaign` for mature spend, conversions and value over equal intervals. Strategy, target, goal and status are live Google Ads reads: run `capability_search` with platform `google` and use `platform_management.configuration_read` for delivery, bidding and budget settings, `platform_management.conversion_goals_read` for the biddable goals, `platform_management.changes_read` for strategy, target and goal edit dates, and `platform_management.simulation_read` for Google's modelled target scenarios, only when that search returns them. Then list guides with `skill_catalog` (kind `guide`, topic `platform_reads`, then `measurement`) and follow a matching one through `skill_read`; choose by title, never by a stored id.
+
+If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
+
 ## Assess the supplied strategy
 
 Establish the primary versus secondary conversion goals, value definition, conversion/import delay, strategy scope (campaign/portfolio), target and average target over the interval, budgets, status reason, eligibility, and change dates. Distinguish a missing goal or import problem from a restrictive target, capped spend, policy/eligibility issue, or ordinary reporting delay. Compare mature equal-length intervals; do not treat recent incomplete conversions as deterioration.
