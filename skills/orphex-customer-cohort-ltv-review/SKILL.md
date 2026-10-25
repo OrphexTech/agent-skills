@@ -3,7 +3,7 @@ name: orphex-customer-cohort-ltv-review
 description: "Compare acquired-customer cohorts at a common observed horizon using defined revenue, retention, and CAC; separate observed value from lifetime forecasts."
 license: MIT
 metadata:
-  version: "2.0.1"
+  version: "2.1.0"
 ---
 
 # Orphex Customer Cohort & LTV Review

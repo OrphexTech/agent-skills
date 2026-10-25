@@ -3,7 +3,7 @@ name: orphex-creative-fatigue-detector
 description: "Assess ad creative fatigue hypotheses from mature comparable trends, delivery age, and reach context; propose a bounded refresh test."
 license: MIT
 metadata:
-  version: "2.0.1"
+  version: "2.1.0"
 ---
 
 # Orphex Creative Fatigue Detector

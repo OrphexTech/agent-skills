@@ -14,7 +14,7 @@
         "settings",
         "targeting"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "Topology export with stable entity IDs, parent relationships, statuses, budget ownership, targeting, and relevant settings",
         "Naming rules and campaign objectives; matched performance periods and change history for impact or timing claims"
@@ -101,7 +101,7 @@
         "performance",
         "reporting"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "User-supplied metric numerator and denominator, comparison period, and source definition"
       ],
@@ -184,7 +184,7 @@
         "google-ads",
         "learning"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "Supplied data with the documented task-specific columns, stable scope, and refresh/maturity context",
         "Business definitions and constraints relevant to the decision; see the reusable business-context reference"
@@ -268,7 +268,7 @@
         "marketing",
         "planning"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "User-supplied budgets, performance exports, or planning documents"
       ],
@@ -352,7 +352,7 @@
         "pacing",
         "planning"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "Supplied data with the documented task-specific columns, stable scope, and refresh/maturity context",
         "Business definitions and constraints relevant to the decision; see the reusable business-context reference"
@@ -434,7 +434,7 @@
         "planning",
         "reallocation"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "User-supplied fixed total, current campaign allocations, and applicable bounds or protected amounts"
       ],
@@ -522,7 +522,7 @@
         "measurement",
         "privacy"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "Expected event definition plus a safe configuration view, diagnostic, or reproducible test path"
       ],
@@ -600,7 +600,7 @@
         "reach",
         "refresh"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "Stable creative or ad IDs, campaign objective, optimization event, and reporting dates",
         "Creative-level delivery trends including impressions, clicks, spend, and objective outcomes; reach/frequency and first-delivery or change history when available"
@@ -681,7 +681,7 @@
         "marketing",
         "performance"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "User-supplied creative-level delivery or outcome data and the campaign objective"
       ],
@@ -762,7 +762,7 @@
         "production",
         "testing"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "Supplied data with the documented task-specific columns, stable scope, and refresh/maturity context",
         "Business definitions and constraints relevant to the decision; see the reusable business-context reference"
@@ -823,7 +823,7 @@
         "ltv",
         "retention"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "Supplied data with the documented task-specific columns, stable scope, and refresh/maturity context",
         "Business definitions and constraints relevant to the decision; see the reusable business-context reference"
@@ -908,7 +908,7 @@
         "sample-size",
         "testing"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "Supplied data with the documented task-specific columns, stable scope, and refresh/maturity context",
         "Business definitions and constraints relevant to the decision; see the reusable business-context reference"
@@ -989,7 +989,7 @@
         "results",
         "statistics"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "Supplied data with the documented task-specific columns, stable scope, and refresh/maturity context",
         "Business definitions and constraints relevant to the decision; see the reusable business-context reference"
@@ -1056,7 +1056,7 @@
         "operating-system",
         "segmentation"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "Location and device/OS breakdowns with consistent reporting periods, account timezone, currency, campaign scope, and dimension definitions",
         "Impressions, clicks, spend, and conversion/value fields when available, with event and attribution definitions; current targeting and bid strategy for change suggestions"
@@ -1132,7 +1132,7 @@
         "google-ads",
         "impression-share"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "Campaign-type and network-specific impression-share and loss metrics",
         "Auction Insights rows where available, preserving entity and segment scope",
@@ -1208,7 +1208,7 @@
         "keyword-research",
         "search-terms"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "Search terms export with dates, matched keyword, scope, and available outcome metrics",
         "Current keyword inventory and match types for coverage assessment",
@@ -1294,7 +1294,7 @@
         "landing-page",
         "marketing"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "User-supplied page evidence, funnel exports, or both"
       ],
@@ -1353,7 +1353,7 @@
         "offline-conversions",
         "sales"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "Supplied data with the documented task-specific columns, stable scope, and refresh/maturity context",
         "Business definitions and constraints relevant to the decision; see the reusable business-context reference"
@@ -1443,7 +1443,7 @@
         "events",
         "measurement"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "User-supplied reports, event definitions, or measurement documentation"
       ],
@@ -1516,7 +1516,7 @@
         "merchant-center",
         "shopping"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "Supplied data with the documented task-specific columns, stable scope, and refresh/maturity context",
         "Business definitions and constraints relevant to the decision; see the reusable business-context reference"
@@ -1604,7 +1604,7 @@
         "learning",
         "meta-ads"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "Supplied data with the documented task-specific columns, stable scope, and refresh/maturity context",
         "Business definitions and constraints relevant to the decision; see the reusable business-context reference"
@@ -1694,7 +1694,7 @@
         "placements",
         "video"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "Placement or where-shown export with identity, type, impressions, reporting period, and campaign context",
         "Cost and outcome fields when available; advertiser suitability rules and supported exclusion scopes for an exclusion proposal"
@@ -1774,7 +1774,7 @@
         "performance-max",
         "search-themes"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "PMax campaign and asset-group inventory with URLs, assets, themes, and signals",
         "Campaign-level outcomes with conversion definitions and date range",
@@ -1857,7 +1857,7 @@
         "profitability",
         "returns"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "Supplied data with the documented task-specific columns, stable scope, and refresh/maturity context",
         "Business definitions and constraints relevant to the decision; see the reusable business-context reference"
@@ -1942,7 +1942,7 @@
         "quality-score",
         "search"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "Keyword-level current or historical Quality Score and component statuses",
         "Aligned keyword, campaign, ad-group, and performance rows",
@@ -2028,7 +2028,7 @@
         "google-ads",
         "responsive-search-ads"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "RSA asset export with asset IDs, text, type, pin/status, and date range",
         "Ad-level totals and named conversion definition",
@@ -2109,7 +2109,7 @@
         "search-terms",
         "waste-review"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "Search terms export with dates, scope, cost, and available conversion metrics",
         "Brand/protected-query definitions",
@@ -2195,7 +2195,7 @@
         "performance",
         "reporting"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "User-supplied marketing performance exports or documents with a reporting period"
       ],
@@ -2277,7 +2277,7 @@
         "reporting",
         "summary"
       ],
-      "updatedAt": "2026-10-07",
+      "updatedAt": "2026-10-25",
       "requirements": [
         "User-supplied reporting period, source, and an objective-linked metric with its numerator and denominator"
       ],

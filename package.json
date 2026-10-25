@@ -1,6 +1,6 @@
 {
   "name": "@orphex/agent-skills",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "private": true,
   "description": "Portable Orphex marketing analysis skills and catalog tooling",
   "type": "module",

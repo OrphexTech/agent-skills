@@ -3,7 +3,7 @@ name: orphex-keyword-mining-on-search-terms
 description: "Find query-backed Google Ads keyword test candidates and verify existing coverage; serving history does not establish incremental demand."
 license: MIT
 metadata:
-  version: "2.0.1"
+  version: "2.1.0"
 ---
 
 # Orphex Keyword Mining on Search Terms

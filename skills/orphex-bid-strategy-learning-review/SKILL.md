@@ -3,7 +3,7 @@ name: orphex-bid-strategy-learning-review
 description: "Review Google Ads bidding goals, reported learning status, conversion delay, and delivery constraints before proposing strategy or target changes."
 license: MIT
 metadata:
-  version: "2.0.1"
+  version: "2.1.0"
 ---
 
 # Orphex Bid Strategy & Learning Review

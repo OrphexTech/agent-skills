@@ -3,7 +3,7 @@ name: orphex-placement-cleaning
 description: "Review Google Ads placement suitability and observable efficiency, then propose narrow supported exclusions without inventing spend from impressions."
 license: MIT
 metadata:
-  version: "2.0.1"
+  version: "2.1.0"
 ---
 
 # Orphex Placement Cleaning

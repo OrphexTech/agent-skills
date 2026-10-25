@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.1.0 - 2026-10-25
+
+- Make every skill connection-first: when an Orphex connector reaches the workspace's data, skills use the matching warehouse reads and Knowledge Library guide topics before asking for exports, and fall back to supplied exports otherwise.
+- Name the advertising domain in twenty skill descriptions so general assistants can match requests to them, keeping every trigger distinction between overlapping skills.
+- Rewrite every catalog "Try asking" prompt to name the platform, question and deliverable without naming a data source.
+- Repeat the native baseline, skill-assisted and routing runs against the 2.1.0 installed files.
+
 ## 2.0.1 - 2026-10-07
 
 - Attach one upload-ready `<slug>.zip` per skill to the release and record its tag-pinned URL, SHA-256 and size in the catalog `download` field, for Claude (Customize › Skills › Upload a skill) and ChatGPT skill upload.

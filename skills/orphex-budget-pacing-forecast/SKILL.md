@@ -3,7 +3,7 @@ name: orphex-budget-pacing-forecast
 description: "Compare actual ad spend with a supplied period budget and forecast transparent remaining-spend scenarios; use reallocation to move fixed campaign caps."
 license: MIT
 metadata:
-  version: "2.0.1"
+  version: "2.1.0"
 ---
 
 # Orphex Budget Pacing & Forecast
