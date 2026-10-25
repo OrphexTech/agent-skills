@@ -3,7 +3,7 @@ name: orphex-budget-change-proposal
 description: "Quantify a proposed change to ad campaign or portfolio budget totals, with assumptions and approval scope; use the reallocator when the total must remain fixed."
 license: MIT
 metadata:
-  version: "2.0.1"
+  version: "2.1.0"
 ---
 
 # Orphex Budget Change Proposal
@@ -12,7 +12,7 @@ Prepare a decision-ready proposal from budgets, performance data, and planning d
 
 ## With an Orphex connection
 
-If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `scorecards.read` for targets and pace, `controller.catalog` then `controller.fetch` at level `campaign` for spend, budget, outcomes and lost impression share, and `causal.latest_summary` for any measured lift. If `playbook.catalog` lists the lost-impression-share budget playbook, run it with `playbook.run`. Then list guides with `skill_catalog` (kind `guide`, topic `budget`, then `pacing`) and follow a matching one through `skill_read`; choose by title, never by a stored id.
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `scorecards.read` for targets and pace, `controller.catalog` then `controller.fetch` at level `campaign` for spend, budget, outcomes and lost impression share, and `causal.latest_summary` for any Impact Analysis; it is a modelled estimate, not measured lift or marginal evidence. If `playbook.catalog` lists the lost-impression-share budget playbook, run it with `playbook.run`. Then list guides with `skill_catalog` (kind `guide`, topic `budget`, then `pacing`) and follow a matching one through `skill_read`; choose by title, never by a stored id.
 
 If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
 

@@ -3,7 +3,7 @@ name: orphex-product-profitability-review
 description: "Review product advertising economics using aligned net revenue, returns, and explicit variable costs; distinguish contribution from gross ROAS and company profit."
 license: MIT
 metadata:
-  version: "2.0.1"
+  version: "2.1.0"
 ---
 
 # Orphex Product Profitability Review

@@ -3,7 +3,7 @@ name: orphex-quality-score-reviewer
 description: "Prioritize Google Ads Search Quality Score component checks by business exposure; treat the score as a keyword diagnostic."
 license: MIT
 metadata:
-  version: "2.0.1"
+  version: "2.1.0"
 ---
 
 # Orphex Quality Score Reviewer

@@ -1,6 +1,6 @@
 # Skills quality and growth release plan
 
-This ledger defines the authorized 2.0.0 scope. Acceptance requires direct evidence for each story; source format, native reasoning, independent review and public deployment are separate proofs. Synthetic data is fictional and does not establish real-account uplift.
+This ledger defines the authorized 2.0.0 scope and, in its final section, the 2.1.0 connection-first update. Acceptance requires direct evidence for each story; source format, native reasoning, independent review and public deployment are separate proofs. Synthetic data is fictional and does not establish real-account uplift.
 
 | Story | Acceptance criteria | Evidence owner and location |
 | --- | --- | --- |
@@ -16,3 +16,14 @@ This ledger defines the authorized 2.0.0 scope. Acceptance requires direct evide
 | Verify public delivery | Reviewed exact-source snapshot is imported. Frontend test, typecheck, lint, format and build gates pass after final edits. Main is merged, production deployment succeeds, and public routes, canonical/sitemap/404, examples/filters/bundles plus desktop/mobile flows are verified. | Frontend gates/PR/CI/deploy and live checks maintained by release owner. |
 
 The public report must state observed coverage and limitations. Actual client runtime calls with fictional data establish tested analysis behavior for those cases; they do not establish customer advertising performance, campaign execution or authenticated real-account acceptance. A new fixture or model/source change requires a new run record rather than relabeling earlier evidence.
+
+## 2.1.0 connection-first update
+
+Version 2.1.0 changes skill instructions, descriptions and catalog requests without adding skills, resources or fixtures. Every changed installed file invalidates its earlier skill-assisted and routing runs, so the full native matrix is repeated against the final 2.1.0 files.
+
+| Story | Acceptance criteria | Evidence owner and location |
+| --- | --- | --- |
+| Use the Orphex connection first | Every skill names only read-class Orphex reads, playbooks and guide topics returned by `capability_search`, keeps supplied exports as the fallback and keeps modelled or associative reads out of causal and measured-lift claims. Without a connector, skill-assisted answers analyze the supplied files without stalling, asking for a connection or inventing connector data. | Independent content review, native skill-assisted runs without a connector, independent runtime review and the versioned `evaluations/README.md` report. |
+| Match general requests to the right skill | Twenty descriptions name the advertising domain while keeping every overlap distinction; frontmatter and manifest descriptions match. | Source validation and thirteen native routing scenarios per runtime. |
+| Offer self-contained catalog prompts | Every "Try asking" request names the ad platform or domain, the question and the deliverable without naming a data source. | Manifest review; frontend snapshot import by the release owner. |
+| Publish reproducible source | Package, frontmatter, lifecycle and changelog agree on 2.1.0; source tests and validation pass. The immutable v2.1.0 release carries the exact-source catalog, one archive per skill and the native evidence archive. | Exact source commit, CI logs, tag, catalog hashes and GitHub release. |

@@ -3,7 +3,7 @@ name: orphex-creative-fatigue-detector
 description: "Assess ad creative fatigue hypotheses from mature comparable trends, delivery age, and reach context; propose a bounded refresh test."
 license: MIT
 metadata:
-  version: "2.0.1"
+  version: "2.1.0"
 ---
 
 # Orphex Creative Fatigue Detector
@@ -12,7 +12,7 @@ Use this skill to assess which ads may be tiring and what to refresh. Treat fati
 
 ## With an Orphex connection
 
-If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `controller.catalog` then `controller.fetch` at level `ad` or `creative` for dated delivery, frequency, reach and active days, `insights.read`, and `creative_ai.section_read` then `creative_ai.segment_read` for attributes that moved a metric. If `playbook.catalog` lists the creative fatigue early-warning or frequency-capping playbook, run it with `playbook.run`. Then list guides with `skill_catalog` (kind `guide`, topic `creative`) and follow a matching one through `skill_read`; choose by title, never by a stored id.
+If an Orphex connector is available, check it before asking for exports. Run `capability_search` with platform `orphex` and limit 100; use a read only if that search returns its id, and ask which workspace to use when several are bound. Read `controller.catalog` then `controller.fetch` at level `ad` or `creative` for dated delivery, frequency, reach and active days, `insights.read`, and `creative_ai.section_read` then `creative_ai.segment_read` for attributes associated with a metric. If `playbook.catalog` lists the creative fatigue early-warning or frequency-capping playbook, run it with `playbook.run`. Then list guides with `skill_catalog` (kind `guide`, topic `creative`) and follow a matching one through `skill_read`; choose by title, never by a stored id.
 
 If a read is not returned, this connection cannot reach that Orphex data for the workspace: say so, then use the live platform reads it offers or the supplied exports. An absent, refused or empty read is not evidence of zero, none or healthy. Describe each read with `capability_describe` before `run_read`, keep `date_end` no later than yesterday, disclose request adjustments, and name each number's source, workspace and window. This skill's evidence rules still govern any guide, insight or playbook label, and no read authorizes account changes. Ask the user only for what is still missing.
 

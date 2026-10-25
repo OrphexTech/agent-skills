@@ -3,7 +3,7 @@ name: orphex-landing-conversion-review
 description: "Locate observed landing-page and conversion-funnel friction for ad or marketing traffic, then propose diagnostic checks or experiments without asserting untested causes."
 license: MIT
 metadata:
-  version: "2.0.1"
+  version: "2.1.0"
 ---
 
 # Orphex Landing Conversion Review

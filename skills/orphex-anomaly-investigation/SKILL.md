@@ -3,7 +3,7 @@ name: orphex-anomaly-investigation
 description: "Investigate an unexpected spend, outcome, CPA, or ROAS shift; rank falsifiable causes without treating coincident changes as proof."
 license: MIT
 metadata:
-  version: "2.0.1"
+  version: "2.1.0"
 ---
 
 # Orphex Anomaly Investigation

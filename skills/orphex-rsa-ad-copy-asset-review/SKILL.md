@@ -3,7 +3,7 @@ name: orphex-rsa-ad-copy-asset-review
 description: "Review Google Ads responsive search ad (RSA) assets and approved claims for keep, replace, pin, or copy-test proposals; preserve overlapping asset metrics."
 license: MIT
 metadata:
-  version: "2.0.1"
+  version: "2.1.0"
 ---
 
 # Orphex RSA Ad Copy & Asset Review

@@ -38,6 +38,29 @@ Independent review must assess evidence attribution, causal limits, missing-data
 
 ## Current release evidence
 
+Recorded on 2026-10-25 for version 2.1.0 against the final installed files. The portable file inventory is 195 files with digest `546e542999672fbffecc81315f73784c7453c8ee5014f658384f0c216f9c5635`, computed with the method described for 2.0.0 below. The final measurement selection contains 142 records: 29 behavioral cases in baseline and skill-assisted runs for each runtime (58 equal-task pairs), and 13 routing cases per runtime. Fixtures and harness are unchanged from 2.0.0. No connector or MCP server was configured, so these runs test the supplied-export path of the new connection-first instructions; the connected Orphex path is not tested by this evidence.
+
+| Runtime / suite | Records | Strict machine passes | Named numerical assertions passed | Native process / schema success |
+| --- | --- | --- | --- | --- |
+| Codex baseline behavioral | 29 | 17/29 | 53/53 | 29/29 |
+| Codex skilled behavioral | 29 | 17/29 | 53/53 | 29/29 |
+| Codex skilled routing | 13 | 12/13 | Not applicable | 13/13 |
+| Claude baseline behavioral | 29 | 17/29 | 53/53 | 29/29 |
+| Claude skilled behavioral | 29 | 16/29 | 53/53 | 29/29 |
+| Claude skilled routing | 13 | 12/13 | Not applicable | 13/13 |
+
+All 58 paired tasks match exactly; all 84 final skill-assisted behavioral and routing records match the final installed resource hashes. The 49 behavioral strict failures (24 baseline, 25 skill-assisted) are exact decision-label mismatches, retained and not promoted to passes. Independent adjudication judged 46 equivalent to the expected label, such as `inconclusive` for an expected `unknown` with a narrative that leaves the cause unresolved; two defensible alternatives (Codex Budget Change Proposal rejects the guaranteed-lift claim in both modes while keeping the lift unknown); and one real error, in the Claude baseline Weekly Performance Summarizer, which rejected the supplied budget-cut cause. Both routing failures are the weekly-diagnosis overlap described for 2.0.0 below, again judged defensible.
+
+Codex CLI 0.164.0-alpha.11.1 did not report a model identity, so model equivalence for its pairs is unknown. Claude CLI 2.1.306 reported `claude-opus-5-5` for all 71 Claude records. These runtimes differ from the 2.0.0 matrix, so differences from the 2.0.0 table are not a measured skill change.
+
+The independent content review found that three new connection sections described a modelled Impact Analysis summary as measured lift and creative attribute reads as causal. Those sentences were corrected before acceptance, and the six affected skill-assisted records and all 26 routing records were repeated against the corrected files. The first-pass records are retained in the archive as stale-source records; one harness smoke run per runtime preceded the matrix and is retained but not selected.
+
+Every Claude skill-assisted run activated the intended skill through the native Skill tool, and every Read stayed in the task directory. Codex commands listed or read task files or ran local arithmetic; none wrote files, used the network or named a path outside the task directory, although Codex's login shell sourced the operator's shell profile, whose write the read-only sandbox blocked. The bundled calculator ran successfully in one Codex skill-assisted record (Experiment Planner); seventeen other Codex records used local Python arithmetic, which is not bundled-helper execution. Claude had no shell tool and calculated manually. No skill-assisted answer stalled, asked for a connection or workspace, refused, or claimed connector data; several stated that no connector was used.
+
+Independent agent reviewers inspected the changed skill content and the complete native answers and tool traces of both runtimes; they did not provide human advertiser acceptance. Minor caveats remain recorded in the archive, including untested connected behavior, routing evidence drawn from descriptions alone, an outcome-maturity inconsistency in the anomaly fixture and small answer wording slips. Download the [2.1.0 native evidence archive](https://github.com/OrphexTech/agent-skills/releases/download/v2.1.0/skills-v2.1.0-native-evidence.zip) from the [release](https://github.com/OrphexTech/agent-skills/releases/tag/v2.1.0); extract it, run `python3 prepare-selected.py`, and run this tag's `scripts/grade_evaluations.mjs` against its `selected-results` directory to reproduce strict scoring.
+
+## Version 2.0.0 evidence
+
 Version 2.0.1 changes only each SKILL.md `metadata.version` line and adds per-skill upload archives; every other installed file is byte-identical to 2.0.0. The runs below were recorded against 2.0.0 file hashes and were not repeated for 2.0.1.
 
 Recorded on 2026-10-07 for version 2.0.0. The final measurement selection contains 142 records: 29 behavioral cases in baseline and skill-assisted runs for each runtime (58 equal-task pairs), and 13 routing cases per runtime. The exact numerical/decision results below are retained independently of narrative adjudication.
