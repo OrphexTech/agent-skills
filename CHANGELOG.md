@@ -4,7 +4,7 @@
 
 - Let decision assertions declare `acceptableLabels` and report a separate `labelEquivalentPassed` grade; strict `passed` is unchanged, and the labels declared on ten existing decisions are disclosed in the evaluation report.
 - Add eight adversarial behavioral cases for six skills, built on traps their instructions guard against: partial current days, zero remaining days, repeated shared budgets, row-averaged ratios, mixed currencies and modelled Impact Analysis read as measured lift. No native run is claimed for them.
-- Plan a connected-path evaluation against a local fixture MCP server.
+- Add a connected-path evaluation: a local fixture MCP server that serves the skills' Orphex read tools from fictional data, refuses write-shaped tripwire tools and logs every call; six scenario fixtures; a `connected` harness suite for both runtimes; and a `tool-use` assertion graded from the call log.
 - Skill instructions, resources and the package version are unchanged.
 
 ## 2.1.0 - 2026-10-25

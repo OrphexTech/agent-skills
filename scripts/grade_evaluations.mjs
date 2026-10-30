@@ -2,17 +2,44 @@ import { createHash } from 'node:crypto';
 import { readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { DEFAULT_ROOT, readPortableFiles } from './catalog.mjs';
+import { READ_TOOLS, TRIPWIRE_TOOLS, findDateEnd } from './orphex_fixture_server.mjs';
 
 const sha = (value) => createHash('sha256').update(JSON.stringify(value)).digest('hex');
+const FOLDERS = { routing: 'routing', connected: 'connected', behavioral: 'cases' };
+export function currentTaskHash(testCase) {
+  if (testCase.suite === 'routing') return sha({ request: testCase.request });
+  return sha({ request: testCase.request, inputCsv: testCase.inputCsv, contextMarkdown: testCase.contextMarkdown, metricNames: testCase.metricNames, decisionNames: testCase.decisionNames, ...(testCase.suite === 'connected' && { server: testCase.server }) });
+}
 export function recordedTaskHash(record, testCase) {
   if (record.suite === 'routing') return sha({ request: record.task?.request || testCase.request });
+  if (record.suite === 'connected') return sha({ request: record.task.request, inputCsv: record.inputCsv, contextMarkdown: record.contextMarkdown, metricNames: record.task.metricNames, decisionNames: record.task.decisionNames, server: record.connectedServer?.data });
   const task = record.task || { request: record.prompt?.split('\n\n')[2], metricNames: (record.prompt?.match(/named measurements: ([^.]+)\. decisions/)?.[1] || '').split(', ').filter(Boolean), decisionNames: (record.prompt?.match(/review judgments: ([^.]+)\. Express/)?.[1] || '').split(', ').filter(Boolean) };
   return sha({ request: task.request, inputCsv: record.inputCsv, contextMarkdown: record.contextMarkdown, metricNames: task.metricNames, decisionNames: task.decisionNames });
 }
 // Strict `passed` is unchanged. A decision label the case declares in
 // `acceptableLabels` counts only toward the separate `labelEquivalentPassed`.
 const labelEquivalentPass = (checks) => checks.every((check) => check.pass || check.equivalentLabel === true);
-export function gradeAnswer(testCase, answer) {
+// Connector use is checked against the fixture server's call log: forbidden tools,
+// reads not returned by search or not described first, late date_end values and
+// required reads that never succeeded.
+export function toolUseViolations(assertion, calls) {
+  if (!Array.isArray(calls)) return ['connector call log unavailable'];
+  const violations = [], returned = new Set(), described = new Set();
+  for (const call of calls) {
+    const args = call.arguments || {};
+    if ((assertion.forbiddenTools || []).includes(call.tool)) violations.push('forbidden tool called: ' + call.tool);
+    if (call.tool === 'capability_search' && call.ok) for (const id of call.returnedIds || []) returned.add(id);
+    if (call.tool === 'capability_describe' && call.ok) described.add(args.id);
+    if (call.tool !== 'run_read') continue;
+    if (assertion.forbidRunRead) violations.push('run_read called: ' + args.id);
+    if (!returned.has(args.id)) violations.push('read not returned by an earlier capability_search: ' + args.id);
+    if (!described.has(args.id)) violations.push('read not described before run_read: ' + args.id);
+    for (const value of findDateEnd(args.inputs)) if (value > assertion.latestDateEnd) violations.push('date_end after ' + assertion.latestDateEnd + ': ' + value);
+  }
+  for (const id of assertion.requiredReads || []) if (!calls.some((call) => call.tool === 'run_read' && call.ok && call.arguments?.id === id)) violations.push('required read not run: ' + id);
+  return violations;
+}
+export function gradeAnswer(testCase, answer, calls) {
   if (!answer || typeof answer !== 'object') return { passed: false, labelEquivalentPassed: false, criticalFailures: 1, checks: [{ pass: false, critical: true, reason: 'no structured behavioral result' }] };
   const checks = testCase.assertions.map((assertion) => {
     let actual, pass, equivalentLabel = false;
@@ -26,6 +53,9 @@ export function gradeAnswer(testCase, answer) {
     } else if (assertion.kind === 'selection') {
       actual = answer.selectedSkills;
       pass = Array.isArray(actual) && new Set(actual).size === actual.length && ((actual.length > 0) === (assertion.expected.length > 0)) && actual.every((slug) => assertion.expected.includes(slug)) && assertion.required.every((slug) => actual.includes(slug));
+    } else if (assertion.kind === 'tool-use') {
+      actual = toolUseViolations(assertion, calls);
+      pass = actual.length === 0;
     } else return { ...assertion, pass: false, reason: 'unsupported assertion kind' };
     return { ...assertion, actual, pass, ...(equivalentLabel && { equivalentLabel }) };
   });
@@ -36,7 +66,8 @@ export function checkClaudeToolBoundary(record) {
   if (record.runtime !== 'claude') return [];
   const failures = [];
   if (record.nativeTraceMode !== 'stream-json-verbose' || !Array.isArray(record.observedToolCalls)) return ['required native Claude tool trace unavailable'];
-  const allowed = new Set(['Read', 'StructuredOutput', ...(record.mode === 'skilled' ? ['Skill'] : [])]);
+  // Connected runs may call the fixture server; tripwire calls fail its tool-use assertion.
+  const allowed = new Set(['Read', 'StructuredOutput', ...(record.mode === 'skilled' ? ['Skill'] : []), ...(record.suite === 'connected' ? [...READ_TOOLS, ...TRIPWIRE_TOOLS].map((name) => 'mcp__orphex__' + name) : [])]);
   const directory = record.scratchDirectory;
   if (typeof directory !== 'string' || !path.isAbsolute(directory)) return ['exact recorded scratch directory unavailable for tool-scope proof'];
   const base = path.resolve(directory);
@@ -70,7 +101,7 @@ export function checkClaudeToolBoundary(record) {
   return failures;
 }
 export function gradeRun(testCase, record) {
-  const grade = gradeAnswer(testCase, record.answer);
+  const grade = gradeAnswer(testCase, record.answer, record.connectedCalls);
   const failures = checkClaudeToolBoundary(record);
   if (record.exitCode !== 0) failures.push('native process did not exit successfully');
   if (record.timedOut) failures.push('native process timed out');
@@ -90,8 +121,7 @@ async function main() {
   for (const name of (await readdir(directory)).filter((name) => name.endsWith('.json') && name !== 'grades.json').sort()) {
     const record = JSON.parse(await readFile(path.join(directory, name), 'utf8'));
     if (!record.caseId || !record.runtime) continue;
-    const folder = record.suite === 'routing' ? 'routing' : 'cases';
-    const testCase = JSON.parse(await readFile(path.join(DEFAULT_ROOT, 'evaluations', folder, record.caseId + '.json'), 'utf8'));
+    const testCase = JSON.parse(await readFile(path.join(DEFAULT_ROOT, 'evaluations', FOLDERS[record.suite || 'behavioral'], record.caseId + '.json'), 'utf8'));
     const grade = gradeRun(testCase, record);
     if (record.mode === 'skilled') {
       const manifest = JSON.parse(await readFile(path.join(DEFAULT_ROOT, 'skills/manifest.json'), 'utf8'));
@@ -107,15 +137,14 @@ async function main() {
       }
     }
     const taskInputHash = recordedTaskHash(record, testCase);
-    const currentTaskHash = testCase.suite === 'routing' ? sha({ request: testCase.request }) : sha({ request: testCase.request, inputCsv: testCase.inputCsv, contextMarkdown: testCase.contextMarkdown, metricNames: testCase.metricNames, decisionNames: testCase.decisionNames });
-    if (taskInputHash !== currentTaskHash) { grade.passed = false; grade.labelEquivalentPassed = false; grade.criticalFailures += 1; grade.checks.push({ pass: false, critical: true, reason: 'recorded task inputs/request/schema differ from current fixture' }); }
+    if (taskInputHash !== currentTaskHash(testCase)) { grade.passed = false; grade.labelEquivalentPassed = false; grade.criticalFailures += 1; grade.checks.push({ pass: false, critical: true, reason: 'recorded task inputs/request/schema differ from current fixture' }); }
     entries.push({ caseId: record.caseId, suite: record.suite || 'behavioral', runtime: record.runtime, mode: record.mode, instructionHash: record.instructionHash, fixtureHash: record.fixtureHash, taskInputHash, currentRubricHash: sha(testCase.assertions), rubricUpdatedSinceRun: record.fixtureHash !== sha(testCase),
       model: record.model, exitCode: record.exitCode, parseError: record.parseError, ...grade, rawRecord: name });
   }
   const pairs = [];
-  for (const skilled of entries.filter((entry) => entry.mode === 'skilled' && entry.suite === 'behavioral')) {
+  for (const skilled of entries.filter((entry) => entry.mode === 'skilled' && entry.suite !== 'routing')) {
     const baseline = entries.find((entry) => entry.caseId === skilled.caseId && entry.runtime === skilled.runtime && entry.mode === 'baseline' && entry.taskInputHash === skilled.taskInputHash);
-    if (baseline) pairs.push({ caseId: skilled.caseId, runtime: skilled.runtime, baselinePassed: baseline.passed, skilledPassed: skilled.passed,
+    if (baseline) pairs.push({ caseId: skilled.caseId, suite: skilled.suite, runtime: skilled.runtime, baselinePassed: baseline.passed, skilledPassed: skilled.passed,
       baselineLabelEquivalentPassed: baseline.labelEquivalentPassed, skilledLabelEquivalentPassed: skilled.labelEquivalentPassed, baselineCriticalFailures: baseline.criticalFailures, skilledCriticalFailures: skilled.criticalFailures, modelMatch: baseline.model !== null && baseline.model === skilled.model });
   }
   const report = { generatedAt: new Date().toISOString(), entries, pairs, disclosure: 'One or more synthetic cases per skill; no real-account performance or causal business uplift established. Machine grades require independent narrative and tool review before publication. labelEquivalentPassed is post hoc for any entry whose rubricUpdatedSinceRun is true.' };
