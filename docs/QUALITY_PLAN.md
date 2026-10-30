@@ -1,6 +1,6 @@
 # Skills quality and growth release plan
 
-This ledger defines the authorized 2.0.0 scope and, in its final section, the 2.1.0 connection-first update. Acceptance requires direct evidence for each story; source format, native reasoning, independent review and public deployment are separate proofs. Synthetic data is fictional and does not establish real-account uplift.
+This ledger defines the authorized 2.0.0 scope and, in later sections, the 2.1.0 connection-first update and the 2026-10-30 evaluation update. Acceptance requires direct evidence for each story; source format, native reasoning, independent review and public deployment are separate proofs. Synthetic data is fictional and does not establish real-account uplift.
 
 | Story | Acceptance criteria | Evidence owner and location |
 | --- | --- | --- |
@@ -27,3 +27,14 @@ Version 2.1.0 changes skill instructions, descriptions and catalog requests with
 | Match general requests to the right skill | Twenty descriptions name the advertising domain while keeping every overlap distinction; frontmatter and manifest descriptions match. | Source validation and thirteen native routing scenarios per runtime. |
 | Offer self-contained catalog prompts | Every "Try asking" request names the ad platform or domain, the question and the deliverable without naming a data source. | Manifest review; frontend snapshot import by the release owner. |
 | Publish reproducible source | Package, frontmatter, lifecycle and changelog agree on 2.1.0; source tests and validation pass. The immutable v2.1.0 release carries the exact-source catalog, one archive per skill and the native evidence archive. | Exact source commit, CI logs, tag, catalog hashes and GitHub release. |
+
+## 2026-10-30 evaluation update
+
+This update changes no installed skill file. It measures whether the skills help, and it tests the connected path, which the 2.1.0 matrix could not.
+
+| Story | Acceptance criteria | Evidence owner and location |
+| --- | --- | --- |
+| Show whether the skills help | Adversarial cases leave the trap in the data rather than the request. Declared equivalent labels count only toward a separate label-equivalent score, and strict scoring is unchanged. Every rubric is committed before the first run, adversarial pairs run three times and each failing adversarial answer is compared with the naive result. Equal or lower skill-assisted scores are reported as measured. | `evaluations/cases`, grader tests, the 2026-10-30 section of `evaluations/README.md` and its independent review. |
+| Test the connected path | A local fixture server serves the Orphex read tools the skills name from fictional data, refuses write-shaped tools and logs every call. Six scenarios cover a full connection, a missing read, an empty read, two bound workspaces, a modelled read and injected text. Grading checks the call log as well as the answer, and baseline runs get the same server. | `scripts/orphex_fixture_server.mjs`, `evaluations/connected`, `tests/connected.test.mjs` and `evaluations/CONNECTED_PATH_PLAN.md`. |
+
+Neither story establishes real-account performance or advertiser acceptance. Evidence binds to the skill files it ran against, so a later skill source change needs the affected skill-assisted and routing runs repeated.

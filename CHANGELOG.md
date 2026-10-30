@@ -6,6 +6,7 @@
 - Add eight adversarial behavioral cases for six skills, built on traps their instructions guard against: partial current days, zero remaining days, repeated shared budgets, row-averaged ratios, mixed currencies and modelled Impact Analysis read as measured lift. No native run is claimed for them.
 - Plan a connected-path evaluation against a local fixture MCP server.
 - Skill instructions, resources and the package version are unchanged.
+- Run the native matrix against these skill files: 238 supplied-export records on both runtimes, including three runs of each adversarial pair, and 72 connected-path records. Results, adjudication and limits are in the evaluation report and the connected-path document; the evidence archive is not yet published.
 
 ## 2.1.0 - 2026-10-25
 
