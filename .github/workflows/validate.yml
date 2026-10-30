@@ -38,7 +38,9 @@ jobs:
         run: npm run smoke:install -- --source "$SMOKE_SOURCE"
 
   catalog-artifact:
-    if: startsWith(github.ref, 'refs/tags/v')
+    # Tag pushes only: the manual published-release smoke runs on a tag after publication,
+    # when the immutable release can no longer take assets.
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     needs: validate
     runs-on: ubuntu-latest
     permissions:
