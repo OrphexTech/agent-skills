@@ -38,6 +38,10 @@
       "kind": "decision",
       "key": "feasible_proposal",
       "expected": "recommend",
+      "acceptableLabels": [
+        "pass",
+        "supported"
+      ],
       "critical": true
     }
   ],

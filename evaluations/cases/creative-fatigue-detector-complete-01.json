@@ -30,6 +30,9 @@
       "kind": "decision",
       "key": "fatigue_supported",
       "expected": "unknown",
+      "acceptableLabels": [
+        "inconclusive"
+      ],
       "critical": true
     }
   ],

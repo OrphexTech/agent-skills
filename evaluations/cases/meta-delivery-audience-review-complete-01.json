@@ -29,6 +29,9 @@
       "kind": "decision",
       "key": "overlap_cause",
       "expected": "unknown",
+      "acceptableLabels": [
+        "inconclusive"
+      ],
       "critical": true
     }
   ],

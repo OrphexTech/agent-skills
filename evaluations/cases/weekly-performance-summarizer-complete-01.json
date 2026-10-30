@@ -30,6 +30,9 @@
       "kind": "decision",
       "key": "budget_cause",
       "expected": "unknown",
+      "acceptableLabels": [
+        "inconclusive"
+      ],
       "critical": true
     }
   ],

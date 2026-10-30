@@ -30,6 +30,9 @@
       "kind": "decision",
       "key": "causal_winner",
       "expected": "inconclusive",
+      "acceptableLabels": [
+        "unknown"
+      ],
       "critical": true
     }
   ],

@@ -1,5 +1,12 @@
 # Changelog
 
+## Evaluation suite update - 2026-10-30
+
+- Let decision assertions declare `acceptableLabels` and report a separate `labelEquivalentPassed` grade; strict `passed` is unchanged, and the labels declared on ten existing decisions are disclosed in the evaluation report.
+- Add eight adversarial behavioral cases for six skills, built on traps their instructions guard against: partial current days, zero remaining days, repeated shared budgets, row-averaged ratios, mixed currencies and modelled Impact Analysis read as measured lift. No native run is claimed for them.
+- Plan a connected-path evaluation against a local fixture MCP server.
+- Skill instructions, resources and the package version are unchanged.
+
 ## 2.1.0 - 2026-10-25
 
 - Make every skill connection-first: when an Orphex connector reaches the workspace's data, skills use the matching Orphex warehouse or live platform reads, playbooks and Knowledge Library guides before asking for exports, and fall back to supplied exports otherwise. Modelled Impact Analysis and creative attribute reads are described as modelled or associative evidence, not measured lift.

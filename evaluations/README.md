@@ -4,11 +4,28 @@ This versioned report separates source/distribution checks from actual native-ag
 
 ## Coverage contract
 
-The suite contains twenty-nine independent behavioral cases, one for every installable skill, plus thirteen routing cases for overlapping jobs and unrelated requests. Each behavioral export differs from its distributed package example. The native prompt receives only the user task, export and supplied business context; grading answers are never copied into the task directory or prompt.
+The suite contains twenty-nine representative behavioral cases, one for every installable skill, eight adversarial behavioral cases for six skills, and thirteen routing cases for overlapping jobs and unrelated requests. Each behavioral export differs from its distributed package example and from every other case. The native prompt receives only the user task, export and supplied business context; grading answers, declared equivalent labels and trap notes are never copied into the task directory or prompt.
 
-Each case records expected numerical measurements, explicit review judgments and human-review criteria. These are narrow case assertions, not a claim that a skill is universally correct. The single representative case per skill does not replace a larger future adversarial or account-specific evaluation set.
+Each case records expected numerical measurements, explicit review judgments and human-review criteria. These are narrow case assertions, not a claim that a skill is universally correct. The representative cases and the first adversarial set do not replace a larger account-specific evaluation set.
 
 The supported runtime matrix is native Codex and native Claude, each with paired baseline/skill-assisted runs. Routing installs all twenty-nine descriptions and receives natural requests without a target slug. Cases distinguish weekly summary vs investigation; total budget change vs fixed-total transfer vs pacing; tracking instrumentation vs report reconciliation; query cleaning vs mining; and fatigue diagnosis vs creative brief production. Unrelated requests must select no marketing skill.
+
+## Adversarial cases
+
+Representative requests often name the method under review, for example whether an equal-row-average CPA is acceptable, so a careful baseline can avoid the error from the request alone. That fits the 2.1.0 result, where both modes passed every numerical assertion. Adversarial cases ask the business question instead and leave the trap in the data, so a wrong method changes the reported numbers or the decision:
+
+| Case | Trap in the data | Expected result | Naive result |
+| --- | --- | --- | --- |
+| `budget-pacing-forecast-adversarial-01` | Partial current day in a daily export | 6 completed days; on pace | 7 days; false underpacing |
+| `budget-pacing-forecast-adversarial-02` | Flight already ended | 182 USD over budget; no required daily figure | Division by zero; remainder clamped to 0 |
+| `campaign-budget-reallocator-adversarial-01` | Shared budget repeated on two campaign rows | 900 USD/day before and after; feasible | 1300 and 1350; blocked |
+| `weekly-performance-review-adversarial-01` | Per-row CPA column with a zero-conversion row | CPA 30 to 36, +20% | Row mean shows an improvement |
+| `weekly-performance-review-adversarial-02` | USD and GBP accounts, no exchange rate | Per-currency figures; no combined total | 6800 "total"; blended ROAS 3.81 |
+| `experiment-result-reviewer-adversarial-01` | Modelled Impact Analysis beside an inconclusive test | Inconclusive | Winner from the model interval |
+| `geo-device-breakdown-analysis-adversarial-01` | Device ROAS rows and per-device reach | ROAS 3.36, target met; no deduplicated reach | Mean ROAS 2.87, target missed; reach 185000 |
+| `budget-change-proposal-adversarial-01` | Modelled Impact Analysis cited as lift | Exact budget arithmetic; no conversion forecast | About 86 or 120 forecast conversions |
+
+Each adversarial case carries a `trap` object that stays outside the task: the naive answer for reviewers and `skillGuards`, the verbatim SKILL.md sentences that guard against the trap. Source tests require every guard to appear in that skill's SKILL.md, an input used by no other case, at least five skills, and no trap text in either prompt, the task files or the response schema. The cases were written from the instructions, not from observed native answers, and have not been run; gold values were checked with the bundled calculator where it applies. If an instruction is changed in response to these cases, they become iterated acceptance fixtures like the representative set, and a held-out comparison needs new cases.
 
 ## Run safely
 
@@ -34,7 +51,26 @@ Actual-run records retain the task, input, supplied context, raw stdout/stderr, 
 
 Machine checks score calculations and explicit case judgments, not headings or keyword counts. Failed/timed-out/spawn-error/native-error processes cannot pass, even if they contain a plausible answer. Skilled runs must match every final installed file hash; changed instructions/resources require a rerun. Exact task-input hashes establish paired comparability. Corrected scoring rubrics are separately disclosed without changing the original raw evidence.
 
+A decision assertion may declare `acceptableLabels`: response labels that answer the request's question the same way as the expected label, such as `inconclusive` for an expected `unknown` when the question is whether a cause or winner is established. The grader keeps `passed` and `criticalFailures` strict and reports `labelEquivalentPassed` separately, per record and per baseline/skill-assisted pair. A declared label marks its check `equivalentLabel` but never changes `passed`; process, tool-boundary, stale-source and changed-task failures fail both scores. Declare labels from the request wording before a run, never because a recorded answer used them. `labelEquivalentPassed` on a record whose `rubricUpdatedSinceRun` is true is post-hoc re-scoring.
+
 Independent review must assess evidence attribution, causal limits, missing-data handling, actionable proposals, permissions and actual tool calls. If a machine judgment differs semantically from a valid narrative, retain the original machine score and record a separate written adjudication. No unsupported measured-uplift claim may be inferred from a pass count or a different-model comparison.
+
+## Rubric and suite changes after 2.1.0
+
+Recorded on 2026-10-30 without a native run; the package version is unchanged. Ten decisions in ten representative cases now declare acceptable labels: `inconclusive` for the expected `unknown` in anomaly-investigation, budget-change-proposal, creative-fatigue-detector, landing-conversion-review, measurement-consistency-check, meta-delivery-audience-review (`overlap_cause`) and weekly-performance-summarizer; `unknown` for the expected `inconclusive` in creative-signal-review and experiment-result-reviewer; and `pass` or `supported` for the expected `recommend` in campaign-budget-reallocator. They were declared from the decision wording without reading the archived 2.1.0 answers, so they are not fitted to those answers and need not cover all 46 adjudicated equivalents. `rejected` is not declared for an expected `unknown`: it rules the cause out, the stronger claim that 2.1.0 review counted as a real error in the Claude baseline Weekly Performance Summarizer and as a defensible alternative, not an equivalent, in the Codex Budget Change Proposal.
+
+Strict `passed` is computed as before, so the 2.1.0 and 2.0.0 tables below are unchanged and still reproduce with each tag's own grader. Task-input hashes are unchanged, so earlier records still pair. Regrading them with the current grader marks them `rubricUpdatedSinceRun`; any label-equivalent pass among them is post hoc, not new evidence or a skill improvement. The eight adversarial cases add fixtures only; no result is claimed for them.
+
+## Evidence a future run needs
+
+To show whether the skills help, a future run needs:
+
+- Baseline and skill-assisted runs of all thirty-seven behavioral cases on both runtimes against one committed source, with every rubric, acceptable labels included, committed before the first run so that `rubricUpdatedSinceRun` is false for every selected record.
+- Strict and label-equivalent pass counts per runtime and mode, with the paired table. A skill-assisted pass on a task whose baseline fails is evidence of help for that case; equal scores remain a measured result.
+- Repeated runs of each adversarial pair (for example three, each in its own output directory), because one run per pair cannot separate a skill effect from run-to-run variation on eight cases. Report per-case pass counts, not only totals.
+- A reviewer note for each failing adversarial answer stating whether it reproduces the case's `trap.naive` result or makes a different error.
+- The archive, hash, trace-review and disclosure rules used for 2.1.0.
+- For the connected Orphex path, the separate fixture-server evaluation in the [connected-path plan](CONNECTED_PATH_PLAN.md); the supplied-export matrix cannot establish it.
 
 ## Current release evidence
 

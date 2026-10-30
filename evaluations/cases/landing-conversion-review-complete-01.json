@@ -30,6 +30,9 @@
       "kind": "decision",
       "key": "page_defect_proven",
       "expected": "unknown",
+      "acceptableLabels": [
+        "inconclusive"
+      ],
       "critical": true
     }
   ],
