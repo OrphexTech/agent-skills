@@ -30,6 +30,9 @@
       "kind": "decision",
       "key": "bid_change_cause",
       "expected": "unknown",
+      "acceptableLabels": [
+        "inconclusive"
+      ],
       "critical": true
     }
   ],

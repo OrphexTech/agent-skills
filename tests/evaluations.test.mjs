@@ -48,6 +48,63 @@ test('grader distinguishes arithmetic failure, wrong decisions and missing resul
   assert.equal(gradeAnswer(fixture, null).passed, false);
   assert.equal(gradeAnswer({ ...fixture, assertions: [{ kind: 'number', key: 'cpa', expected: null, tolerance: 0, critical: true }] }, { metrics: { cpa: 0 } }).passed, false);
 });
+test('declared equivalent labels count only toward labelEquivalentPassed and never turn a strict failure into a pass', () => {
+  const fixture = { humanReview: [], assertions: [
+    { kind: 'number', key: 'cpa', expected: 30, tolerance: .005, critical: true },
+    { kind: 'decision', key: 'cause', expected: 'unknown', acceptableLabels: ['inconclusive'], critical: true }
+  ] };
+  const equivalent = gradeAnswer(fixture, { metrics: { cpa: 30 }, decisions: { cause: 'inconclusive' } });
+  assert.equal(equivalent.passed, false);
+  assert.equal(equivalent.criticalFailures, 1);
+  assert.equal(equivalent.labelEquivalentPassed, true);
+  assert.equal(equivalent.checks[1].equivalentLabel, true);
+  const exact = gradeAnswer(fixture, { metrics: { cpa: 30 }, decisions: { cause: 'unknown' } });
+  assert.equal(exact.passed, true);
+  assert.equal(exact.labelEquivalentPassed, true);
+  assert.equal(exact.checks[1].equivalentLabel, undefined);
+  assert.equal(gradeAnswer(fixture, { metrics: { cpa: 30 }, decisions: { cause: 'rejected' } }).labelEquivalentPassed, false);
+  assert.equal(gradeAnswer(fixture, { metrics: { cpa: 30 }, decisions: {} }).labelEquivalentPassed, false);
+  assert.equal(gradeAnswer(fixture, { metrics: { cpa: 50 }, decisions: { cause: 'inconclusive' } }).labelEquivalentPassed, false);
+  assert.equal(gradeAnswer(fixture, null).labelEquivalentPassed, false);
+  const answer = { metrics: { cpa: 30 }, decisions: { cause: 'inconclusive' } };
+  assert.equal(gradeRun(fixture, { answer, exitCode: 0 }).labelEquivalentPassed, true);
+  assert.equal(gradeRun(fixture, { answer, exitCode: 1 }).labelEquivalentPassed, false);
+});
+test('every case rubric matches its requested names, its gold answer passes and declared labels stay strict failures', async () => {
+  for (const item of await loadCases()) {
+    const metrics = {}, decisions = {};
+    for (const assertion of item.assertions) (assertion.kind === 'number' ? metrics : decisions)[assertion.key] = assertion.expected;
+    assert.deepEqual(Object.keys(metrics).sort(), [...item.metricNames].sort(), item.id);
+    assert.deepEqual(Object.keys(decisions).sort(), [...item.decisionNames].sort(), item.id);
+    assert.equal(gradeAnswer(item, { metrics, decisions }).passed, true, item.id);
+    const labels = responseSchema(item).properties.decisions.properties;
+    for (const assertion of item.assertions.filter((entry) => 'acceptableLabels' in entry)) {
+      const list = assertion.acceptableLabels;
+      assert.equal(assertion.kind, 'decision', item.id);
+      assert.ok(Array.isArray(list) && list.length && new Set(list).size === list.length && !list.includes(assertion.expected), item.id);
+      assert.ok(list.every((label) => labels[assertion.key].enum.includes(label)), item.id);
+      for (const label of list) {
+        const grade = gradeAnswer(item, { metrics, decisions: { ...decisions, [assertion.key]: label } });
+        assert.equal(grade.passed, false, item.id);
+        assert.equal(grade.labelEquivalentPassed, true, item.id);
+      }
+    }
+  }
+});
+test('adversarial cases target a SKILL.md guard with fresh inputs and keep trap notes out of the task', async () => {
+  const cases = await loadCases();
+  const adversarial = cases.filter((item) => item.trap);
+  assert.ok(new Set(adversarial.map((item) => item.skill)).size >= 5);
+  for (const item of adversarial) {
+    assert.match(item.id, /-adversarial-\d{2}$/);
+    const instructions = await readFile(path.join(DEFAULT_ROOT, 'skills', item.skill, 'SKILL.md'), 'utf8');
+    assert.ok(item.trap.naive && item.trap.skillGuards.length, item.id);
+    for (const guard of item.trap.skillGuards) assert.ok(instructions.includes(guard), item.id + ' guard not found in SKILL.md: ' + guard);
+    assert.equal(cases.filter((other) => other.inputCsv === item.inputCsv).length, 1, item.id + ' must not reuse another case input');
+    const taskMaterial = [buildPrompt(item, 'baseline'), buildPrompt(item, 'skilled'), item.inputCsv, item.contextMarkdown, JSON.stringify(responseSchema(item))].join('\n');
+    for (const text of [item.trap.naive, ...item.trap.skillGuards]) assert.ok(!taskMaterial.includes(text), item.id + ' leaks trap text into the task');
+  }
+});
 test('routing selection rejects unrelated activation and overlapping wrong workflow', () => {
   const fixture = { humanReview: ['verify actual reads'], assertions: [{ kind: 'selection', expected: ['orphex-weekly-performance-summarizer'], required: ['orphex-weekly-performance-summarizer'], critical: true }] };
   assert.equal(gradeAnswer(fixture, { selectedSkills: ['orphex-weekly-performance-summarizer'] }).passed, true);

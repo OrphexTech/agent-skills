@@ -30,6 +30,9 @@
       "kind": "decision",
       "key": "duplicates_proven",
       "expected": "unknown",
+      "acceptableLabels": [
+        "inconclusive"
+      ],
       "critical": true
     }
   ],

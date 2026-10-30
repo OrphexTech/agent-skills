@@ -38,6 +38,9 @@
       "kind": "decision",
       "key": "guaranteed_lift",
       "expected": "unknown",
+      "acceptableLabels": [
+        "inconclusive"
+      ],
       "critical": true
     }
   ],

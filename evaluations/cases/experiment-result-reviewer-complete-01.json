@@ -38,6 +38,9 @@
       "kind": "decision",
       "key": "winner",
       "expected": "inconclusive",
+      "acceptableLabels": [
+        "unknown"
+      ],
       "critical": true
     }
   ],
