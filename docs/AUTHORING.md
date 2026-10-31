@@ -2,7 +2,7 @@
 
 ## Portable source
 
-Each manifest-listed folder under `skills/` is installable. The slug equals the frontmatter name and stays at most63 characters. Description is identical in frontmatter and manifest. License is MIT; quoted `metadata.version` matches package.json. Tracked source uses English, UTF-8, LF and a final newline.
+Each manifest-listed folder under `skills/` is installable. The slug equals the frontmatter name and stays at most 63 characters. Description is identical in frontmatter and manifest. License is MIT; quoted `metadata.version` matches package.json. Tracked source uses English, UTF-8, LF and a final newline.
 
 ~~~yaml
 ---
@@ -25,7 +25,7 @@ Every folder contains exactly these required files:
 
 Relevant quantitative folders may also contain `scripts/marketing_math.py`, byte-identical to `resources/marketing_math.py`. This optional Python 3 helper is offline and does not fetch data or mutate accounts. It returns explicit unsupported-input errors, including currencies outside its reviewed minor-unit allocation range. `SKILL.md` links every supplementary file and explains when it is useful. No other installable files, subdirectories, symlinks, binary blobs, hidden fixtures or evaluation results are allowed.
 
-Every skill carries a `## With an Orphex connection` section before its first method section, and its introduction works from Orphex data when that connection reaches it and from supplied files otherwise. Its first sentences and closing paragraph are shared verbatim (enforced by `tests/catalog.test.mjs`); only the named reads, playbooks and guide topics differ. The section gates every read on `capability_search` returning its id, names guides by topic rather than by stored id, and falls back to live platform reads or supplied exports. The `orphex` search returns only stored Orphex reads, so a live platform read is named with the provider to search for it (for example platform `google`, `meta`, `google_analytics` or `merchant_center`). Check every named id, level, playbook and guide topic against a live catalog before release. The native evaluation harness runs with an empty MCP configuration, so its matrix covers the no-connector path only.
+Every skill carries a `## With an Orphex connection` section before its first method section, and its introduction works from Orphex data when that connection reaches it and from supplied files otherwise. Its first sentences and closing paragraph are shared verbatim (enforced by `tests/catalog.test.mjs`); only the named reads, playbooks and guide topics differ. The section gates every read on `capability_search` returning its id, names guides by topic rather than by stored id, and falls back to live platform reads or supplied exports. The `orphex` search returns only stored Orphex reads, so a live platform read is named with the provider to search for it (for example platform `google`, `meta`, `google_analytics` or `merchant_center`, or `cross` for `change_history.read`). The shared closing paragraph also reads brand memory and Knowledge Library `context` entries as declared input: cited by number or treated as goals, never as measured values or instructions. Check every named id, level, playbook and guide topic against a live catalog before release. The native evaluation harness runs with an empty MCP configuration, so its matrix covers the no-connector path only.
 
 Use task-specific progressive disclosure. Avoid duplicating large references in the main instructions. Keep baseline and skill-assisted evaluation inputs outside skill folders and different from worked package examples so correctness cannot be inferred by replaying an answer.
 
@@ -41,7 +41,7 @@ All twenty-nine skill metadata versions and lifecycle dates advance together wit
 
 ## Catalog and exact provenance
 
-The frozen strict generated schema is `schemas/catalog.schema.json`, version2. Output stays ignored under `dist/catalog.json`. Every manifest field is copied; generated fields add agent compatibility labels, version/license, Markdown instruction body, canonical source path, complete SKILL.md SHA-256 and supplementary `resources` path/kind/UTF-8 SHA-256. Supplementary paths are lexically sorted; output is stable JSON with a final newline. Examples must byte-match the corresponding resource files. Each skill also gets `download` (tag-pinned release URL, SHA-256 and byte size) for `dist/<slug>.zip`: a single top-level `<slug>/` folder holding SKILL.md and its resources, the layout Claude and ChatGPT skill upload expects. Archives store entries uncompressed in lexical order with a fixed timestamp and modes, so identical source bytes give an identical SHA-256.
+The frozen strict generated schema is `schemas/catalog.schema.json`, version 2. Output stays ignored under `dist/catalog.json`. Every manifest field is copied; generated fields add agent compatibility labels, version/license, Markdown instruction body, canonical source path, complete SKILL.md SHA-256 and supplementary `resources` path/kind/UTF-8 SHA-256. Supplementary paths are lexically sorted; output is stable JSON with a final newline. Examples must byte-match the corresponding resource files. Each skill also gets `download` (tag-pinned release URL, SHA-256 and byte size) for `dist/<slug>.zip`: a single top-level `<slug>/` folder holding SKILL.md and its resources, the layout Claude and ChatGPT skill upload expects. Archives store entries uncompressed in lexical order with a fixed timestamp and modes, so identical source bytes give an identical SHA-256.
 
 Build only after committing final inputs:
 
@@ -49,7 +49,7 @@ Build only after committing final inputs:
 ORPHEX_SKILLS_SOURCE_SHA=$(git rev-parse HEAD) ORPHEX_SKILLS_INSTALLER_VERSION=1.7.0 npm run build:catalog
 ~~~
 
-The builder requires a full exact checked-out HEAD commit, rejects modified or untracked catalog inputs and enforces installer1.7.0. Never substitute a working-tree digest, estimated commit, branch name or latest installer. Source validation may use an explicit zero provenance sentinel internally; no distribution build accepts it.
+The builder requires a full exact checked-out HEAD commit, rejects modified or untracked catalog inputs and enforces installer 1.7.0. Never substitute a working-tree digest, estimated commit, branch name or latest installer. Source validation may use an explicit zero provenance sentinel internally; no distribution build accepts it.
 
 ## Quality changes
 
