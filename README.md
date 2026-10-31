@@ -82,4 +82,4 @@ Commit final source before building the ignored exact-source catalog:
 ORPHEX_SKILLS_SOURCE_SHA=$(git rev-parse HEAD) ORPHEX_SKILLS_INSTALLER_VERSION=1.7.0 npm run build:catalog
 ~~~
 
-The builder rejects uncommitted catalog input files and preserves exact committed provenance. Public installation remains pinned to skills CLI1.7.0 and protected version tags; v1.1.0 stays available. See the [release process](docs/RELEASING.md) for future immutable publications and the limits of historical asset protection.
+The builder rejects uncommitted catalog input files and preserves exact committed provenance. Public installation remains pinned to skills CLI 1.7.0 and protected version tags; v1.1.0 stays available. See the [release process](docs/RELEASING.md) for future immutable publications and the limits of historical asset protection.
