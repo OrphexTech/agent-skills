@@ -25,7 +25,7 @@ Representative requests often name the method under review, for example whether 
 | `geo-device-breakdown-analysis-adversarial-01` | Device ROAS rows and per-device reach | ROAS 3.36, target met; no deduplicated reach | Mean ROAS 2.87, target missed; reach 185000 |
 | `budget-change-proposal-adversarial-01` | Modelled Impact Analysis cited as lift | Exact budget arithmetic; no conversion forecast | About 86 or 120 forecast conversions |
 
-Each adversarial case carries a `trap` object that stays outside the task: the naive answer for reviewers and `skillGuards`, the verbatim SKILL.md sentences that guard against the trap. Source tests require every guard to appear in that skill's SKILL.md, an input used by no other case, at least five skills, and no trap text in either prompt, the task files or the response schema. The cases were written from the instructions, not from observed native answers, and have not been run; gold values were checked with the bundled calculator where it applies. If an instruction is changed in response to these cases, they become iterated acceptance fixtures like the representative set, and a held-out comparison needs new cases.
+Each adversarial case carries a `trap` object that stays outside the task: the naive answer for reviewers and `skillGuards`, the verbatim SKILL.md sentences that guard against the trap. Source tests require every guard to appear in that skill's SKILL.md, an input used by no other case, at least five skills, and no trap text in either prompt, the task files or the response schema. The cases were written from the instructions, not from observed native answers, and were first run on 2026-10-30, as reported below; gold values were checked with the bundled calculator where it applies. If an instruction is changed in response to these cases, they become iterated acceptance fixtures like the representative set, and a held-out comparison needs new cases.
 
 ## Run safely
 
@@ -59,11 +59,11 @@ Independent review must assess evidence attribution, causal limits, missing-data
 
 Recorded on 2026-10-30 without a native run; the package version is unchanged. Ten decisions in ten representative cases now declare acceptable labels: `inconclusive` for the expected `unknown` in anomaly-investigation, budget-change-proposal, creative-fatigue-detector, landing-conversion-review, measurement-consistency-check, meta-delivery-audience-review (`overlap_cause`) and weekly-performance-summarizer; `unknown` for the expected `inconclusive` in creative-signal-review and experiment-result-reviewer; and `pass` or `supported` for the expected `recommend` in campaign-budget-reallocator. They were declared from the decision wording without reading the archived 2.1.0 answers, so they are not fitted to those answers and need not cover all 46 adjudicated equivalents. `rejected` is not declared for an expected `unknown`: it rules the cause out, the stronger claim that 2.1.0 review counted as a real error in the Claude baseline Weekly Performance Summarizer and as a defensible alternative, not an equivalent, in the Codex Budget Change Proposal.
 
-Strict `passed` is computed as before, so the 2.1.0 and 2.0.0 tables below are unchanged and still reproduce with each tag's own grader. Task-input hashes are unchanged, so earlier records still pair. Regrading them with the current grader marks them `rubricUpdatedSinceRun`; any label-equivalent pass among them is post hoc, not new evidence or a skill improvement. The eight adversarial cases add fixtures only; no result is claimed for them.
+Strict `passed` is computed as before, so the 2.1.0 and 2.0.0 tables below are unchanged and still reproduce with each tag's own grader. Task-input hashes are unchanged, so earlier records still pair. Regrading them with the current grader marks them `rubricUpdatedSinceRun`; any label-equivalent pass among them is post hoc, not new evidence or a skill improvement. The [2026-10-30 native run](#native-run-on-2026-10-30) used these rubrics unchanged.
 
-## Evidence a future run needs
+## Evidence needed to show whether the skills help
 
-To show whether the skills help, a future run needs:
+To show whether the skills help, a run needs:
 
 - Baseline and skill-assisted runs of all thirty-seven behavioral cases on both runtimes against one committed source, with every rubric, acceptable labels included, committed before the first run so that `rubricUpdatedSinceRun` is false for every selected record.
 - Strict and label-equivalent pass counts per runtime and mode, with the paired table. A skill-assisted pass on a task whose baseline fails is evidence of help for that case; equal scores remain a measured result.
@@ -71,6 +71,93 @@ To show whether the skills help, a future run needs:
 - A reviewer note for each failing adversarial answer stating whether it reproduces the case's `trap.naive` result or makes a different error.
 - The archive, hash, trace-review and disclosure rules used for 2.1.0.
 - For the connected Orphex path, the separate fixture-server evaluation in the [connected-path plan](CONNECTED_PATH_PLAN.md); the supplied-export matrix cannot establish it.
+
+The 2026-10-30 run below supplies these items for the supplied-export path, except that its evidence archive is not yet published. Neither it nor the connected-path run replaces human advertiser review or a real-account test.
+
+## Native run on 2026-10-30
+
+Recorded on 2026-10-30 against source commit `f9190fc`, after the 2.1.0 release; the package version is unchanged. Every rubric, declared equivalent labels included, was committed in that source before the first run, so no selected record is marked `rubricUpdatedSinceRun`. The installed skill files are byte-identical to 2.1.0: 195 files with the same inventory digest, `546e542999672fbffecc81315f73784c7453c8ee5014f658384f0c216f9c5635`. A later skill source update changes the closing connection paragraph of every SKILL.md. These skill-assisted and routing records match the files before that update, so any source that includes it needs them repeated before it claims this evidence.
+
+The selection contains 238 records:
+
+- 37 behavioral cases in baseline and skill-assisted runs for each runtime, giving 74 equal-task pairs;
+- 13 routing cases per runtime;
+- two further runs of each of the eight adversarial pairs per runtime, 64 records.
+
+All 238 native processes exited successfully with a schema answer, and every skill-assisted record matches the installed resource hashes. Codex CLI 0.166.0-alpha.5.1 did not report a model identity, so model equivalence for its pairs is unknown. Claude CLI 2.1.306 reported `claude-opus-5-5` for every Claude record. The harness passes its environment to the runtime. The operator's own Claude session set an effort override; it was removed for these runs, so Claude used its CLI default. One smoke record per runtime preceded the matrix; they are retained but not selected.
+
+First run of every case:
+
+| Runtime / suite | Records | Strict machine passes | Label-equivalent passes | Named numerical assertions passed | Native process / schema success |
+| --- | --- | --- | --- | --- | --- |
+| Codex baseline behavioral | 37 | 24/37 | 32/37 | 77/80 | 37/37 |
+| Codex skilled behavioral | 37 | 24/37 | 32/37 | 80/80 | 37/37 |
+| Codex skilled routing | 13 | 12/13 | Not applicable | Not applicable | 13/13 |
+| Claude baseline behavioral | 37 | 24/37 | 30/37 | 80/80 | 37/37 |
+| Claude skilled behavioral | 37 | 22/37 | 28/37 | 79/80 | 37/37 |
+| Claude skilled routing | 13 | 12/13 | Not applicable | Not applicable | 13/13 |
+
+On the 29 representative cases alone, strict passes are 18, 17, 17 and 15 (Codex baseline, Codex skilled, Claude baseline, Claude skilled), and label-equivalent passes are 25, 24, 22 and 20. These are not a measured change from 2.1.0. The Codex CLI version differs, and run-to-run variation was measured only for the adversarial cases.
+
+Paired results:
+
+- Codex:
+  - Strict scoring: the skill-assisted run passes where the baseline fails on one pair, `budget-pacing-forecast-adversarial-01`.
+  - The reverse happens on one pair, `search-term-cleaning-complete-01`, whose skill-assisted answer labels brand exclusion `rejected` instead of `protect`.
+  - Label-equivalent scoring gives the same one-for-one result.
+- Claude:
+  - Strict scoring: no pair passes only with the skill. Two pass only in baseline: Budget Change Proposal, where the skill-assisted answer rejects the guarantee claim, and the representative pacing case, where the skill-assisted answer makes an arithmetic error.
+  - Label-equivalent scoring: one pair passes only with the skill (Weekly Performance Summarizer) and three pass only in baseline.
+
+Adversarial pairs over three runs (S strict pass, E label-equivalent pass only, - fail):
+
+| Case | Codex baseline | Codex skilled | Claude baseline | Claude skilled |
+| --- | --- | --- | --- | --- |
+| `budget-change-proposal-adversarial-01` | SSS | SSS | SSS | SSS |
+| `budget-pacing-forecast-adversarial-01` | --- | SSS | SSS | SSS |
+| `budget-pacing-forecast-adversarial-02` | SSS | SSS | SSS | SSS |
+| `campaign-budget-reallocator-adversarial-01` | EEE | EEE | EEE | EEE |
+| `experiment-result-reviewer-adversarial-01` | SSS | SSS | SSS | SSS |
+| `geo-device-breakdown-analysis-adversarial-01` | SSS | SSS | SSS | SSS |
+| `weekly-performance-review-adversarial-01` | SSS | S-S | SSS | SSS |
+| `weekly-performance-review-adversarial-02` | SSS | SSS | SSS | SSS |
+| Strict / label-equivalent of 24 | 18 / 21 | 20 / 23 | 21 / 24 | 21 / 24 |
+| Numerical assertions of 81 | 72 | 81 | 81 | 81 |
+
+All three Codex baseline answers to the partial-day pacing case:
+
+- model the partial 2026-10-30 row as 0.375 of a day, giving 6.375 elapsed days, a 13703.53 USD projection and 1017.70 USD/day required;
+- call the flight underpacing, while noting that the six completed days spent exactly the planned 6000 USD.
+
+That does not reproduce the trap's naive result (7 days, 12480 and 1108.57), but it reaches the same false underpacing judgment by a different error. Every skill-assisted Codex answer used the six completed days. Claude avoided every trap in both modes in all three runs. No other adversarial answer failed a numerical assertion, and none reproduced a naive result.
+
+Independent agent review of the 54 first-run strict failures found:
+
+| Runtime / mode | Equivalent | Defensible alternative | Real error |
+| --- | --- | --- | --- |
+| Codex baseline | 11 | 1 | 1 |
+| Codex skilled | 12 | 1 | 0 |
+| Claude baseline | 11 | 2 | 0 |
+| Claude skilled | 10 | 4 | 1 |
+
+- **Equivalent (44).** All 28 failures on a declared label have a narrative that matches the expected answer. The 16 undeclared equivalents are `inconclusive` for an expected `hold` (11), `rejected` for `protect` on brand exclusion (3) and `fail` for `rejected` on one-week feasibility (2).
+- **Defensible alternatives (8).** Each labels a "proven" or "guaranteed" question `rejected` while the narrative keeps the underlying question open. Six are Claude's.
+- **Real errors (2).** One is the Codex baseline partial-day answer above. The other is a Claude skill-assisted pacing answer that computes 2400 + 20 × 240 as 7000 instead of 7200.
+
+The 11 strict failures in the two repeats are eight declared equivalents (`pass` for `recommend` in the reallocator case), the same Codex baseline pacing error twice, and one undeclared equivalent (a Codex skill-assisted `fail` for an expected `rejected`, where the narrative says CPA worsened 20%). The reviewer also flagged rubric wording that invites `rejected` on "proven" and "guaranteed" questions, and several narrative slips the grader cannot see. Those notes are in the archive. Rubrics were not changed after the run, so every strict and label-equivalent score above is measured, not post hoc.
+
+Both routing failures are the weekly-diagnosis overlap described for 2.0.0: both runtimes selected Anomaly Investigation for a request to investigate a CPA deterioration and rank falsifiable causes, again judged defensible.
+
+Tool use:
+
+- **Claude:** every Read stayed in the task directory. All 53 Claude skill-assisted behavioral runs activated the intended skill through the native Skill tool, and no record failed the tool-boundary check. Claude routing selected from the installed descriptions without reading files.
+- **Codex:** across 221 commands, none wrote a file, used the network, named a path outside the task directory or exited with an error. The bundled calculator ran once, in the first skill-assisted Experiment Planner run. Python ran in 38 skill-assisted records, that one included, and in one baseline record; apart from that calculator run it was local arithmetic, not bundled-helper execution.
+
+On the supplied-export path, this run does not show the skills raising pass counts. The one consistent difference is the Codex partial-day pacing case, which the skill turned from three failures into three passes. Claude's baseline already avoided every adversarial trap. Claude's lower skill-assisted representative scores come from four `rejected` labels on open questions and one arithmetic error. The connected path shows a larger difference: in its [fixture-server run](CONNECTED_PATH_PLAN.md), under label-equivalent scoring, skill-assisted runs passed 16 of 18 Claude scenario runs against 8 for baseline, and 18 of 18 Codex runs against 16.
+
+These results come from one fictional case per skill plus eight adversarial cases written from the instructions. Each case ran once per mode, except the adversarial cases, which ran three times. There was no human advertiser review, real account or measured uplift.
+
+The raw records, grades, reviews and smoke records are packaged as `skills-eval-2026-10-30-native-evidence.zip` (SHA-256 `985157c2a6d33ea7bab38c7a9cadc84b0cd85c448222dda75db51bfd343ab9bd`), together with the connected-path records. Publishing it as a supplemental release asset is a separate maintainer step that has not happened, so this report does not link it.
 
 ## Current release evidence
 

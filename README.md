@@ -65,7 +65,7 @@ Use the [reusable supplied business context](docs/BUSINESS_CONTEXT.md) across re
 
 ## Quality and reproducibility
 
-Read the versioned [behavioral evaluation report](evaluations/README.md), [release scope and acceptance stories](docs/QUALITY_PLAN.md), and [authoring contract](docs/AUTHORING.md). Source-format checks, deterministic calculations, full-file installation hashes, native synthetic task behavior and independent review are separate evidence. No real-account business uplift or campaign execution is inferred from a synthetic pass count.
+Read the versioned [behavioral evaluation report](evaluations/README.md), [release scope and acceptance stories](docs/QUALITY_PLAN.md), and [authoring contract](docs/AUTHORING.md). Source-format checks, deterministic calculations, full-file installation hashes, native synthetic task behavior and independent review are separate evidence. No real-account business uplift or campaign execution is inferred from a synthetic pass count. The report's [2026-10-30 run](evaluations/README.md#native-run-on-2026-10-30) adds adversarial cases with repeated pairs, and a [fixture-server run](evaluations/CONNECTED_PATH_PLAN.md) tests the connected path.
 
 The [documentation correction](docs/evidence-corrections.md) supplies a native evidence ZIP with working relative screenshot links, preserves the original documents and all hash-bound records, and explains the historical review's limits. It does not change the installed v2.0.0 skills or claim a new runtime evaluation.
 

@@ -14,6 +14,7 @@
 - Add eight adversarial behavioral cases for six skills, built on traps their instructions guard against: partial current days, zero remaining days, repeated shared budgets, row-averaged ratios, mixed currencies and modelled Impact Analysis read as measured lift. No native run is claimed for them.
 - Add a connected-path evaluation: a local fixture MCP server that serves the skills' Orphex read tools from fictional data, refuses write-shaped tripwire tools and logs every call; six scenario fixtures; a `connected` harness suite for both runtimes; and a `tool-use` assertion graded from the call log.
 - Skill instructions, resources and the package version are unchanged.
+- Run the native matrix against these skill files: 238 supplied-export records on both runtimes, including three runs of each adversarial pair, and 72 connected-path records. Results, adjudication and limits are in the evaluation report and the connected-path document; the evidence archive is not yet published.
 
 ## 2.1.0 - 2026-10-25
 
