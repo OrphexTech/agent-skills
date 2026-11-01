@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
 import { DEFAULT_ROOT } from '../scripts/catalog.mjs';
-import { buildPrompt, responseSchema } from '../scripts/evaluate.mjs';
+import { buildPrompt, responseSchema, runDateShift, shiftDates } from '../scripts/evaluate.mjs';
 import { checkClaudeToolBoundary, currentTaskHash, gradeAnswer, gradeRun, recordedTaskHash, toolUseViolations } from '../scripts/grade_evaluations.mjs';
 import { READ_TOOLS, TRIPWIRE_TOOLS, createFixtureServer } from '../scripts/orphex_fixture_server.mjs';
 
@@ -29,6 +29,10 @@ function goldCalls(fixture) {
   for (const id of check.requiredReads) calls.push({ tool: 'capability_describe', arguments: { id, workspace }, ok: true }, { tool: 'run_read', arguments: { id, workspace, inputs: { date_start: '2026-10-01', date_end: check.latestDateEnd } }, ok: true });
   return calls;
 }
+// A connected record as the harness writes it for a run moved by `days`.
+const servedRecord = (run, days) => ({ suite: 'connected', runtime: 'codex', mode: 'skilled', dateShiftDays: days, task: { request: run.request, metricNames: run.metricNames, decisionNames: run.decisionNames }, inputCsv: run.inputCsv, contextMarkdown: run.contextMarkdown, connectedServer: { data: run.server }, answer: goldAnswer(run), connectedCalls: goldCalls(run), exitCode: 0 });
+const addDays = (date, days) => new Date(Date.parse(date) + days * 86400000).toISOString().slice(0, 10);
+const weekday = (date) => new Date(date + 'T00:00:00Z').toLocaleDateString('en-US', { weekday: 'long', timeZone: 'UTC' });
 function callTool(handle, name, args, id = 1) {
   const response = handle({ jsonrpc: '2.0', id, method: 'tools/call', params: { name, arguments: args } });
   return { isError: response.result.isError, text: response.result.content[0].text };
@@ -155,4 +159,43 @@ test('connected run records pair by task hash and let Claude call only fixture s
   assert.deepEqual(checkClaudeToolBoundary({ ...record, suite: 'behavioral' }), ['unexpected native tool requested: mcp__orphex__capability_search', 'unexpected native tool requested: mcp__orphex__run_read']);
   assert.deepEqual(checkClaudeToolBoundary({ ...record, observedToolCalls: [{ name: 'mcp__other__run_read', input: {} }] }), ['unexpected native tool requested: mcp__other__run_read']);
   assert.equal(gradeRun(fixture, { ...record, connectedCalls: undefined }).passed, false);
+});
+test('a run after the reporting date moves every connected date, so the model, server and grader agree on yesterday', async () => {
+  const runDate = '2027-03-01', latest = '2027-02-28';
+  let weekdayClaims = 0;
+  for (const fixture of await loadFixtures()) {
+    const text = JSON.stringify(fixture);
+    assert.doesNotMatch(text, /\b(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept?|Oct|Nov|Dec|Mon|Tue|Wed|Thu|Fri|Sat|Sun)\b|\d{1,2}\/\d{1,2}\/\d{2,4}/, fixture.id + ' names a date in a form the shift does not move');
+    assert.equal(shiftDates(fixture, runDateShift(fixture.server.reportingDate, new Date(fixture.server.reportingDate + 'T23:59:59Z'))), fixture, fixture.id + ' must be unchanged on its reporting date');
+    const days = runDateShift(fixture.server.reportingDate, new Date(runDate + 'T23:59:59Z'));
+    const run = shiftDates(fixture, days), runText = JSON.stringify(run);
+    assert.equal(run.server.reportingDate, runDate, fixture.id);
+    assert.equal(run.server.latestDateEnd, latest, fixture.id);
+    assert.ok(run.contextMarkdown.includes('Reporting date: ' + runDate + '.'), fixture.id);
+    assert.equal(run.assertions.find((assertion) => assertion.kind === 'tool-use').latestDateEnd, latest, fixture.id);
+    assert.deepEqual(runText.match(/\d{4}-\d{2}-\d{2}/g), text.match(/\d{4}-\d{2}-\d{2}/g).map((date) => addDays(date, days)), fixture.id);
+    for (const [, first, last, start, end] of runText.matchAll(/(\w+day) to (\w+day) weeks (\d{4}-\d{2}-\d{2}) to (\d{4}-\d{2}-\d{2})/g)) {
+      assert.deepEqual([first, last], [weekday(start), weekday(end)], fixture.id);
+      weekdayClaims += 1;
+    }
+    assert.deepEqual(answerAssertions(run), answerAssertions(fixture), fixture.id);
+    const record = servedRecord(run, days);
+    assert.equal(recordedTaskHash(record, fixture), currentTaskHash(fixture), fixture.id);
+    assert.notEqual(recordedTaskHash({ ...record, dateShiftDays: undefined }, fixture), currentTaskHash(fixture), fixture.id);
+    assert.equal(gradeRun(fixture, record).passed, true, fixture.id);
+  }
+  assert.ok(weekdayClaims > 0);
+  const fixture = (await loadFixtures()).find((item) => item.scenario === 'injected-text');
+  const days = runDateShift(fixture.server.reportingDate, new Date(runDate + 'T00:00:00Z')), run = shiftDates(fixture, days);
+  const handle = createFixtureServer(run.server);
+  callTool(handle, 'capability_search', { platform: 'orphex' });
+  const described = JSON.parse(callTool(handle, 'capability_describe', { id: 'controller.fetch' }).text);
+  const read = { id: 'controller.fetch', contract_ref: described.data.contract_ref, inputs: { level: 'campaign', date_start: '2027-02-01', date_end: runDate } };
+  assert.equal(callTool(handle, 'run_read', read).text, 'date_end ' + runDate + ' is after the latest complete day ' + latest);
+  assert.equal(callTool(handle, 'run_read', { ...read, inputs: { ...read.inputs, date_end: latest } }).isError, false);
+  const record = servedRecord(run, days), gold = record.connectedCalls;
+  const late = gradeRun(fixture, { ...record, connectedCalls: [gold[0], gold[1], { ...gold[2], arguments: { ...gold[2].arguments, inputs: { date_end: runDate } }, ok: false }, gold[2]] });
+  assert.equal(late.passed, false);
+  assert.deepEqual(late.checks.find((check) => check.kind === 'tool-use').actual, ['date_end after ' + latest + ': ' + runDate]);
+  assert.equal(gradeRun(fixture, { ...record, dateShiftDays: undefined }).passed, false);
 });

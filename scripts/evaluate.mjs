@@ -8,6 +8,29 @@ import { DEFAULT_ROOT, readPortableFiles } from './catalog.mjs';
 const FIXTURE_SERVER = path.join(DEFAULT_ROOT, 'scripts/orphex_fixture_server.mjs');
 
 const sha = (bytes) => createHash('sha256').update(bytes).digest('hex');
+const DAY = 86400000;
+const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+// Connected fixtures are dated relative to server.reportingDate. A run moves every
+// ISO date and English weekday name in a fixture by the same whole-day offset, so
+// the reporting date becomes the UTC run date and stated weekdays stay true; answers
+// depend only on intervals between dates. Offset 0 returns the value unchanged.
+export function runDateShift(reportingDate, now = new Date()) {
+  return Math.round((Date.parse(now.toISOString().slice(0, 10)) - Date.parse(reportingDate)) / DAY);
+}
+export function shiftDates(value, days) {
+  if (!Number.isInteger(days)) throw new Error('date shift must be a whole number of days');
+  if (!days) return value;
+  if (typeof value === 'string') return value
+    .replace(/\b\d{4}-\d{2}-\d{2}\b/g, (date) => {
+      const time = Date.parse(date + 'T00:00:00Z');
+      if (Number.isNaN(time) || new Date(time).toISOString().slice(0, 10) !== date) throw new Error('invalid fixture date ' + date);
+      return new Date(time + days * DAY).toISOString().slice(0, 10);
+    })
+    .replace(/\b(?:Sun|Mon|Tues|Wednes|Thurs|Fri|Satur)day\b/g, (name) => WEEKDAYS[(((WEEKDAYS.indexOf(name) + days) % 7) + 7) % 7]);
+  if (Array.isArray(value)) return value.map((item) => shiftDates(item, days));
+  if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, shiftDates(item, days)]));
+  return value;
+}
 function args(argv) {
   const out = { runtime: '', mode: '', cases: '', output: '', binary: '', timeout: '900000', suite: 'behavioral' };
   for (let i = 0; i < argv.length; i += 2) {
@@ -21,10 +44,10 @@ function args(argv) {
   if (!/^\d+$/.test(out.timeout) || Number(out.timeout) < 1000) throw new Error('timeout must be milliseconds >= 1000');
   return out;
 }
-function run(binary, invocation, prompt, cwd, timeout) {
+function run(binary, invocation, prompt, cwd, timeout, env = {}) {
   return new Promise((resolve) => {
     const startedAt = new Date().toISOString();
-    const child = spawn(binary, invocation, { cwd, stdio: ['pipe', 'pipe', 'pipe'], env: { ...process.env, DO_NOT_TRACK: '1' } });
+    const child = spawn(binary, invocation, { cwd, stdio: ['pipe', 'pipe', 'pipe'], env: { ...process.env, DO_NOT_TRACK: '1', ...env } });
     let stdout = '', stderr = '', spawnError = null, timedOut = false;
     child.stdout.on('data', (part) => { stdout += part; });
     child.stderr.on('data', (part) => { stderr += part; });
@@ -96,12 +119,14 @@ async function main() {
     try { await readFile(recordPath); throw new Error('will not overwrite existing run: ' + recordPath); } catch (error) { if (error.code !== 'ENOENT') throw error; }
     const scratch = await realpath(await mkdtemp(path.join(os.tmpdir(), 'orphex-native-eval-')));
     const serverDirectory = options.suite === 'connected' ? await realpath(await mkdtemp(path.join(os.tmpdir(), 'orphex-fixture-server-'))) : null;
+    const dateShiftDays = serverDirectory ? runDateShift(testCase.server.reportingDate) : 0;
+    const runCase = shiftDates(testCase, dateShiftDays);
     let instructionHash = null, files = [], nativeSkillNames = [], pluginMetadata = null;
     const pluginDirectory = path.join(scratch, 'plugin');
     const installMode = options.mode === 'baseline' ? 'none' : options.runtime === 'claude' ? 'ephemeral-session-plugin' : 'project-skill-directory';
     try {
-      if (options.suite !== 'connected' || testCase.inputCsv) await writeFile(path.join(scratch, 'case-input.csv'), testCase.inputCsv || 'not_applicable\n');
-      await writeFile(path.join(scratch, 'case-context.md'), testCase.contextMarkdown || 'No account data are needed to select a skill.\n');
+      if (options.suite !== 'connected' || runCase.inputCsv) await writeFile(path.join(scratch, 'case-input.csv'), runCase.inputCsv || 'not_applicable\n');
+      await writeFile(path.join(scratch, 'case-context.md'), runCase.contextMarkdown || 'No account data are needed to select a skill.\n');
       const packagePath = (options.runtime === 'codex' ? '.agents/skills/' : 'plugin/skills/') + testCase.skill;
       if (options.mode === 'skilled') {
         const manifest = JSON.parse(await readFile(path.join(DEFAULT_ROOT, 'skills/manifest.json'), 'utf8'));
@@ -123,14 +148,14 @@ async function main() {
       }
       const schema = responseSchema(testCase);
       await writeFile(path.join(scratch, 'response-schema.json'), JSON.stringify(schema));
-      const prompt = buildPrompt(testCase, options.mode, packagePath, nativeSkillNames);
+      const prompt = buildPrompt(runCase, options.mode, packagePath, nativeSkillNames);
       // Connected runs start the fixture server with data and call log kept outside
       // the task directory; it holds no assertions.
       let mcpConfig = '{"mcpServers":{}}', codexMcp = [], callLogPath = null;
       if (serverDirectory) {
         const dataPath = path.join(serverDirectory, 'server.json');
         callLogPath = path.join(serverDirectory, 'calls.jsonl');
-        await writeFile(dataPath, JSON.stringify(testCase.server));
+        await writeFile(dataPath, JSON.stringify(runCase.server));
         const serverArgs = [FIXTURE_SERVER, dataPath, callLogPath];
         mcpConfig = JSON.stringify({ mcpServers: { orphex: { command: process.execPath, args: serverArgs } } });
         codexMcp = ['-c', 'mcp_servers.orphex.command=' + JSON.stringify(process.execPath), '-c', 'mcp_servers.orphex.args=' + JSON.stringify(serverArgs), '-c', 'mcp_servers.orphex.default_tools_approval_mode="approve"'];
@@ -141,8 +166,9 @@ async function main() {
       // Codex enforces a native read-only sandbox. Claude uses manual permissions and
       // a restricted Read/Skill surface with code/write/network tools denied; no user
       // settings and no MCP server other than the connected fixture are loaded.
-      // Claude does not execute the helper.
-      const processResult = await run(binary, invocation, prompt, scratch, Number(options.timeout));
+      // Claude does not execute the helper. Connected runs set TZ=UTC so the runtime's
+      // own date is the UTC run date the fixture dates were moved to.
+      const processResult = await run(binary, invocation, prompt, scratch, Number(options.timeout), serverDirectory ? { TZ: 'UTC' } : {});
       let answer = null, parseError = null, runtimeModel = null, nativeMetadata = null, nativeTrace = null;
       try {
         if (options.runtime === 'codex') answer = JSON.parse(await readFile(path.join(scratch, 'answer.json'), 'utf8'));
@@ -156,10 +182,10 @@ async function main() {
       let connectedCalls = null;
       if (callLogPath) connectedCalls = (await readFile(callLogPath, 'utf8').catch(() => '')).split('\n').filter(Boolean).map((line) => JSON.parse(line));
       const result = { schemaVersion: 1, caseId: testCase.id, suite: options.suite, skill: testCase.skill, runtime: options.runtime, mode: options.mode, releaseVersion: pkg.version,
-        binary, cliVersion, invocation, scratchDirectory: scratch, installMode, nativeSkillNames, pluginMetadata, pluginMetadataHash: pluginMetadata ? sha(JSON.stringify(pluginMetadata)) : null, nativeInitSkills: nativeTrace?.init?.skills || null, task: { request: testCase.request, metricNames: testCase.metricNames || [], decisionNames: testCase.decisionNames || [] }, model: runtimeModel, modelSource: runtimeModel ? 'runtime-reported' : 'not-reported-by-runtime', instructionHash, resourceHashes: files,
-        fixtureHash: sha(JSON.stringify(testCase)), taskInputHash: sha(JSON.stringify({ request: testCase.request, inputCsv: testCase.inputCsv, contextMarkdown: testCase.contextMarkdown, metricNames: testCase.metricNames, decisionNames: testCase.decisionNames, ...(serverDirectory && { server: testCase.server }) })), promptHash: sha(prompt), prompt, inputCsv: testCase.inputCsv, contextMarkdown: testCase.contextMarkdown,
+        binary, cliVersion, invocation, scratchDirectory: scratch, installMode, nativeSkillNames, pluginMetadata, pluginMetadataHash: pluginMetadata ? sha(JSON.stringify(pluginMetadata)) : null, nativeInitSkills: nativeTrace?.init?.skills || null, task: { request: runCase.request, metricNames: runCase.metricNames || [], decisionNames: runCase.decisionNames || [] }, model: runtimeModel, modelSource: runtimeModel ? 'runtime-reported' : 'not-reported-by-runtime', instructionHash, resourceHashes: files,
+        fixtureHash: sha(JSON.stringify(testCase)), taskInputHash: sha(JSON.stringify({ request: testCase.request, inputCsv: testCase.inputCsv, contextMarkdown: testCase.contextMarkdown, metricNames: testCase.metricNames, decisionNames: testCase.decisionNames, ...(serverDirectory && { server: testCase.server }) })), promptHash: sha(prompt), prompt, inputCsv: runCase.inputCsv, contextMarkdown: runCase.contextMarkdown,
         ...processResult, answer, parseError, nativeMetadata, nativeTraceMode: options.runtime === 'claude' ? 'stream-json-verbose' : 'codex-json-events', observedToolCalls: nativeTrace ? nativeTrace.toolUses : null, observedToolResults: nativeTrace ? nativeTrace.toolResults : null,
-        ...(serverDirectory && { connectedServer: { script: 'scripts/orphex_fixture_server.mjs', scriptHash: sha(await readFile(FIXTURE_SERVER)), data: testCase.server }, connectedCalls }), evaluation: 'ungraded; process success is not behavioral success' };
+        ...(serverDirectory && { dateShiftDays, connectedServer: { script: 'scripts/orphex_fixture_server.mjs', scriptHash: sha(await readFile(FIXTURE_SERVER)), data: runCase.server }, connectedCalls }), evaluation: 'ungraded; process success is not behavioral success' };
       await writeFile(recordPath, JSON.stringify(result, null, 2) + '\n');
       console.log(testCase.id + ': ' + options.runtime + ' ' + options.mode + ' exit=' + processResult.exitCode + ' answer=' + Boolean(answer) + ' (' + recordPath + ')');
     } finally {
