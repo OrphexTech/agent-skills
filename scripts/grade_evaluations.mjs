@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { DEFAULT_ROOT, readPortableFiles } from './catalog.mjs';
+import { shiftDates } from './evaluate.mjs';
 import { READ_TOOLS, TRIPWIRE_TOOLS, findDateEnd } from './orphex_fixture_server.mjs';
 
 const sha = (value) => createHash('sha256').update(JSON.stringify(value)).digest('hex');
@@ -12,7 +13,9 @@ export function currentTaskHash(testCase) {
 }
 export function recordedTaskHash(record, testCase) {
   if (record.suite === 'routing') return sha({ request: record.task?.request || testCase.request });
-  if (record.suite === 'connected') return sha({ request: record.task.request, inputCsv: record.inputCsv, contextMarkdown: record.contextMarkdown, metricNames: record.task.metricNames, decisionNames: record.task.decisionNames, server: record.connectedServer?.data });
+  // A connected record holds its inputs as served; moving them back by the recorded
+  // offset must reproduce the committed fixture, so records from any day pair.
+  if (record.suite === 'connected') return sha(shiftDates({ request: record.task.request, inputCsv: record.inputCsv, contextMarkdown: record.contextMarkdown, metricNames: record.task.metricNames, decisionNames: record.task.decisionNames, server: record.connectedServer?.data }, -(record.dateShiftDays || 0)));
   const task = record.task || { request: record.prompt?.split('\n\n')[2], metricNames: (record.prompt?.match(/named measurements: ([^.]+)\. decisions/)?.[1] || '').split(', ').filter(Boolean), decisionNames: (record.prompt?.match(/review judgments: ([^.]+)\. Express/)?.[1] || '').split(', ').filter(Boolean) };
   return sha({ request: task.request, inputCsv: record.inputCsv, contextMarkdown: record.contextMarkdown, metricNames: task.metricNames, decisionNames: task.decisionNames });
 }
@@ -101,7 +104,7 @@ export function checkClaudeToolBoundary(record) {
   return failures;
 }
 export function gradeRun(testCase, record) {
-  const grade = gradeAnswer(testCase, record.answer, record.connectedCalls);
+  const grade = gradeAnswer(shiftDates(testCase, record.dateShiftDays || 0), record.answer, record.connectedCalls);
   const failures = checkClaudeToolBoundary(record);
   if (record.exitCode !== 0) failures.push('native process did not exit successfully');
   if (record.timedOut) failures.push('native process timed out');

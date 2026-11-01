@@ -1,5 +1,10 @@
 # Changelog
 
+## Evaluation harness update - 2026-11-01
+
+- Date each connected-path run to the UTC run date. The harness moves every fixture date and weekday name by the whole-day offset from the fixture's reporting date, records the offset as `dateShiftDays` and starts the runtime with `TZ=UTC`; the grader applies the same offset. Connected records from different days can now be paired, and records without the offset grade as before.
+- Fixtures, skill instructions, resources and the package version are unchanged.
+
 ## Evaluation rerun - 2026-10-31
 
 - Repeat the native skill-assisted and routing runs on the 2026-10-30 skill source update: 132 supplied-export records on both runtimes, including three runs of each adversarial case. Repeat both connected-path modes on the same day: 72 records. Results, adjudication and a run-date caveat for the connected path are in the evaluation report and the connected-path document; the evidence archive is not yet published.
