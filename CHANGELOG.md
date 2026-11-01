@@ -1,17 +1,23 @@
 # Changelog
 
+## Evaluation rerun - 2026-10-31
+
+- Repeat the native skill-assisted and routing runs on the 2026-10-30 skill source update: 132 supplied-export records on both runtimes, including three runs of each adversarial case. Repeat both connected-path modes on the same day: 72 records. Results, adjudication and a run-date caveat for the connected path are in the evaluation report and the connected-path document; the evidence archive is not yet published.
+- Document that connected-path baseline and skill-assisted runs must be paired from the same day.
+- Skill instructions, resources and the package version are unchanged.
+
 ## Skill source update - 2026-10-30
 
 - Point Impression Share & Auction Insights Review at the `budget` and `brand` guide topics, and let Anomaly Investigation rule out a change through `change_history.read` and the `change_history` guides when the connection returns them.
 - Extend the shared connection paragraph in every skill: read brand memory when the search returns it and Knowledge Library `context` entries, cite memory entries by number, and treat a declared target as a goal rather than a measured value.
 - Quality Score Reviewer still names no guide topic: no published guide covers Quality Score or its components.
 - Fix spacing typos in README.md and docs/AUTHORING.md.
-- Not released: `metadata.version` stays 2.1.0. The native harness runs without a connector, so no evaluation covers these connection changes.
+- Not released: `metadata.version` stays 2.1.0. The 2026-10-31 native rerun covers this text on the supplied-export and connected fixture paths. Its fixtures return no brand memory read and no `context` entries, so those two additions are untested.
 
 ## Evaluation suite update - 2026-10-30
 
 - Let decision assertions declare `acceptableLabels` and report a separate `labelEquivalentPassed` grade; strict `passed` is unchanged, and the labels declared on ten existing decisions are disclosed in the evaluation report.
-- Add eight adversarial behavioral cases for six skills, built on traps their instructions guard against: partial current days, zero remaining days, repeated shared budgets, row-averaged ratios, mixed currencies and modelled Impact Analysis read as measured lift. No native run is claimed for them.
+- Add eight adversarial behavioral cases for six skills, built on traps their instructions guard against: partial current days, zero remaining days, repeated shared budgets, row-averaged ratios, mixed currencies and modelled Impact Analysis read as measured lift.
 - Add a connected-path evaluation: a local fixture MCP server that serves the skills' Orphex read tools from fictional data, refuses write-shaped tripwire tools and logs every call; six scenario fixtures; a `connected` harness suite for both runtimes; and a `tool-use` assertion graded from the call log.
 - Skill instructions, resources and the package version are unchanged.
 - Run the native matrix against these skill files: 238 supplied-export records on both runtimes, including three runs of each adversarial pair, and 72 connected-path records. Results, adjudication and limits are in the evaluation report and the connected-path document; the evidence archive is not yet published.

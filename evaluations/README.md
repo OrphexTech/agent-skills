@@ -72,11 +72,11 @@ To show whether the skills help, a run needs:
 - The archive, hash, trace-review and disclosure rules used for 2.1.0.
 - For the connected Orphex path, the separate fixture-server evaluation in the [connected-path plan](CONNECTED_PATH_PLAN.md); the supplied-export matrix cannot establish it.
 
-The 2026-10-30 run below supplies these items for the supplied-export path, except that its evidence archive is not yet published. Neither it nor the connected-path run replaces human advertiser review or a real-account test.
+The 2026-10-30 run below supplies these items for the supplied-export path, except that its evidence archive is not yet published. The [2026-10-31 rerun](#skill-assisted-rerun-on-2026-10-31) repeats its skill-assisted and routing runs on the current skill files. Neither it nor the connected-path run replaces human advertiser review or a real-account test.
 
 ## Native run on 2026-10-30
 
-Recorded on 2026-10-30 against source commit `f9190fc`, after the 2.1.0 release; the package version is unchanged. Every rubric, declared equivalent labels included, was committed in that source before the first run, so no selected record is marked `rubricUpdatedSinceRun`. The installed skill files are byte-identical to 2.1.0: 195 files with the same inventory digest, `546e542999672fbffecc81315f73784c7453c8ee5014f658384f0c216f9c5635`. A later skill source update changes the closing connection paragraph of every SKILL.md. These skill-assisted and routing records match the files before that update, so any source that includes it needs them repeated before it claims this evidence.
+Recorded on 2026-10-30 against source commit `f9190fc`, after the 2.1.0 release; the package version is unchanged. Every rubric, declared equivalent labels included, was committed in that source before the first run, so no selected record is marked `rubricUpdatedSinceRun`. The installed skill files are byte-identical to 2.1.0: 195 files with the same inventory digest, `546e542999672fbffecc81315f73784c7453c8ee5014f658384f0c216f9c5635`. A later skill source update changes the closing connection paragraph of every SKILL.md. These skill-assisted and routing records match the files before that update, so they are not evidence for any source that includes it. The [2026-10-31 rerun](#skill-assisted-rerun-on-2026-10-31) repeats them on the updated files.
 
 The selection contains 238 records:
 
@@ -158,6 +158,89 @@ On the supplied-export path, this run does not show the skills raising pass coun
 These results come from one fictional case per skill plus eight adversarial cases written from the instructions. Each case ran once per mode, except the adversarial cases, which ran three times. There was no human advertiser review, real account or measured uplift.
 
 The raw records, grades, reviews and smoke records are packaged as `skills-eval-2026-10-30-native-evidence.zip` (SHA-256 `985157c2a6d33ea7bab38c7a9cadc84b0cd85c448222dda75db51bfd343ab9bd`), together with the connected-path records. Publishing it as a supplemental release asset is a separate maintainer step that has not happened, so this report does not link it.
+
+## Skill-assisted rerun on 2026-10-31
+
+Recorded on 2026-10-31 against source commit `63890f2`, whose skill files are those of the 2026-10-30 skill source update; the package version is unchanged. The installed inventory is 195 files with digest `ac8f84ef977b78afb1337f162351cf29a16c661099af5e8e6fd7cc7ff18df8d5`. Cases, rubrics, harness and grader are unchanged from the [2026-10-30 run](#native-run-on-2026-10-30), and both CLIs reported the same versions. Claude reported `claude-opus-5-5` for every record and again ran at its CLI default effort.
+
+Graded against this source, every 2026-10-30 skill-assisted and routing record fails its resource-hash check and needs a rerun, while every baseline record grades exactly as before. The rerun therefore repeats only the skill-assisted and routing runs, 132 records:
+
+- 37 behavioral cases and 13 routing cases per runtime;
+- two further runs of each adversarial case per runtime.
+
+All 132 native processes exited successfully with a schema answer, and every record matches the installed resource hashes. Pairs use the 2026-10-30 baseline records, which ran a day earlier. Every behavioral case states its own reporting date, and no rerun answer used the later run date.
+
+First run of every case, with the unchanged baseline rows:
+
+| Runtime / suite | Records | Strict machine passes | Label-equivalent passes | Named numerical assertions passed | Native process / schema success |
+| --- | --- | --- | --- | --- | --- |
+| Codex baseline behavioral (2026-10-30) | 37 | 24/37 | 32/37 | 77/80 | 37/37 |
+| Codex skilled behavioral | 37 | 24/37 | 32/37 | 80/80 | 37/37 |
+| Codex skilled routing | 13 | 12/13 | Not applicable | Not applicable | 13/13 |
+| Claude baseline behavioral (2026-10-30) | 37 | 24/37 | 30/37 | 80/80 | 37/37 |
+| Claude skilled behavioral | 37 | 25/37 | 30/37 | 80/80 | 37/37 |
+| Claude skilled routing | 13 | 12/13 | Not applicable | Not applicable | 13/13 |
+
+On the 29 representative cases alone, strict passes are 18, 17, 17 and 18 (Codex baseline, Codex skilled, Claude baseline, Claude skilled), and label-equivalent passes are 25, 24, 22 and 22.
+
+Paired results:
+
+- Codex:
+  - Strict scoring: the skill-assisted run passes where the baseline fails on one pair, `budget-pacing-forecast-adversarial-01`.
+  - The reverse happens on one pair, `experiment-planner-complete-01`, whose skill-assisted answer labels one-week feasibility `fail` instead of `rejected`.
+  - Label-equivalent scoring gives the same one-for-one result.
+- Claude:
+  - Strict scoring: two pairs pass only with the skill, Impression Share & Auction Insights Review and Placement Cleaning. In both, the baseline answered `inconclusive` where `hold` was expected. One pair passes only in baseline: Budget Change Proposal, where the skill-assisted answer rejects the guarantee claim.
+  - Label-equivalent scoring: three pairs pass only with the skill (the two above and Weekly Performance Summarizer). Three pass only in baseline: Budget Change Proposal, Measurement Consistency Check and Meta Delivery & Audience Review, where the skill-assisted answers label an open proof or cause question `rejected`.
+
+Adversarial pairs over three runs: the baseline columns are the 2026-10-30 records. S marks a strict pass, E a label-equivalent pass only, and - a fail.
+
+| Case | Codex baseline | Codex skilled | Claude baseline | Claude skilled |
+| --- | --- | --- | --- | --- |
+| `budget-change-proposal-adversarial-01` | SSS | SSS | SSS | SSS |
+| `budget-pacing-forecast-adversarial-01` | --- | SSS | SSS | SSS |
+| `budget-pacing-forecast-adversarial-02` | SSS | SSS | SSS | SSS |
+| `campaign-budget-reallocator-adversarial-01` | EEE | EEE | EEE | EEE |
+| `experiment-result-reviewer-adversarial-01` | SSS | SSS | SSS | SSS |
+| `geo-device-breakdown-analysis-adversarial-01` | SSS | SSS | SSS | SSS |
+| `weekly-performance-review-adversarial-01` | SSS | SSS | SSS | SSS |
+| `weekly-performance-review-adversarial-02` | SSS | SSS | SSS | SSS |
+| Strict / label-equivalent of 24 | 18 / 21 | 21 / 24 | 21 / 24 | 21 / 24 |
+| Numerical assertions of 81 | 72 | 81 | 81 | 81 |
+
+Every skill-assisted answer avoided every trap, and none reproduced a naive result. The only failures in the two repeats are the declared `pass` for `recommend` in the reallocator case.
+
+Independent agent review of the 25 first-run skill-assisted strict failures found no real error. Every metric matched and every failure was a decision label.
+
+| Runtime / mode | Equivalent | Defensible alternative | Real error |
+| --- | --- | --- | --- |
+| Codex skilled | 12 | 1 | 0 |
+| Claude skilled | 8 | 4 | 0 |
+
+- **Equivalent (20):**
+  - 13 fail only on a declared label.
+  - 7 are undeclared equivalents: `inconclusive` for an expected `hold` (4), `fail` for `rejected` on one-week feasibility (2), and `rejected` for `protect` on brand exclusion, whose narrative says not to exclude the brand term (1).
+- **Defensible alternatives (5):** each labels a proof, guarantee or cause question `rejected` while its narrative keeps it open. Four are Claude's.
+- **Narrative slips:** the reviewer noted three that the grader cannot see. A Codex Experiment Planner success rule needs an observed improvement equal to the design effect, which passes only about half the time at the stated power. A Claude Anomaly Investigation answer gives dates that cannot all hold. A Claude Budget Change Proposal summary mentions revenue that the export does not contain.
+
+Both routing failures are again the weekly-diagnosis overlap: both runtimes selected Anomaly Investigation.
+
+Tool use:
+
+- **Claude:** every Read stayed in the task directory. All 53 skill-assisted behavioral runs activated the intended skill through the native Skill tool, and no record failed the tool-boundary check. Routing read no files.
+- **Codex:** 126 commands ran across the 66 Codex records. None wrote a file, used the network or named a path outside the task directory. One `cat` of a mistyped skill path exited with an error. The bundled calculator ran twice: in the Experiment Planner first run and in one Experiment Result Reviewer adversarial repeat. Python ran in 33 records.
+
+Compared with the skill-assisted records on the earlier skill files:
+
+- Codex is unchanged at 24 strict and 32 label-equivalent passes, with 80 of 80 numerical assertions.
+- Claude rose from 22 to 25 strict passes and from 28 to 30 label-equivalent passes. The arithmetic error is gone.
+- Over three runs, Codex's adversarial score went from 20 to 21 strict and from 23 to 24 label-equivalent passes.
+
+The update changed only each skill's connection paragraph, which these tasks reach only to find no connector. Each representative case ran once per mode, so these differences cannot be separated from run-to-run variation.
+
+The supplied-export conclusion is unchanged on the updated files. The skills do not raise pass counts overall. The one consistent effect is still the Codex partial-day pacing case: three failures in baseline, three passes with the skill. Claude's skill-assisted and baseline totals are now equal under label-equivalent scoring. The connected path was rerun on the same files: see the [connected-path rerun](CONNECTED_PATH_PLAN.md#rerun-2026-10-31). With same-day baselines, skill-assisted runs passed 12 of 18 Claude scenario runs against 2 for baseline, and 16 of 18 Codex runs against 13, under label-equivalent scoring.
+
+The rerun records, grades and reviews are packaged as `skills-eval-2026-10-31-rerun-evidence.zip` (SHA-256 `7e5c9e453b6bcca4f95627e67495fdb74364d5fa7576f8c835e13ed0e9ab09ee`), together with the connected-path rerun. Like the 2026-10-30 archive, it is not published, so this report does not link it.
 
 ## Current release evidence
 
